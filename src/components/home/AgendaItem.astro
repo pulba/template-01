@@ -1,0 +1,52 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+
+interface Props {
+  day: string;
+  month: string;
+  title: string;
+  time: string;
+  location: string;
+  href?: string;
+  variant?: 'dark' | 'light';
+}
+
+const { day, month, title, time, location, href = "#", variant = "dark" } = Astro.props;
+const isLight = variant === 'light';
+---
+
+<a href={href} class={isLight 
+  ? "bg-transparent p-4 lg:p-6 flex flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-6 group transition-all cursor-pointer focus:outline-none" 
+  : "bg-white/10 backdrop-blur-md p-4 lg:p-6 rounded-[1.125rem] flex flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-6 group hover:bg-white/20 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"}>
+  <!-- Date Box -->
+  <div class={isLight 
+    ? "bg-primary text-white w-auto lg:w-20 h-10 lg:h-20 px-4 lg:px-0 rounded-xl lg:rounded-[1.125rem] flex flex-row lg:flex-col items-center justify-center gap-2 lg:gap-0 shrink-0 group-hover:scale-[1.02] transition-transform" 
+    : "bg-white text-primary w-auto lg:w-20 h-10 lg:h-20 px-4 lg:px-0 rounded-xl lg:rounded-[1.125rem] flex flex-row lg:flex-col items-center justify-center gap-2 lg:gap-0 shrink-0 group-hover:scale-[1.02] transition-transform"}>
+    <span class="text-base lg:text-2xl font-black">{day}</span>
+    <span class="text-xs font-bold uppercase">{month}</span>
+  </div>
+
+  <!-- Info -->
+  <div class="flex-grow w-full">
+    <h4 class={isLight 
+      ? "font-h3 text-slate-800 mb-1 group-hover:text-primary transition-colors text-base lg:text-lg" 
+      : "font-h3 text-white mb-1 group-hover:text-hover-heading-safe transition-colors text-base lg:text-lg"}>
+      {title}
+    </h4>
+    <p class={isLight 
+      ? "text-slate-500 flex flex-wrap lg:flex-nowrap items-center gap-x-2 gap-y-1 text-sm font-medium" 
+      : "text-primary-fixed/80 flex flex-wrap lg:flex-nowrap items-center gap-x-2 gap-y-1 text-sm font-medium"}>
+      <span class="flex items-center gap-1 shrink-0">
+        <Icon name="schedule" size="sm" /> 
+        {time}
+      </span>
+      <span class="hidden lg:inline">•</span>
+      <span>{location}</span>
+    </p>
+  </div>
+
+  <!-- Action -->
+  <Icon name="chevron_right" class={isLight 
+    ? "hidden lg:block text-slate-400 group-hover:text-primary group-hover:translate-x-2 transition-transform" 
+    : "hidden lg:block text-primary-fixed group-hover:translate-x-2 transition-transform"} />
+</a>

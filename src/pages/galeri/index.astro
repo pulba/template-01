@@ -1,0 +1,103 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro';
+import Container from '@/components/ui/Container.astro';
+import GalleryHero from '@/components/gallery/GalleryHero.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { GalleryService } from '@/lib/services/gallery.service';
+import { SchoolService } from '@/lib/services/school.service';
+
+const albums = await GalleryService.getAllAlbums();
+const profile = await SchoolService.getProfile();
+const schoolName = profile?.schoolName || 'Institutional School';
+---
+
+<MainLayout title={`Galeri Foto | ${schoolName}`}>
+  <!-- 1. Hero Section -->
+  <GalleryHero
+    title="Galeri & Media"
+    subtitle={`Dokumentasi visual mengenai fasilitas, kegiatan belajar mengajar, serta berbagai momen berharga di ${schoolName}.`}
+  />
+
+  <!-- 2. Albums Section -->
+  <section class="py-16 pb-32 bg-surface-container-low">
+    <Container>
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+        <div class="max-w-2xl">
+          <h2 class="text-3xl md:text-4xl font-bold text-on-surface mb-4">Album Kegiatan</h2>
+          <p class="text-on-surface-variant text-lg">
+            Jelajahi kumpulan foto berdasarkan kategori dan momen kegiatan sekolah kami.
+          </p>
+        </div>
+      </div>
+
+      {albums.length === 0 ? (
+        <div class="bg-surface border border-outline-variant rounded-3xl p-12 text-center">
+          <div class="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Icon name="image" size="xl" class="text-primary/30" />
+          </div>
+          <h3 class="text-xl font-bold text-on-surface mb-2">Belum Ada Album</h3>
+          <p class="text-on-surface-variant">Konten galeri sedang dalam proses pembaharuan.</p>
+        </div>
+      ) : (
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {albums.map((album) => (
+            <a 
+              href={`/galeri/${album.slug}`}
+              class="group bg-surface border border-outline-variant rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-primary/20 album-card"
+            >
+              <div class="aspect-[4/3] overflow-hidden relative">
+                {album.coverImage ? (
+                  <img 
+                    src={album.coverImage} 
+                    alt={album.name}
+                    class="w-full h-full object-cover album-card-img group-hover:scale-[1.04]"
+                  />
+                ) : (
+                  <div class="w-full h-full bg-primary/5 flex items-center justify-center">
+                    <Icon name="image" size="xl" class="text-primary/20" />
+                  </div>
+                )}
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-45 album-card-overlay"></div>
+                <div class="absolute bottom-6 left-6 right-6">
+                    <div class="flex items-center gap-2 text-white/80 text-xs font-bold uppercase tracking-widest mb-2">
+                      <Icon name="folder" size="xs" />
+                      <span>Album</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white group-hover:text-primary-fixed-dim album-card-title line-clamp-2">
+                      {album.name}
+                    </h3>
+                </div>
+              </div>
+              <div class="p-6">
+                <p class="text-on-surface-variant text-sm line-clamp-2 mb-4">
+                  {album.description || 'Lihat dokumentasi kegiatan dalam album ini.'}
+                </p>
+                <div class="flex items-center text-primary font-bold text-sm gap-2">
+                  <span>Lihat Foto</span>
+                  <Icon name="arrow-right" size="sm" class="transition-transform duration-300 ease-out group-hover:translate-x-2" />
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+    </Container>
+  </section>
+</MainLayout>
+
+<style>
+  .album-card {
+    transition: box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .album-card-img {
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+  .album-card-overlay {
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .album-card-title {
+    transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+</style>

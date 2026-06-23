@@ -1,0 +1,39 @@
+---
+import Container from "@/components/ui/Container.astro";
+import SectionHeader from "@/components/ui/SectionHeader.astro";
+import NewsCard from "@/components/home/NewsCard.astro";
+import Button from "@/components/ui/Button.astro";
+
+interface Post {
+  image: string;
+  category: string;
+  date: string;
+  title: string;
+  excerpt: string;
+  href: string;
+}
+
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+---
+
+<section class="section-padding">
+  <Container>
+    <SectionHeader
+      title="Berita Terbaru"
+      subtitle="Ikuti perkembangan dan kegiatan terbaru di sekolah kami."
+    />
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {posts.map((post) => <NewsCard {...post} />)}
+    </div>
+
+    <div class="mt-10 text-center flex justify-center">
+      <Button href="/berita" variant="outline-primary" class="shadow-sm">
+        Lihat Semua Berita
+      </Button>
+    </div>
+  </Container>
+</section>

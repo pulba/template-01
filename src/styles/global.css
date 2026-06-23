@@ -1,0 +1,347 @@
+@import "tailwindcss";
+
+@theme {
+  /* ========================================================
+     1. COLORS 
+     ======================================================== */
+  /* Primary */
+  --color-primary: var(--theme-primary, #00236f);
+  --color-on-primary: var(--theme-on-primary, #ffffff);
+  --color-primary-container: var(--theme-primary-container, #1e3a8a);
+  --color-on-primary-container: var(--theme-on-primary-container, #90a8ff);
+  --color-primary-fixed: var(--theme-primary-soft, #dce1ff);
+  --color-primary-fixed-dim: var(--theme-primary-soft, #b6c4ff);
+  --color-on-primary-fixed: var(--theme-on-primary, #00164e);
+  --color-on-primary-fixed-variant: var(--theme-on-primary-container, #264191);
+  --color-inverse-primary: var(--theme-primary-soft, #b6c4ff);
+
+  /* Secondary */
+  --color-secondary: var(--theme-secondary, #855300);
+  --color-on-secondary: var(--theme-on-secondary, #ffffff);
+  --color-secondary-container: var(--theme-secondary-container, #fea619);
+  --color-on-secondary-container: var(--theme-on-secondary-container, #684000);
+  --color-secondary-fixed: var(--theme-secondary-container, #ffddb8);
+  --color-secondary-fixed-dim: var(--theme-secondary-container, #ffb95f);
+  --color-on-secondary-fixed: var(--theme-on-secondary, #2a1700);
+  --color-on-secondary-fixed-variant: var(--theme-on-secondary-container, #653e00);
+
+  /* Tertiary */
+  --color-tertiary: var(--theme-tertiary, #4b1c00);
+  --color-on-tertiary: var(--theme-on-tertiary, #ffffff);
+  --color-tertiary-container: var(--theme-tertiary-container, #6e2c00);
+  --color-on-tertiary-container: var(--theme-on-tertiary-container, #f39461);
+  --color-tertiary-fixed: var(--theme-tertiary-container, #ffdbcb);
+  --color-tertiary-fixed-dim: var(--theme-tertiary-container, #ffb691);
+  --color-on-tertiary-fixed: var(--theme-on-tertiary, #341100);
+  --color-on-tertiary-fixed-variant: var(--theme-on-tertiary-container, #773205);
+
+  /* Error */
+  --color-error: var(--theme-error, #ba1a1a);
+  --color-on-error: var(--theme-on-error, #ffffff);
+  --color-error-container: var(--theme-error-container, #ffdad6);
+  --color-on-error-container: var(--theme-on-error-container, #93000a);
+
+  /* Surfaces & Backgrounds */
+  --color-background: var(--theme-background, #faf8ff);
+  --color-on-background: var(--theme-on-background, #1a1b21);
+  --color-surface: var(--theme-surface, #faf8ff);
+  --color-surface-dim: var(--theme-surface-variant, #dad9e1);
+  --color-surface-bright: var(--theme-surface, #faf8ff);
+  --color-on-surface: var(--theme-on-surface, #1a1b21);
+  --color-surface-variant: var(--theme-surface-variant, #e3e1e9);
+  --color-on-surface-variant: var(--theme-on-surface-variant, #444651);
+  --color-inverse-surface: var(--theme-inverse-surface, #2f3036);
+  --color-inverse-on-surface: var(--theme-inverse-on-surface, #f1f0f7);
+  --color-surface-tint: var(--theme-primary, #4059aa);
+
+  /* Surface Containers */
+  --color-surface-container-lowest: var(--theme-surface-container-lowest, #ffffff);
+  --color-surface-container-low: var(--theme-surface-container-low, #f4f3fa);
+  --color-surface-container: var(--theme-surface-container, #eeedf4);
+  --color-surface-container-high: var(--theme-surface-container-high, #e9e7ef);
+  --color-surface-container-highest: var(--theme-surface-container-highest, #e3e1e9);
+
+  /* Outlines */
+  --color-outline: var(--theme-outline, #757682);
+  --color-outline-variant: var(--theme-outline-variant, #c5c5d3);
+
+  /* Safe Semantic Extensions */
+  --color-link: var(--theme-color-link, #00236f);
+  --color-link-hover: var(--theme-color-link-hover, #001a5c);
+  --color-badge: var(--theme-color-badge, #e2e8f0);
+  --color-muted-text: var(--theme-muted-text, #475569);
+  --color-soft-accent-bg: var(--theme-soft-accent-bg, #eff6ff);
+  --color-soft-primary-bg: var(--theme-soft-primary-bg, #f8fafc);
+  --color-border-soft: var(--theme-border-soft, #e2e8f0);
+  
+  --color-hover-heading-safe: var(--theme-hover-heading-safe, #1e293b);
+  --color-hover-link-safe: var(--theme-hover-link-safe, #001a5c);
+  --color-hover-primary-safe: var(--theme-hover-primary-safe, #001a5c);
+
+  /* ========================================================
+     2. TYPOGRAPHY SCALES (Tailwind v4 mapped values)
+     ======================================================== */
+  --font-inter: var(--theme-font-base, "Plus Jakarta Sans", sans-serif);
+  --font-public-sans: var(--theme-font-base, "Plus Jakarta Sans", sans-serif);
+
+  /* ========================================================
+     3. SPACING 
+     ======================================================== */
+  --spacing-base: 4px;
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+  --spacing-gutter: 1.5rem;
+  --spacing-margin: 2rem;
+  --spacing-max-width: 1280px;
+
+  /* ========================================================
+     4. BORDER RADIUS
+     design.md scale: none(0) / xs(5px) / sm(8px) / md(11px) / lg(18px) / pill(9999px)
+     ======================================================== */
+  --radius-none: var(--theme-radius-none, 0);
+  --radius-sm: var(--theme-radius-sm, 0.125rem);
+  --radius-DEFAULT: var(--theme-radius-DEFAULT, 0.25rem);
+  --radius-md: var(--theme-radius-md, 0.375rem);
+  --radius-lg: var(--theme-radius-lg, 0.5rem);
+  --radius-xl: var(--theme-radius-xl, 0.75rem);
+  --radius-full: var(--theme-radius-full, 9999px);
+  /* design.md aliases (card-max = 18px per {rounded.lg}) */
+  --radius-card: 1.125rem;
+  --radius-pill: 9999px;
+
+  /* ========================================================
+     5. SHADOWS — Phase 1: softened (not removed)
+     design.md: shadow only on product imagery.
+     Transitional: keep light hairline shadows, remove heavy ones later.
+     ======================================================== */
+  --shadow-sm: var(--theme-shadow-sm, 0 1px 2px 0 rgb(0 0 0 / 0.04));
+  --shadow-DEFAULT: var(--theme-shadow-DEFAULT, 0 1px 2px 0 rgb(0 0 0 / 0.06));
+  --shadow-md: var(--theme-shadow-md, 0 2px 4px -1px rgb(0 0 0 / 0.06));
+  --shadow-lg: var(--theme-shadow-lg, 0 4px 8px -2px rgb(0 0 0 / 0.06));
+  
+  --shadow-card: var(--theme-shadow-lg, 0 2px 6px rgba(0, 0, 0, 0.04));
+  --shadow-sm-text: 0 1px 2px rgba(0, 0, 0, 0.08);
+  /* design.md product shadow — the ONLY real shadow in the system */
+  --shadow-product: rgba(0, 0, 0, 0.22) 3px 5px 30px 0px;
+}
+
+@layer utilities {
+
+  /* Custom Typography Utility Classes to bundle Family, Size, Line-height, Weight */
+  .font-display-xl {
+    font-family: var(--font-inter);
+    font-size: 2.25rem; /* text-4xl */
+    line-height: 1.25; /* leading-tight */
+    letter-spacing: -0.005em; /* Apple tight */
+    font-weight: 600;  /* design.md: 600, not 700 */
+  }
+  @media (min-width: 768px) { .font-display-xl { font-size: 3rem; } } /* md:text-5xl */
+  @media (min-width: 1024px) { .font-display-xl { font-size: 3.75rem; } } /* lg:text-6xl */
+
+  .font-display-lg {
+    font-family: var(--font-inter);
+    font-size: 1.875rem; /* text-3xl */
+    line-height: 1.25;
+    letter-spacing: -0.005em;
+    font-weight: 600;
+  }
+  @media (min-width: 768px) { .font-display-lg { font-size: 2.25rem; } } /* md:text-4xl */
+  @media (min-width: 1024px) { .font-display-lg { font-size: 3rem; } } /* lg:text-5xl */
+
+  .font-h1 {
+    @apply font-inter text-2xl md:text-3xl font-bold;
+  }
+
+  .font-h2 {
+    @apply font-inter text-xl md:text-2xl font-semibold;
+  }
+
+  .font-h3 {
+    @apply font-inter text-lg md:text-xl font-semibold;
+  }
+  
+  .font-h4 {
+    @apply font-inter text-base md:text-lg font-medium;
+  }
+  
+  .font-h5 {
+    @apply font-inter text-sm md:text-base font-medium;
+  }
+  
+  .font-h6 {
+    @apply font-inter text-sm md:text-sm font-medium uppercase tracking-wide;
+  }
+
+  .font-body-lg {
+    font-family: var(--font-public-sans);
+    font-size: 1rem; /* text-base */
+    line-height: 1.625; /* leading-relaxed */
+    font-weight: 400;
+  }
+  @media (min-width: 768px) { .font-body-lg { font-size: 1.125rem; } } /* md:text-lg */
+
+  .font-body-md {
+    font-family: var(--font-public-sans);
+    font-size: 0.875rem; /* text-sm */
+    line-height: 1.625;
+    font-weight: 400;
+  }
+  @media (min-width: 768px) { .font-body-md { font-size: 1rem; } } /* md:text-base */
+
+  .font-label-sm {
+    font-family: var(--font-public-sans);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    letter-spacing: 0.01em;
+    font-weight: 500;
+  }
+
+  .text-shadow-sm {
+    text-shadow: var(--shadow-sm-text);
+  }
+
+  /* Section Primitives — design.md: {spacing.section} = 64px consistent */
+  .section-padding {
+    padding-top: 2rem; /* py-8 */
+    padding-bottom: 2rem;
+  }
+  @media (min-width: 768px) { .section-padding { padding-top: 2.5rem; padding-bottom: 2.5rem; } } /* py-10 */
+  @media (min-width: 1024px) { .section-padding { padding-top: 3rem; padding-bottom: 3rem; } } /* py-12 */
+
+  .glass-card {
+    @apply backdrop-blur-md bg-white/10 border border-white/20 rounded-[1.125rem];
+  }
+
+  /* design.md opt-in body size: 17px / 1.47 line-height */
+  .body-apple {
+    font-size: 1.0625rem;
+    line-height: 1.47;
+    letter-spacing: -0.023em;
+  }
+}
+
+@layer components {
+  /* ========================================================
+     6. BUTTON VARIANTS & COMPONENTS
+     ======================================================== */
+
+  /* Base Button — design.md: pill shape, press-down micro-interaction */
+  .btn {
+    @apply inline-flex items-center justify-center font-semibold transition-all duration-200 cursor-pointer rounded-full gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2;
+    padding: 0.625rem 1.5rem; /* py-2.5 px-6 */
+    font-size: 0.875rem; /* text-sm */
+    width: 100%; /* w-full */
+  }
+  @media (min-width: 768px) {
+    .btn {
+      padding: 0.75rem 1.5rem; /* py-3 */
+      font-size: 1rem; /* text-base */
+      width: auto; /* md:w-auto */
+    }
+  }
+
+  /* Solid Primary — design.md: Action Blue, no decorative shadow, scale(0.95) press */
+  .btn-primary {
+    @apply bg-primary text-on-primary active:scale-[0.95] shadow-sm;
+  }
+
+  /* Solid Secondary (e.g., PPDB, CTA) */
+  .btn-secondary {
+    @apply bg-secondary-container text-on-secondary-fixed hover:opacity-90;
+  }
+
+  /* Outline / Glassmorphism on Image Backgrounds */
+  .btn-outline-glass {
+    @apply border-2 border-white/30 backdrop-blur-md bg-white/10 hover:bg-white/20 text-white;
+  }
+
+  /* Outline on Light Backgrounds — design.md: ghost pill style */
+  .btn-outline-primary {
+    @apply bg-transparent text-primary border border-primary/20 hover:bg-primary/5;
+  }
+
+  /* Base Card Component — premium upgrade: hairline border, rounded corners, hover translation and border accent */
+  .card {
+    @apply bg-surface-container-lowest rounded-[1.125rem] overflow-hidden shadow-sm hover:shadow-md border border-outline-variant/60 flex flex-col transition-all duration-300 hover:-translate-y-1 hover:border-primary/20;
+  }
+
+  /* Statistic Card */
+  .card-stat {
+    @apply bg-surface-container-lowest p-4 md:p-6 rounded-[1.125rem] shadow-sm flex items-center gap-4 hover:-translate-y-1 border border-outline-variant/40 hover:border-primary/20 transition-all duration-300;
+  }
+}
+
+@layer base {
+  h1 { @apply font-inter text-2xl md:text-3xl font-bold; }
+  h2 { @apply font-inter text-xl md:text-2xl font-semibold; }
+  h3 { @apply font-inter text-lg md:text-xl font-semibold; }
+  h4 { @apply font-inter text-base md:text-lg font-medium; }
+  h5 { @apply font-inter text-sm md:text-base font-medium; }
+  h6 { @apply font-inter text-sm font-medium uppercase tracking-wide; }
+}
+
+/* Base resets & global settings */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+@media (min-width: 1024px) {
+  html {
+    font-size: 17px;
+  }
+}
+
+body {
+  @apply bg-background text-on-background;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.625; /* leading-relaxed */
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+@media (min-width: 768px) {
+  body {
+    font-size: 1rem; /* text-base */
+  }
+}
+
+/* Custom premium scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-outline-variant);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-outline);
+}
+
+/* Base button and link transition enhancements */
+a, button {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Animation utilities */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

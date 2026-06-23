@@ -1,0 +1,70 @@
+---
+---
+<!-- Lightbox Modal -->
+<div id="lightbox-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 opacity-0 invisible transition-all duration-300 backdrop-blur-sm" aria-modal="true" role="dialog" tabindex="-1">
+  <div class="absolute inset-0 cursor-pointer" id="lightbox-backdrop"></div>
+  <button id="lightbox-close" class="absolute top-4 right-4 md:top-6 md:right-6 z-[110] text-white/70 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-white rounded-full p-2 bg-black/20 hover:bg-black/40" aria-label="Tutup gambar">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </button>
+  <div class="relative z-10 max-w-[95vw] max-h-[95vh] p-2 md:p-4">
+    <img id="lightbox-image" src="" alt="Gambar Diperbesar" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl scale-95 transition-transform duration-300" />
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const lightboxModal = document.getElementById('lightbox-modal');
+    const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement;
+    const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxBackdrop = document.getElementById('lightbox-backdrop');
+
+    if (!lightboxModal || !lightboxImage) return;
+
+    function openLightbox(src: string) {
+      if (!lightboxModal || !lightboxImage) return;
+      lightboxImage.src = src;
+      lightboxModal.classList.remove('invisible', 'opacity-0');
+      lightboxModal.classList.add('opacity-100');
+      setTimeout(() => {
+        lightboxImage.classList.remove('scale-95');
+        lightboxImage.classList.add('scale-100');
+      }, 50);
+      document.body.style.overflow = 'hidden'; // Lock scroll
+      lightboxModal.focus();
+    }
+
+    function closeLightbox() {
+      if (!lightboxModal || !lightboxImage) return;
+      lightboxImage.classList.remove('scale-100');
+      lightboxImage.classList.add('scale-95');
+      lightboxModal.classList.remove('opacity-100');
+      lightboxModal.classList.add('opacity-0');
+      setTimeout(() => {
+        lightboxModal.classList.add('invisible');
+        lightboxImage.src = '';
+      }, 300);
+      document.body.style.overflow = ''; // Restore scroll
+    }
+
+    galleryItems.forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const el = e.currentTarget as HTMLAnchorElement;
+        const src = el.getAttribute('href');
+        if (src) openLightbox(src);
+      });
+    });
+
+    lightboxClose?.addEventListener('click', closeLightbox);
+    lightboxBackdrop?.addEventListener('click', closeLightbox);
+    
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightboxModal && !lightboxModal.classList.contains('invisible')) {
+        closeLightbox();
+      }
+    });
+  });
+</script>

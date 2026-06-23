@@ -1,0 +1,95 @@
+---
+import SEOHead from '@/components/global/SEOHead.astro';
+import Topbar from '@/components/global/Topbar.astro';
+import Header from '@/components/global/Header.astro';
+import MobileMenu from '@/components/global/MobileMenu.astro';
+import Footer from '@/components/global/Footer.astro';
+import FloatingButtons from '@/components/global/FloatingButtons.astro';
+import '@/styles/global.css';
+
+import { generateThemeTokens } from '@/utils/theme';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: string;
+  preloadImage?: string;
+  structuredData?: object | object[];
+}
+
+const { title, description, image, type, preloadImage, structuredData } = Astro.props;
+// Use global site data from middleware to minimize DB queries
+const siteData = Astro.locals.schoolProfile || {
+  schoolName: 'SMA Negeri 1 Nusantara',
+  address: 'Jl. Pendidikan Raya No. 1, Menteng, Jakarta Pusat',
+  phone: '(021) 345-6789',
+  email: 'info@sman1nusantara.sch.id',
+  shortDescription: 'Membentuk generasi cerdas, berkarakter, dan berwawasan global melalui pendidikan berkualitas yang berlandaskan nilai-nilai luhur bangsa.',
+  socialFacebook: '#',
+  socialInstagram: '#',
+  socialYoutube: '#',
+  schoolLogo: '',
+  schoolFavicon: ''
+};
+
+const themeTokens = generateThemeTokens(siteData);
+const cssVars = Object.entries(themeTokens)
+  .map(([key, value]) => `${key}: ${value};`)
+  .join('\n      ');
+---
+
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    {preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" crossorigin="anonymous" />}
+    <SEOHead title={title} description={description} image={image} type={type} favicon={siteData.schoolFavicon || undefined} structuredData={structuredData} />
+    <style is:global set:html={`
+      :root {
+        ${cssVars}
+      }
+    `} />
+  </head>
+  <body class="bg-background min-h-screen flex flex-col font-body-md text-on-background selection:bg-primary selection:text-white">
+    <Topbar 
+      phone={siteData.phone || undefined} 
+      email={siteData.email || undefined} 
+      address={siteData.address || undefined} 
+      socials={{
+        facebook: siteData.socialFacebook || undefined,
+        instagram: siteData.socialInstagram || undefined,
+        youtube: siteData.socialYoutube || undefined
+      }}
+    />
+    <Header 
+      schoolName={siteData.schoolName || undefined}
+      phone={siteData.phone || undefined}
+      email={siteData.email || undefined}
+      logo={siteData.schoolLogo || undefined}
+    />
+    <MobileMenu 
+      phone={siteData.phone || undefined}
+      email={siteData.email || undefined}
+    />
+    
+    <main class="flex-grow">
+      <slot />
+    </main>
+    
+    <Footer 
+      schoolName={siteData.schoolName || undefined}
+      logo={siteData.schoolLogo || undefined}
+      description={siteData.shortDescription || undefined}
+      address={siteData.address || undefined}
+      phone={siteData.phone || undefined}
+      email={siteData.email || undefined}
+      socials={{
+        facebook: siteData.socialFacebook || undefined,
+        instagram: siteData.socialInstagram || undefined,
+        youtube: siteData.socialYoutube || undefined
+      }}
+    />
+
+    <FloatingButtons />
+  </body>
+</html>

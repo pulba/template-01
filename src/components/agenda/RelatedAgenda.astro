@@ -1,0 +1,32 @@
+---
+import AgendaItem from '@/components/home/AgendaItem.astro';
+import type { AgendaItemData } from '@/types/homepage';
+
+interface Props {
+  agendas: AgendaItemData[];
+}
+
+const { agendas } = Astro.props;
+---
+
+{agendas.length > 0 && (
+  <section class="py-20 border-t border-outline-variant mt-20">
+    <div class="flex justify-between items-end mb-12">
+      <div>
+        <span class="text-secondary-container font-bold uppercase tracking-widest text-sm mb-2 block">Don't Miss Out</span>
+        <h3 class="font-h2 text-primary">Agenda Mendatang Lainnya</h3>
+      </div>
+      <a href="/agenda" class="text-primary font-bold hover:underline flex items-center gap-2">
+        Lihat Semua
+      </a>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {agendas.map(agenda => (
+        <div class="bg-surface-container-lowest p-2 rounded-lg shadow-sm hover:shadow-xl transition-all border border-outline-variant">
+          <AgendaItem {...agenda} variant="light" />
+        </div>
+      ))}
+    </div>
+  </section>
+)}

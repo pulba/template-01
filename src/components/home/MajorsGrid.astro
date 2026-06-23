@@ -1,0 +1,88 @@
+---
+import Container from "@/components/ui/Container.astro";
+import SectionHeader from "@/components/ui/SectionHeader.astro";
+import type { Major } from "@/lib/services/major.service";
+
+interface Props {
+  majors: Major[];
+}
+
+const { majors } = Astro.props;
+const term = Astro.locals.terminology?.dictionary;
+const majorPlural = term?.major?.plural || "Jurusan";
+---
+
+{majors.length > 0 && (
+  <section class="section-padding bg-surface-container-lowest/50 border-y border-outline-variant/30">
+    <Container>
+      <SectionHeader
+        title={`Pilihan ${majorPlural}`}
+        subtitle="Mempersiapkan siswa menjadi tenaga profesional yang kompeten dan siap kerja."
+        viewAllLink="/jurusan"
+        viewAllText={`Lihat Semua ${majorPlural}`}
+      />
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {majors.map((item) => (
+          <div class="h-full bg-surface rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col border border-outline-variant group">
+            <!-- Thumbnail -->
+            <a href={`/jurusan/${item.slug}`} class="relative block w-full aspect-video overflow-hidden bg-surface-container-highest">
+              {item.thumbnail ? (
+                <img 
+                  src={item.thumbnail} 
+                  alt={item.name}
+                  class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+              ) : (
+                <div class="absolute inset-0 w-full h-full flex items-center justify-center text-on-surface-variant bg-primary/5">
+                  <span class="text-5xl">📖</span>
+                </div>
+              )}
+              <div class="absolute top-4 left-4 z-10">
+                <span class="px-3 py-1 bg-surface/90 text-primary text-xs font-semibold rounded-full shadow-sm backdrop-blur-sm">
+                  {term?.major?.short || 'Jurusan'}
+                </span>
+              </div>
+            </a>
+            
+            <!-- Content -->
+            <div class="p-6 flex flex-col flex-grow">
+              <h3 class="text-xl font-bold text-on-surface font-inter mb-2 leading-tight line-clamp-2 min-h-[3.5rem]">
+                <a href={`/jurusan/${item.slug}`} class="hover:text-primary transition-colors">
+                  {item.name}
+                </a>
+              </h3>
+              <p class="text-on-surface-variant text-sm mb-6 leading-relaxed line-clamp-3 min-h-[4.5rem]">
+                {item.excerpt || ""}
+              </p>
+              
+              <div class="mt-auto pt-4 border-t border-outline-variant/50">
+                <a 
+                  href={`/jurusan/${item.slug}`}
+                  class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary-hover group/link transition-colors"
+                >
+                  Selengkapnya
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    width="16" 
+                    height="16" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    stroke-width="2.5" 
+                    stroke-linecap="round" 
+                    stroke-linejoin="round"
+                    class="transition-transform duration-200 group-hover/link:translate-x-1"
+                  >
+                    <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </Container>
+  </section>
+)}

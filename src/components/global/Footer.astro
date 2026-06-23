@@ -1,0 +1,217 @@
+---
+import Container from "@/components/ui/Container.astro";
+import Icon from "@/components/ui/Icon.astro";
+
+interface Props {
+  schoolName?: string;
+  logo?: string;
+  description?: string;
+  address?: string;
+  phone?: string;
+  email?: string;
+  socials?: {
+    facebook?: string;
+    instagram?: string;
+    youtube?: string;
+  };
+}
+
+const {
+  schoolName = "Institutional School",
+  logo = "",
+  description = "Mencetak generasi emas yang unggul dalam prestasi, berkarakter mulia, dan berwawasan global melalui pendidikan yang inovatif dan terpadu.",
+  address = "Jl. Pendidikan No. 123, Jakarta Selatan",
+  phone = "(021) 123-4567",
+  email = "info@institutionalschool.sch.id",
+  socials = { facebook: "#", instagram: "#", youtube: "#" },
+} = Astro.props;
+
+const term = Astro.locals.terminology?.dictionary;
+
+const quickLinks = [
+  { name: "Profil Sekolah", href: "/profil" },
+  { name: term?.teacher?.plural || "Guru & Staff", href: "/guru-staff" },
+  { name: "Berita Terbaru", href: "/berita" },
+  { name: "Galeri Sekolah", href: "/galeri" },
+  { name: "Agenda Kegiatan", href: "/agenda" },
+];
+
+const ppdbLinks = [
+  { name: `Alur ${term?.admissions?.label || "Pendaftaran"}`, href: "/pendaftaran#alur" },
+  { name: `Persyaratan ${term?.admissions?.short || "PPDB"}`, href: "/pendaftaran#syarat" },
+  {
+    name: `${term?.admissions?.label || "Pendaftaran"} Online`,
+    href: "/pendaftaran",
+  },
+  { name: "Brosur Digital", href: "/pendaftaran#brosur" },
+  { name: "Kontak Panitia", href: "/kontak" },
+];
+
+const socialLinks = [
+  {
+    icon: "facebook",
+    href: socials.facebook,
+    svg: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>',
+  },
+  {
+    icon: "instagram",
+    href: socials.instagram,
+    svg: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>',
+  },
+  {
+    icon: "youtube",
+    href: socials.youtube,
+    svg: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>',
+  },
+];
+---
+
+<footer class="bg-inverse-surface text-inverse-on-surface pt-20 pb-10">
+  <Container>
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 mb-16"
+    >
+      <!-- Brand & Info -->
+      <div
+        class="flex flex-col items-start text-left lg:col-span-4 xl:col-span-5"
+      >
+        <div class="mb-6">
+          {
+            logo ? (
+              <div class="flex items-center gap-4">
+                <img
+                  src={logo}
+                  alt={schoolName}
+                  class="h-12 md:h-16 w-auto object-contain shrink-0"
+                />
+                <span class="text-xl md:text-2xl font-bold text-white uppercase font-inter tracking-tight leading-tight">
+                  {schoolName}
+                </span>
+              </div>
+            ) : (
+              <div class="text-2xl font-bold text-white uppercase font-inter tracking-tight">
+                {schoolName}
+              </div>
+            )
+          }
+        </div>
+        <p
+          class="text-inverse-on-surface/80 text-sm md:text-base leading-relaxed mb-8 font-body-md w-full md:pr-8"
+        >
+          {description}
+        </p>
+        <div class="flex items-center justify-start gap-4">
+          {
+            socialLinks.map(
+              (social) =>
+                social.href && (
+                  <a
+                    href={social.href}
+                    class="w-10 h-10 bg-surface-container-lowest/10 rounded-full flex items-center justify-center hover:bg-surface-container-lowest hover:text-primary transition-all duration-300 transform hover:-translate-y-1"
+                    aria-label={`Social link ${social.icon}`}
+                    title={social.icon}
+                    set:html={social.svg}
+                  />
+                ),
+            )
+          }
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="text-left lg:col-span-2 xl:col-span-2">
+        <h4
+          class="font-bold text-lg md:text-xl mb-6 border-b border-white/10 pb-2 inline-block"
+        >
+          Tautan Cepat
+        </h4>
+        <ul class="space-y-4 text-inverse-on-surface/80 text-sm">
+          {
+            quickLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="hover:text-secondary-container transition-colors flex items-center justify-start gap-2 group"
+                >
+                  <span class="w-1.5 h-1.5 bg-outline rounded-full group-hover:bg-secondary-container transition-colors" />
+                  {link.name}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- PPDB Info -->
+      <div class="text-left lg:col-span-3 xl:col-span-2">
+        <h4
+          class="font-bold text-lg md:text-xl mb-6 border-b border-white/10 pb-2 inline-block"
+        >
+          Info {term?.admissions?.short || "PPDB"}
+        </h4>
+        <ul class="space-y-4 text-inverse-on-surface/80 text-sm">
+          {
+            ppdbLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="hover:text-secondary-container transition-colors flex items-center justify-start gap-2 group"
+                >
+                  <span class="w-1.5 h-1.5 bg-outline rounded-full group-hover:bg-secondary-container transition-colors" />
+                  {link.name}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div
+        class="text-left flex flex-col items-start lg:col-span-3 xl:col-span-3"
+      >
+        <h4
+          class="font-bold text-lg md:text-xl mb-6 border-b border-white/10 pb-2 inline-block"
+        >
+          Kontak Kami
+        </h4>
+        <div
+          class="space-y-4 text-inverse-on-surface/80 text-sm flex flex-col w-full"
+        >
+          <div class="flex items-start justify-start gap-3">
+            <Icon
+              name="location_on"
+              class="text-secondary-container shrink-0"
+            />
+            <p class="max-w-[200px] md:max-w-none text-left">{address}</p>
+          </div>
+          <div class="flex items-center justify-start gap-3">
+            <Icon name="call" class="text-secondary-container shrink-0" />
+            <p>{phone}</p>
+          </div>
+          <div class="flex items-center justify-start gap-3">
+            <Icon name="mail" class="text-secondary-container shrink-0" />
+            <p>{email}</p>
+          </div>
+          <div class="flex items-center justify-start gap-3">
+            <Icon name="schedule" class="text-secondary-container shrink-0" />
+            <p>Senin - Jumat: 07:00 - 15:00 WIB</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div
+      class="pt-8 border-t border-white/10 text-left md:text-center text-inverse-on-surface/60 text-sm"
+    >
+      © {new Date().getFullYear()}
+      <a
+        href="/"
+        class="text-secondary-container hover:underline font-semibold transition-colors"
+      >
+        {schoolName}
+      </a>. All rights reserved
+    </div>
+  </Container>
+</footer>

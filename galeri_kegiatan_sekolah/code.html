@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Galeri Kegiatan - Heritage Academy</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Public+Sans:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#264191",
+                        "on-surface": "#1a1b21",
+                        "inverse-on-surface": "#f1f0f7",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "background": "#faf8ff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#faf8ff",
+                        "surface-variant": "#e3e1e9",
+                        "tertiary-fixed": "#ffdbcb",
+                        "on-tertiary-container": "#f39461",
+                        "surface-tint": "#4059aa",
+                        "primary-container": "#1e3a8a",
+                        "on-surface-variant": "#444651",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "on-primary-fixed": "#00164e",
+                        "on-secondary-container": "#684000",
+                        "surface-container-low": "#f4f3fa",
+                        "error-container": "#ffdad6",
+                        "surface-container-highest": "#e3e1e9",
+                        "tertiary": "#4b1c00",
+                        "inverse-surface": "#2f3036",
+                        "secondary-container": "#fea619",
+                        "outline": "#757682",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#2a1700",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#e9e7ef",
+                        "secondary": "#855300",
+                        "on-error": "#ffffff",
+                        "on-background": "#1a1b21",
+                        "inverse-primary": "#b6c4ff",
+                        "tertiary-fixed-dim": "#ffb691",
+                        "surface-bright": "#faf8ff",
+                        "on-primary-container": "#90a8ff",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#eeedf4",
+                        "on-tertiary-fixed-variant": "#773205",
+                        "on-tertiary-fixed": "#341100",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#b6c4ff",
+                        "secondary-fixed": "#ffddb8",
+                        "surface-dim": "#dad9e1",
+                        "primary-fixed": "#dce1ff",
+                        "tertiary-container": "#6e2c00",
+                        "outline-variant": "#c5c5d3",
+                        "primary": "#00236f",
+                        "on-tertiary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "1.5rem",
+                        "xs": "0.5rem",
+                        "max-width": "1280px",
+                        "xl": "3rem",
+                        "base": "4px",
+                        "sm": "1rem",
+                        "lg": "2rem",
+                        "margin": "2rem",
+                        "gutter": "1.5rem"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Public Sans"],
+                        "display-xl": ["Inter"],
+                        "body-lg": ["Public Sans"],
+                        "h2": ["Inter"],
+                        "body-md": ["Public Sans"],
+                        "h3": ["Inter"],
+                        "h1": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["0.875rem", {"lineHeight": "1.25rem", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "display-xl": ["3.75rem", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["1.125rem", {"lineHeight": "1.75rem", "fontWeight": "400"}],
+                        "h2": ["1.875rem", {"lineHeight": "2.25rem", "fontWeight": "600"}],
+                        "body-md": ["1rem", {"lineHeight": "1.5rem", "fontWeight": "400"}],
+                        "h3": ["1.5rem", {"lineHeight": "2rem", "fontWeight": "600"}],
+                        "h1": ["2.25rem", {"lineHeight": "2.5rem", "fontWeight": "600"}],
+                        "display-lg": ["3rem", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .gallery-card:hover .overlay {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="sticky top-0 w-full z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-sm dark:shadow-none border-b border-slate-200 dark:border-slate-800">
+<div class="max-w-[1280px] mx-auto flex justify-between items-center px-6 py-4">
+<div class="text-xl font-bold tracking-tight text-blue-900 dark:text-blue-100 font-h1">Heritage Academy</div>
+<div class="hidden md:flex gap-8 font-inter text-sm font-medium tracking-wide">
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors" href="#">Home</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors" href="#">About</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors" href="#">Academic</a>
+<a class="text-blue-900 dark:text-blue-400 border-b-2 border-blue-900 dark:border-blue-400 pb-1" href="#">Gallery</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors" href="#">Admissions</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors" href="#">Contact</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all duration-200 active:scale-95">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+</button>
+<button class="bg-primary text-on-primary px-5 py-2.5 rounded-lg text-sm font-semibold tracking-wide transition-all duration-200 ease-in-out active:scale-95 shadow-md">Portal Login</button>
+</div>
+</div>
+</nav>
+<main class="flex-grow max-w-[1280px] mx-auto w-full px-6 py-12">
+<!-- Header & Breadcrumb -->
+<section class="mb-12">
+<nav aria-label="Breadcrumb" class="flex mb-4 text-sm font-label-sm text-outline">
+<ol class="flex items-center space-x-2">
+<li><a class="hover:text-primary transition-colors" href="#">Beranda</a></li>
+<li><span class="material-symbols-outlined text-xs">chevron_right</span></li>
+<li class="text-primary font-semibold">Galeri</li>
+</ol>
+</nav>
+<h1 class="font-h1 text-display-lg text-primary mb-2">Galeri Kegiatan</h1>
+<p class="text-on-surface-variant max-w-2xl text-body-lg">Jelajahi momen-momen berharga dan prestasi luar biasa dari seluruh civitas akademika Heritage Academy dalam berbagai aspek pendidikan.</p>
+</section>
+<!-- Navigation Tabs -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-surface-container-high">
+<div class="flex gap-8">
+<button class="pb-4 text-primary font-bold border-b-2 border-primary flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">image</span>
+<span>Foto</span>
+</button>
+<button class="pb-4 text-on-surface-variant font-medium hover:text-primary transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined">videocam</span>
+<span>Video</span>
+</button>
+</div>
+</div>
+<!-- Filter Categories -->
+<div class="flex flex-wrap gap-3 mb-10">
+<button class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-sm shadow-sm transition-all hover:brightness-110 active:scale-95">Semua</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm transition-all hover:bg-surface-container-highest active:scale-95">Akademik</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm transition-all hover:bg-surface-container-highest active:scale-95">Olahraga</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm transition-all hover:bg-surface-container-highest active:scale-95">Seni &amp; Budaya</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm transition-all hover:bg-surface-container-highest active:scale-95">Fasilitas</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm transition-all hover:bg-surface-container-highest active:scale-95">Ekstrakurikuler</button>
+</div>
+<!-- Gallery Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Card 1 -->
+<div class="gallery-card relative group overflow-hidden rounded-xl bg-white shadow-[0_4px_6px_-1px_rgba(30,58,138,0.08)] cursor-pointer">
+<img alt="Laboratorium Kimia" class="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A brightly lit, modern chemistry laboratory at Heritage Academy. High-school students in white lab coats and safety goggles are conducting experiments with colorful glass beakers. The room features professional stainless steel surfaces and advanced scientific equipment under soft, clinical white lighting. The overall mood is focused and academic with a clean, light-mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5DTfsCsHkrFJUFzJ0Q_S_4EbZE8mx7FO6PEL1EkOKjwkKEeLObOSuGHgFaRQ0xkqWEqoCxeMOKO7nqKOUnS7AL5Faf_Uh9uFMD7ytXsCFUYhw-856KYlfTYMobUM8_VA5oFQRi38Zt9bQPgUF87kqHog7RvXZkf-WQ19m3BT0ziT9mQaZIeQMXHSF_2MkBV7UaYNjawIBFM1xv1RasAKVoDg_d6dCcKy447aOw-rQuBSKDxd5_5k_uhQoJ7uo4-9ONPKoPwHSx__V"/>
+<div class="overlay absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent opacity-0 transition-opacity duration-300 flex flex-col justify-end p-6">
+<span class="text-secondary-container font-label-sm mb-1">Akademik</span>
+<h3 class="text-white font-h3 text-xl mb-1">Praktikum Kimia Lanjutan</h3>
+<div class="flex items-center text-on-primary-container text-sm gap-2">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>15 Okt 2024</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="gallery-card relative group overflow-hidden rounded-xl bg-white shadow-[0_4px_6px_-1px_rgba(30,58,138,0.08)] cursor-pointer">
+<img alt="Pertandingan Basket" class="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A dynamic action shot of a basketball game in a modern indoor campus arena. Athletes in navy blue and orange Heritage Academy jerseys are competing under bright cinematic floodlights. The polished wooden floor reflects the intense overhead lights. The atmosphere is energetic and competitive, emphasizing sportsmanship and tradition in a high-prestige academic environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIWEJLANqMzkjKjct6TKm0DYr49v12OEvZ-9YPuMpb5TpWwAZmZZ620R1koqOAZcQnTlTbbcSA2xcBld0kcR_5B263Wix1gAYf4dKleIu64Lp-nk3jJAvGqG0W5fKb9rcGxtbvfSk4Udcd7HewCIt7PohhNRjwvv4_kTCCh87h3DpRn6KxLscYTteeA85Cyyk2E5vpCZ-Szvytti9EpDeXQb1yK0_fB5_-btq1Ns4XPE5p6jR5QX90q_ZQulASuN1MHzHg9q6wJKIn"/>
+<div class="overlay absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent opacity-0 transition-opacity duration-300 flex flex-col justify-end p-6">
+<span class="text-secondary-container font-label-sm mb-1">Olahraga</span>
+<h3 class="text-white font-h3 text-xl mb-1">Turnamen Basket Antar Sekolah</h3>
+<div class="flex items-center text-on-primary-container text-sm gap-2">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>12 Okt 2024</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="gallery-card relative group overflow-hidden rounded-xl bg-white shadow-[0_4px_6px_-1px_rgba(30,58,138,0.08)] cursor-pointer">
+<img alt="Konser Orkestra" class="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-110" data-alt="The grand auditorium of Heritage Academy during a student orchestra performance. Students in formal black attire are playing violins and cellos under warm spotlighting. The background shows rich wooden textures and acoustic paneling. The lighting is dramatic yet elegant, highlighting the prestige and artistic dedication of the school's music program." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS9j2Wf1cPJiuQNL6qsb7yHBFKF6Y8FZn0_me7HTmdGrKdCyDKIuc27Ut-KKh0ZaHabn8dcs_rFFRnKyECC_AqlozPz7YMwk2CAXSrgDq9pQQPlTKehQ7u2eBYSK_aYDeLZFK_MTQeDrPSWiMnp_MR9ujsDetYEpSkAJ9JzReLTyL3o-GnGN623cv9Q2JrBYujN5EcaXRvukW0QsMkneFyXkEMkpkK6D9K2PNtVsDKRiRfGDQ5nFmznaMUcUb6XY9Y6Aoj_68abJFN"/>
+<div class="overlay absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent opacity-0 transition-opacity duration-300 flex flex-col justify-end p-6">
+<span class="text-secondary-container font-label-sm mb-1">Seni &amp; Budaya</span>
+<h3 class="text-white font-h3 text-xl mb-1">Konser Tahunan Orkestra</h3>
+<div class="flex items-center text-on-primary-container text-sm gap-2">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>08 Okt 2024</span>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="gallery-card relative group overflow-hidden rounded-xl bg-white shadow-[0_4px_6px_-1px_rgba(30,58,138,0.08)] cursor-pointer">
+<img alt="Perpustakaan Utama" class="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-110" data-alt="An expansive, light-filled library at Heritage Academy with floor-to-ceiling bookshelves and contemporary study areas. Large windows allow natural sunlight to flood the space, creating a serene and intellectual atmosphere. The interior design combines classic dark wood accents with modern minimalist furniture. Several students are seen quietly studying at clean white tables." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZhRhoVOi6amBR-VdCbQcMv0LiFaA8bNUDV2luyoLTwdK3BxvRY_M_PhASjYrFR8m1OKe2LcNfkOtZNSRxB_o_K4fnI5HWo3uQirfV42rDtezW-lLDME6Bv1_X6dKfWyh3LY3gBFxfpI0nZXtHHLIVwxgTZ46ZkzwkefaqjQD9eVKgwN6H14RRuK45ENus7u-lRALQ_H5jQ8kvbZoIHm0AWylOuCOdAUC2GIcRsZkihoBcW7v9ncsNeg5fWRlTbSnVO4YaDWyV6eUh"/>
+<div class="overlay absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent opacity-0 transition-opacity duration-300 flex flex-col justify-end p-6">
+<span class="text-secondary-container font-label-sm mb-1">Fasilitas</span>
+<h3 class="text-white font-h3 text-xl mb-1">Peresmian Sayap Baru Perpustakaan</h3>
+<div class="flex items-center text-on-primary-container text-sm gap-2">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>05 Okt 2024</span>
+</div>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="gallery-card relative group overflow-hidden rounded-xl bg-white shadow-[0_4px_6px_-1px_rgba(30,58,138,0.08)] cursor-pointer">
+<img alt="Diskusi Mahasiswa" class="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A group of diverse, smiling students gathered around a large table in a modern collaboration hub. They are working on laptops and sharing notes, illuminated by bright, soft overhead lighting. The space is decorated with academy branding and motivational graphics on the walls. The scene conveys a sense of community, innovation, and active learning within the Heritage Academy campus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUckr76g0O5PEhwS5LYhG51Qbw3UwLikh2DFFVjbkF1P0cl4TsZlJBKq2k6zwrot3hJAUpMEJacek5iOMDLftJgwyaycjDbAQKYQY3FvLYNacXM9k03C9fLrQQn0GqwLio0Mh22m5U1GuzcfVO2mDGVfNh0RjNGlRln964H3s3Yw752ejBrPgdYSq1wK8Xh9eUAqdWuj54bwzl0H8GKxTItsPbfB-USEDjOihVWzcZuXhFLxFhoQvhK8q4SNr233iGBArLbHjv06AE"/>
+<div class="overlay absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent opacity-0 transition-opacity duration-300 flex flex-col justify-end p-6">
+<span class="text-secondary-container font-label-sm mb-1">Akademik</span>
+<h3 class="text-white font-h3 text-xl mb-1">Sesi Diskusi Proyek Sains</h3>
+<div class="flex items-center text-on-primary-container text-sm gap-2">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>01 Okt 2024</span>
+</div>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="gallery-card relative group overflow-hidden rounded-xl bg-white shadow-[0_4px_6px_-1px_rgba(30,58,138,0.08)] cursor-pointer">
+<img alt="Kegiatan Sosial" class="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Heritage Academy students volunteering at a lush community garden. They are planting trees and flowers under clear blue skies and bright afternoon sun. The students wear casual school shirts and are laughing together, showing teamwork and environmental responsibility. The setting is vibrant and green, reflecting a healthy, active outdoor lifestyle." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNkTPAP0fNu8iqpntWaJ7iblkig9xD7EjL0j7pfxHFwxM2kCn3GzuH06qzvZ-MqL2EIJsciMlEdicEXhidQImb2gn3sM2b6kQLGM_o6vRXyLo4Ur_mqa3oWv5927g6PsynowxydlR3v8DjWRLJ8d110xNuUvl8YT432P5SLkFYVTvY3_-t_CdzxYpOEdnlr-qH7u1ia6oQ6MEXgd_RaJ8Jvara52eUhEfzCSStp8loTu-iq3vxcToj2xcoARB7s_9YQ8Avs_6hb_Vt"/>
+<div class="overlay absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent opacity-0 transition-opacity duration-300 flex flex-col justify-end p-6">
+<span class="text-secondary-container font-label-sm mb-1">Ekstrakurikuler</span>
+<h3 class="text-white font-h3 text-xl mb-1">Program Pengabdian Masyarakat</h3>
+<div class="flex items-center text-on-primary-container text-sm gap-2">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>28 Sep 2024</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Load More Section -->
+<div class="mt-16 text-center">
+<button class="px-10 py-4 border-2 border-primary text-primary font-bold rounded-lg transition-all hover:bg-primary/5 active:scale-95 flex items-center gap-3 mx-auto">
+<span class="material-symbols-outlined">sync</span>
+<span>Muat Lebih Banyak</span>
+</button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800">
+<div class="max-w-[1280px] mx-auto py-12 px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex flex-col items-center md:items-start gap-4">
+<div class="text-lg font-bold text-blue-900 dark:text-blue-100 font-h1">Heritage Academy</div>
+<p class="font-inter text-sm text-slate-500">Membentuk Pemimpin Masa Depan dengan Tradisi dan Inovasi.</p>
+<div class="text-slate-500 text-sm font-inter">© 2024 Heritage Academy. All rights reserved.</div>
+</div>
+<div class="flex flex-wrap justify-center gap-8 font-inter text-sm text-slate-500">
+<a class="hover:text-blue-900 dark:hover:text-blue-300 hover:underline transition-opacity" href="#">Privacy Policy</a>
+<a class="hover:text-blue-900 dark:hover:text-blue-300 hover:underline transition-opacity" href="#">Terms of Service</a>
+<a class="hover:text-blue-900 dark:hover:text-blue-300 hover:underline transition-opacity" href="#">Campus Map</a>
+<a class="hover:text-blue-900 dark:hover:text-blue-300 hover:underline transition-opacity" href="#">Directory</a>
+</div>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-lg">public</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-lg">mail</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-lg">phone</span>
+</a>
+</div>
+</div>
+</footer>
+</body></html>

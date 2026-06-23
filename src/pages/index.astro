@@ -1,0 +1,77 @@
+---
+import MainLayout from "@/layouts/MainLayout.astro";
+import HeroSlider from "@/components/home/HeroSlider.astro";
+import AnnouncementMarquee from "@/components/home/AnnouncementMarquee.astro";
+import QuickStats from "@/components/home/QuickStats.astro";
+import PrincipalWelcome from "@/components/home/PrincipalWelcome.astro";
+import VisionMission from "@/components/home/VisionMission.astro";
+import LatestNews from "@/components/home/LatestNews.astro";
+import AchievementNews from "@/components/home/AchievementNews.astro";
+import UpcomingAgenda from "@/components/home/UpcomingAgenda.astro";
+import GalleryPreview from "@/components/home/GalleryPreview.astro";
+import StaffSlider from "@/components/home/StaffSlider.astro";
+import OsisSlider from "@/components/home/OsisSlider.astro";
+import ExtracurricularSlider from "@/components/home/ExtracurricularSlider.astro";
+import PpdbCTA from "@/components/home/PpdbCTA.astro";
+import MajorsGrid from "@/components/home/MajorsGrid.astro";
+
+import Lightbox from "@/components/ui/Lightbox.astro";
+import { HomepageService } from "@/lib/services/homepage.service";
+import { getImage } from "astro:assets";
+
+const data = await HomepageService.getFullHomepageData();
+const profile = Astro.locals.schoolProfile;
+const schoolName = profile?.schoolName || "SMA Negeri 1 Nusantara";
+
+let preloadHeroImage = undefined;
+if (data.banners.length > 0) {
+  const optimized = await getImage({
+    src: data.banners[0].image,
+    width: 1920,
+    height: 1080
+  });
+  preloadHeroImage = optimized.src;
+}
+---
+
+<MainLayout title={`Beranda | ${schoolName}`} preloadImage={preloadHeroImage}>
+  {data.banners.length > 0 && <HeroSlider bannerItems={data.banners} />}
+
+  {
+    data.announcements && data.announcements.length > 0 && (
+      <AnnouncementMarquee announcements={data.announcements} />
+    )
+  }
+
+  <QuickStats statItems={data.stats} />
+
+  {data.welcome.principalName && <PrincipalWelcome {...data.welcome} />}
+
+  {data.majors.length > 0 && <MajorsGrid majors={data.majors.slice(0, 3)} />}
+
+  {data.latestNews.length > 0 && <LatestNews posts={data.latestNews} />}
+  {data.visionMission.visionText && <VisionMission {...data.visionMission} />}
+
+  {
+    data.achievements && data.achievements.length > 0 && (
+      <AchievementNews posts={data.achievements} />
+    )
+  }
+
+  {data.agendas.length > 0 && <UpcomingAgenda agendaItems={data.agendas} />}
+  {data.osis.length > 0 && <OsisSlider osisItems={data.osis} />}
+
+  {
+    data.extracurriculars.length > 0 && (
+      <ExtracurricularSlider extracurriculars={data.extracurriculars} />
+    )
+  }
+
+  {data.gallery.length > 0 && <GalleryPreview galleryItems={data.gallery} />}
+  {data.staff.length > 0 && <StaffSlider staffItems={data.staff} />}
+
+  {data.ppdb.isActive && <PpdbCTA {...data.ppdb} />}
+
+  <!-- Lightbox Modal -->
+  <Lightbox />
+</MainLayout>

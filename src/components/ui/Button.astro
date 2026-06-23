@@ -1,0 +1,32 @@
+---
+interface Props {
+  variant?: 'primary' | 'secondary' | 'outline-glass' | 'outline-primary';
+  href?: string;
+  class?: string;
+  [x: string]: any;
+}
+
+const { 
+  variant = 'primary', 
+  href, 
+  class: className, 
+  ...rest 
+} = Astro.props;
+
+const variants = {
+  primary: 'btn-primary',
+  secondary: 'btn-secondary',
+  'outline-glass': 'btn-outline-glass',
+  'outline-primary': 'btn-outline-primary',
+};
+
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  href={href}
+  class:list={['btn px-6 py-2.5', variants[variant], className]}
+  {...rest}
+>
+  <slot />
+</Tag>

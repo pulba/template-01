@@ -1,0 +1,114 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  favicon?: string;
+  type?: string;
+  structuredData?: object | object[];
+}
+
+const {
+  title = "Institutional School",
+  description = "Mencetak generasi emas dengan integritas, kreativitas, dan nalar kritis.",
+  image = "/og-image.jpg",
+  favicon = "/favicon.svg",
+  type = "website",
+  structuredData
+} = Astro.props;
+
+// Ensure image is an absolute URL for Open Graph
+const absoluteImageUrl = new URL(image, Astro.site || Astro.url).href;
+
+// Determine image type based on extension
+let imageType = "image/jpeg";
+if (image.toLowerCase().endsWith(".png") || image.includes(".png?")) imageType = "image/png";
+else if (image.toLowerCase().endsWith(".webp") || image.includes(".webp?")) imageType = "image/webp";
+else if (image.toLowerCase().endsWith(".gif") || image.includes(".gif?")) imageType = "image/gif";
+
+// Construct School Schema.org JSON-LD dynamically from Astro.locals
+const profile = Astro.locals.schoolProfile;
+const schoolNameVal = profile?.schoolName || "SMA Negeri 1 Nusantara";
+const logoVal = profile?.schoolLogo || "";
+const addressVal = profile?.address || "";
+const phoneVal = profile?.phone || "";
+const emailVal = profile?.email || "";
+const socialFacebookVal = profile?.socialFacebook || "";
+const socialInstagramVal = profile?.socialInstagram || "";
+const socialYoutubeVal = profile?.socialYoutube || "";
+const npsnVal = profile?.npsn || "";
+const accreditationVal = profile?.accreditation || "";
+
+const schoolSchema = {
+  "@context": "https://schema.org",
+  "@type": "School",
+  "name": schoolNameVal,
+  "url": Astro.url.origin,
+  "logo": logoVal ? new URL(logoVal, Astro.url.origin).href : undefined,
+  "description": description,
+  "address": addressVal ? {
+    "@type": "PostalAddress",
+    "streetAddress": addressVal,
+    "addressCountry": "ID"
+  } : undefined,
+  "telephone": phoneVal || undefined,
+  "email": emailVal || undefined,
+  "sameAs": [
+    socialFacebookVal,
+    socialInstagramVal,
+    socialYoutubeVal
+  ].filter(Boolean),
+  "identifier": npsnVal ? {
+    "@type": "PropertyValue",
+    "name": "NPSN",
+    "value": npsnVal
+  } : undefined,
+  "award": accreditationVal ? `Akreditasi ${accreditationVal}` : undefined
+};
+---
+
+  <meta charset="utf-8" />
+  <link rel="icon" href={favicon} />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content={Astro.generator} />
+
+  <!-- Structured Data (JSON-LD) for SEO / AEO / GEO -->
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(schoolSchema)} />
+  {structuredData && (
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  )}
+
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={Astro.url.href} />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content={type} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={absoluteImageUrl} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content={imageType} />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:title" content={title} />
+  <meta property="twitter:description" content={description} />
+  <meta property="twitter:image" content={absoluteImageUrl} />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" media="print" onload="this.media='all'" />
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
+  </noscript>
+
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" media="print" onload="this.media='all'" />
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+  </noscript>

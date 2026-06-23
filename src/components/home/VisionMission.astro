@@ -1,0 +1,96 @@
+---
+import Container from "@/components/ui/Container.astro";
+import Icon from "@/components/ui/Icon.astro";
+
+interface Props {
+  headline?: string;
+  visionText: string;
+  missionItems: string[];
+}
+
+const {
+  headline = "Visi & Misi Sekolah",
+  visionText,
+  missionItems,
+} = Astro.props;
+---
+
+<section class="py-12 px-4">
+  <div class="bg-background rounded-[1.125rem] py-10 md:py-16">
+    <Container>
+      <!-- Section Header -->
+      <div class="text-center mb-10">
+        <h2 class="font-h1 text-primary">{headline}</h2>
+        <div
+          class="w-20 h-1.5 bg-secondary-container mx-auto mt-4 rounded-full"
+        >
+        </div>
+      </div>
+
+      <!-- Vision & Mission Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-6xl mx-auto">
+        <!-- Vision Card (lg:col-span-5) -->
+        <div
+          class="lg:col-span-5 bg-gradient-to-br from-primary to-primary/80 text-white p-8 md:p-12 rounded-3xl flex flex-col justify-between group transition-all duration-300 shadow-md hover:shadow-lg relative overflow-hidden h-full"
+        >
+          <!-- Background Glow Effect -->
+          <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
+          
+          <div class="relative z-10 space-y-6">
+            <div
+              class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white transition-transform group-hover:scale-105"
+            >
+              <Icon name="visibility" size="lg" />
+            </div>
+            <div>
+              <span class="text-white/60 text-xs font-bold uppercase tracking-widest block mb-1">Arah & Tujuan</span>
+              <h3 class="font-h2 text-white">Visi Kami</h3>
+            </div>
+            <p
+              class="text-xl md:text-2xl font-extrabold leading-relaxed tracking-wide text-white/95 font-inter pt-2"
+            >
+              “{visionText}”
+            </p>
+          </div>
+          
+          <!-- Quote Icon Watermark -->
+          <div class="absolute right-6 bottom-4 opacity-10 pointer-events-none">
+            <Icon name="format_quote" class="text-7xl text-white rotate-180" />
+          </div>
+        </div>
+
+        <!-- Mission Card (lg:col-span-7) -->
+        <div
+          class="lg:col-span-7 bg-white p-8 md:p-10 rounded-3xl border border-outline-variant flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300 h-full"
+        >
+          <div>
+            <div class="flex items-center gap-4 mb-8">
+              <div
+                class="w-14 h-14 bg-secondary-container rounded-2xl flex items-center justify-center text-on-secondary-fixed shrink-0"
+              >
+                <Icon name="rocket_launch" size="lg" />
+              </div>
+              <div>
+                <span class="text-slate-400 text-xs font-bold uppercase tracking-widest block mb-1">Langkah Nyata</span>
+                <h3 class="font-h2 text-primary">Misi Kami</h3>
+              </div>
+            </div>
+            
+            <ul class="space-y-6">
+              {
+                missionItems.map((item, idx) => (
+                  <li class="flex gap-4 items-start group">
+                    <div class="w-8 h-8 rounded-full bg-primary/10 text-primary font-bold text-sm flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors duration-200 mt-0.5">
+                      {String(idx + 1).padStart(2, '0')}
+                    </div>
+                    <p class="text-slate-700 font-medium leading-relaxed pt-0.5">{item}</p>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </div>
+</section>

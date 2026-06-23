@@ -1,0 +1,25 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import Badge from '@/components/ui/Badge.astro';
+
+interface Props {
+  category: string;
+  date: string;
+}
+
+const { category, date } = Astro.props;
+---
+
+<div class="flex flex-wrap items-center gap-6 mb-8 text-on-surface-variant font-medium">
+  <Badge variant={category === "AKADEMIK" ? "secondary" : "primary"}>
+    {category}
+  </Badge>
+  <div class="flex items-center gap-2">
+    <Icon name="calendar_today" size="sm" class="text-primary" />
+    <span>{date}</span>
+  </div>
+  <div class="flex items-center gap-2">
+    <Icon name="person" size="sm" class="text-primary" />
+    <span>Admin Sekolah</span>
+  </div>
+</div>

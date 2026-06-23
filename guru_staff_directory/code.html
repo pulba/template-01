@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Direktori Guru &amp; Staff | Scholastica Academy</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Public+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface": "#faf8ff",
+                      "outline-variant": "#c5c5d3",
+                      "primary-container": "#1e3a8a",
+                      "on-tertiary-container": "#f39461",
+                      "surface-variant": "#e3e1e9",
+                      "error-container": "#ffdad6",
+                      "tertiary-fixed-dim": "#ffb691",
+                      "on-surface": "#1a1b21",
+                      "on-background": "#1a1b21",
+                      "tertiary-container": "#6e2c00",
+                      "error": "#ba1a1a",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-bright": "#faf8ff",
+                      "secondary-fixed": "#ffddb8",
+                      "on-tertiary-fixed-variant": "#773205",
+                      "on-primary-fixed-variant": "#264191",
+                      "surface-container-highest": "#e3e1e9",
+                      "on-secondary-container": "#684000",
+                      "on-primary": "#ffffff",
+                      "on-secondary-fixed-variant": "#653e00",
+                      "surface-container": "#eeedf4",
+                      "secondary-fixed-dim": "#ffb95f",
+                      "primary": "#00236f",
+                      "on-error": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "inverse-on-surface": "#f1f0f7",
+                      "outline": "#757682",
+                      "on-error-container": "#93000a",
+                      "on-secondary": "#ffffff",
+                      "surface-container-low": "#f4f3fa",
+                      "primary-fixed-dim": "#b6c4ff",
+                      "on-surface-variant": "#444651",
+                      "background": "#faf8ff",
+                      "on-primary-fixed": "#00164e",
+                      "on-primary-container": "#90a8ff",
+                      "secondary": "#855300",
+                      "tertiary": "#4b1c00",
+                      "inverse-surface": "#2f3036",
+                      "inverse-primary": "#b6c4ff",
+                      "surface-dim": "#dad9e1",
+                      "surface-container-high": "#e9e7ef",
+                      "on-tertiary-fixed": "#341100",
+                      "on-secondary-fixed": "#2a1700",
+                      "secondary-container": "#fea619",
+                      "primary-fixed": "#dce1ff",
+                      "surface-tint": "#4059aa",
+                      "tertiary-fixed": "#ffdbcb"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xs": "0.5rem",
+                      "md": "1.5rem",
+                      "gutter": "1.5rem",
+                      "xl": "3rem",
+                      "margin": "2rem",
+                      "lg": "2rem",
+                      "sm": "1rem",
+                      "max-width": "1280px",
+                      "base": "4px"
+              },
+              "fontFamily": {
+                      "body-md": ["Public Sans"],
+                      "display-xl": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "h2": ["Inter"],
+                      "h1": ["Inter"],
+                      "body-lg": ["Public Sans"],
+                      "label-sm": ["Public Sans"],
+                      "h3": ["Inter"]
+              },
+              "fontSize": {
+                      "body-md": ["1rem", {"lineHeight": "1.5rem", "fontWeight": "400"}],
+                      "display-xl": ["3.75rem", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "display-lg": ["3rem", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "h2": ["1.875rem", {"lineHeight": "2.25rem", "fontWeight": "600"}],
+                      "h1": ["2.25rem", {"lineHeight": "2.5rem", "fontWeight": "600"}],
+                      "body-lg": ["1.125rem", {"lineHeight": "1.75rem", "fontWeight": "400"}],
+                      "label-sm": ["0.875rem", {"lineHeight": "1.25rem", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "h3": ["1.5rem", {"lineHeight": "2rem", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(30, 58, 138, 0.08), 0 2px 4px -1px rgba(30, 58, 138, 0.04);
+        }
+        .card-hover:hover {
+            box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.1), 0 4px 6px -2px rgba(30, 58, 138, 0.05);
+            transform: translateY(-2px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-surface">
+<!-- TopNavBar Section -->
+<header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm docked full-width top-0 z-50 sticky">
+<div class="max-w-[1280px] mx-auto px-6 h-16 flex items-center justify-between">
+<div class="text-xl font-bold text-blue-900 dark:text-white font-display-lg tracking-tight">Scholastica Academy</div>
+<nav class="hidden md:flex items-center gap-8 font-inter antialiased tracking-tight">
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Home</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">About</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Academics</a>
+<a class="text-blue-900 dark:text-blue-400 border-b-2 border-blue-900 dark:border-blue-400 pb-1 font-semibold" href="#">Directory</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Admissions</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-slate-600 p-2 hover:bg-slate-100 rounded-full">search</button>
+<button class="bg-primary text-on-primary px-5 py-2 rounded-lg font-semibold scale-95 active:opacity-80 transition-all">Portal Login</button>
+</div>
+</div>
+</header>
+<main class="min-h-screen">
+<!-- Hero Section -->
+<section class="bg-white py-16 border-b border-outline-variant/30">
+<div class="max-w-[1280px] mx-auto px-6">
+<div class="max-w-2xl">
+<h1 class="font-display-xl text-primary mb-4 leading-tight">Direktori Guru &amp; Staff</h1>
+<p class="font-body-lg text-on-surface-variant">Temukan profil tenaga pendidik dan profesional kami yang berdedikasi tinggi dalam membentuk masa depan cerah bagi setiap siswa di Scholastica Academy.</p>
+</div>
+</div>
+</section>
+<!-- Search & Filter Section -->
+<section class="max-w-[1280px] mx-auto px-6 -mt-8">
+<div class="bg-white p-6 rounded-xl card-shadow border border-slate-100">
+<div class="flex flex-col lg:flex-row gap-6 items-center">
+<!-- Search Bar -->
+<div class="relative w-full lg:w-1/3">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-12 pr-4 py-3 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-body-md" placeholder="Cari nama atau posisi..." type="text"/>
+</div>
+<!-- Tab Filter -->
+<div class="w-full lg:w-2/3 flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 no-scrollbar">
+<button class="whitespace-nowrap px-6 py-2.5 rounded-full bg-primary text-white font-semibold text-label-sm shadow-md transition-all">Semua</button>
+<button class="whitespace-nowrap px-6 py-2.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-medium text-label-sm transition-all">Pimpinan</button>
+<button class="whitespace-nowrap px-6 py-2.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-medium text-label-sm transition-all">Guru Mata Pelajaran</button>
+<button class="whitespace-nowrap px-6 py-2.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-medium text-label-sm transition-all">Staff Tata Usaha</button>
+<button class="whitespace-nowrap px-6 py-2.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-medium text-label-sm transition-all">Guru Bimbingan Konseling</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Directory Grid -->
+<section class="max-w-[1280px] mx-auto px-6 py-12">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
+<!-- Profile Card 1 -->
+<div class="bg-white rounded-xl overflow-hidden card-shadow card-hover border border-slate-100 flex flex-col">
+<div class="h-64 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged male teacher with a warm smile, wearing a navy blue blazer and a crisp white shirt. The background is a blurred academic library setting with soft, natural lighting. The overall mood is distinguished and reliable, reflecting the institutional prestige of a top-tier school." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkb3g0utpFq1QdfM4PvkJKdS_9PT6BtLh7xSWiRyEFvYtMxs859JZzuWkyJUSsvtuznZ2V_EkbPYtueGE75Fp7UN4-W5tE5L1B8wdDItbkQDyzYsqFg2e0-RauutwJ_cXngp-VOqIQZVWfzCQr_vRAh2a8GHxxX3X3_1oW3a8EUXABgWvSSTnX96xC0QwcQPg82TaoMiH9aYgV8eHntsPiMxvx0Hp_EV1oEWiGHo5q7vLoplUJRx9ekm6Uielrduz1ErNMegQ8rGD5"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="mb-4">
+<h3 class="font-h3 text-primary mb-1">Dr. Ahmad Subagyo, M.Pd.</h3>
+<span class="text-label-sm px-2.5 py-1 rounded bg-primary-fixed text-primary inline-block">Kepala Sekolah</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant mb-6 font-label-sm">
+<span class="material-symbols-outlined text-base">mail</span>
+<span>a.subagyo@scholastica.ac.id</span>
+</div>
+<button class="mt-auto w-full py-3 border border-primary text-primary rounded-lg font-semibold hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+                            Lihat Profil
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Profile Card 2 -->
+<div class="bg-white rounded-xl overflow-hidden card-shadow card-hover border border-slate-100 flex flex-col">
+<div class="h-64 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Professional portrait of a female teacher in her late 30s with glasses, smiling confidently. She is wearing a modern corporate suit in soft charcoal gray. The background consists of a bright, clean school corridor with minimal architectural details. Lighting is high-key and professional, creating an approachable yet authoritative atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCL0E8qGUfdx5v55C7M7lqvPPIyNAXZW84oA344zbYCfNCsATDQ0oPzcV71FyUXRYXIA8hFIgftgANkdrqcrsrQwqyWxUeSqNX330uhsZLnku1AXSrhCe8YLRjimkEynSUt6PZPe9-_HMWJVKEiAqWUKQgYiPZSxgO2F8bABLPBNbWvKT5Js4uJ_NfdhIuKiSifNZWelCKLRi1Z3MD-YwyR5P0vbLOLj7fhEhfNLPDq7pEXuKDd3YPD_6-Y-97BgRE_RFMjJOkcy3hY"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="mb-4">
+<h3 class="font-h3 text-primary mb-1">Dra. Sarah Wijaya</h3>
+<span class="text-label-sm px-2.5 py-1 rounded bg-secondary-fixed text-on-secondary-container inline-block">Guru Fisika</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant mb-6 font-label-sm">
+<span class="material-symbols-outlined text-base">mail</span>
+<span>sarah.w@scholastica.ac.id</span>
+</div>
+<button class="mt-auto w-full py-3 border border-primary text-primary rounded-lg font-semibold hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+                            Lihat Profil
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Profile Card 3 -->
+<div class="bg-white rounded-xl overflow-hidden card-shadow card-hover border border-slate-100 flex flex-col">
+<div class="h-64 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a male teacher in his 40s, standing in a brightly lit modern classroom. He has a friendly expression and is wearing a smart-casual olive green shirt. The depth of field is shallow, blurring the educational posters in the background. The lighting is warm and bright, conveying a sense of academic support and accessibility." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfPNNqSVkJM2DeaSy0bLx1b-tw4JBUSVs7zUezjnPdbgxO8cN8yPXbhIYNJZQJD2mHINCJTCfNfxFcATeXMSpiHjtMql0Pz28KxA790dZnMjdALyqgKltn_58mcPYrVG5De1zW0SN8ldtYYMsRhH-w30BSlqHgrC661LYxHiort0Wp30c3Tv3q3nuUIec6g3mYmXIh5rxvHWdh9mVycLzWaL5GuYChpJjU3P1BMm5fpk7UpvK8VnxyBNi2rCRd1lXFyDlz-McG3m_U"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="mb-4">
+<h3 class="font-h3 text-primary mb-1">Budi Santoso, S.Psi.</h3>
+<span class="text-label-sm px-2.5 py-1 rounded bg-tertiary-fixed text-on-tertiary-fixed-variant inline-block">Guru BK</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant mb-6 font-label-sm">
+<span class="material-symbols-outlined text-base">mail</span>
+<span>budi.s@scholastica.ac.id</span>
+</div>
+<button class="mt-auto w-full py-3 border border-primary text-primary rounded-lg font-semibold hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+                            Lihat Profil
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Profile Card 4 -->
+<div class="bg-white rounded-xl overflow-hidden card-shadow card-hover border border-slate-100 flex flex-col">
+<div class="h-64 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A sophisticated portrait of a senior female administrator in an elegant beige blouse, seated in a high-end academic office. Large windows behind her provide soft, diffused daylight. The environment is orderly and professional with subtle blue accents. The mood is calm, executive, and highly trustworthy, representing institutional stability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWGlCs38JJRbYlywH7Gj4uBhuuxzGbMpnaJGyLzrsjV9IF5xDYKxizv-sFQPiWItzCbDtupEUzN8JKdrOu8t2urn48j2tIwZ7I1vTC-iNQeuWBcrm6_-J1Wb8YrG7tjVlD17bXJDMy6INSrVXWykpeMybgrNeQiM-MD2E3CqzAJM-WSuwIkueRzDL65NsxjLR3HLQ33OCAQRctIMfUiPNXOGhMAAA1-fonmswBP3xBnts5Vas0stnRyJr0dgZ7vFDWGrk5ZtKgl73C"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="mb-4">
+<h3 class="font-h3 text-primary mb-1">Maya Lestari, M.Si.</h3>
+<span class="text-label-sm px-2.5 py-1 rounded bg-primary-fixed text-primary inline-block">Kepala Tata Usaha</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant mb-6 font-label-sm">
+<span class="material-symbols-outlined text-base">mail</span>
+<span>maya.l@scholastica.ac.id</span>
+</div>
+<button class="mt-auto w-full py-3 border border-primary text-primary rounded-lg font-semibold hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+                            Lihat Profil
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Repeat Profile Cards for Grid Density -->
+<!-- Profile Card 5 -->
+<div class="bg-white rounded-xl overflow-hidden card-shadow card-hover border border-slate-100 flex flex-col">
+<div class="h-64 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close up portrait of a young male history teacher with a beard, wearing a classic tweed blazer. He is standing in front of a dark wood bookshelf filled with antique books. The lighting is focused and warm, creating a scholarly and passionate academic vibe. The aesthetic is traditional yet clean and high-end." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdJYiiBGHrm1qfcfgelSPAtF0lUD2ItCs4GZ8Qr0c28JSt99Ac-E9WBn4Df41LagSNj4CThPYHEUjAQN8lNv3_1XOfPJcYQqVmvSruJcPxjf7o6AVRN-Yxsnep0jYizizeJtwqh4jTatjQagKITUtB03RhSVxK2o-72pna05ADHggVavt7IKgNprIWjcLI7Sj336edp2FuuQCSsy6S2vAnBEkhYueMoN-QfxR4ZpE5LGYWgTRGzudWrkVsIhcR1rbbRl2COhpYiNfb"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="mb-4">
+<h3 class="font-h3 text-primary mb-1">Rizky Ramadhan, S.Pd.</h3>
+<span class="text-label-sm px-2.5 py-1 rounded bg-secondary-fixed text-on-secondary-container inline-block">Guru Sejarah</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant mb-6 font-label-sm">
+<span class="material-symbols-outlined text-base">mail</span>
+<span>rizky.r@scholastica.ac.id</span>
+</div>
+<button class="mt-auto w-full py-3 border border-primary text-primary rounded-lg font-semibold hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+                            Lihat Profil
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Profile Card 6 -->
+<div class="bg-white rounded-xl overflow-hidden card-shadow card-hover border border-slate-100 flex flex-col">
+<div class="h-64 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Bright and energetic portrait of a female mathematics teacher in a light blue professional dress. She is smiling broadly in a modern school laboratory equipped with geometric models. The lighting is clean, bright, and modern, utilizing a cool white and soft blue palette that feels fresh and technologically advanced." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZcfLIQSHmxadDsEmHl0L2-XvHQggK7gU2lDIQKOzppfbMi0v_uVewmfDdmjweMAJcs6N67m9D5V3oGviungdWkblB0X2Ndf0Ym_Q2jr-8RlMClD64IW_RWsZBWb1UgzKv8VLwasq0Af6X-wplBIlHP8VZVdNdJxgsYT0ebt7TNi8IjgOmr9AssTUgLnSj9dDU_ZT8oO3HFzF_qM54hVVRzhecl9MmzaVi4rE0dH_-ht0fZNHnuX3QOp-bTkspIZ6Y1_qKVSbsZ6JX"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="mb-4">
+<h3 class="font-h3 text-primary mb-1">Linda Kusuma, M.Mat.</h3>
+<span class="text-label-sm px-2.5 py-1 rounded bg-secondary-fixed text-on-secondary-container inline-block">Guru Matematika</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant mb-6 font-label-sm">
+<span class="material-symbols-outlined text-base">mail</span>
+<span>linda.k@scholastica.ac.id</span>
+</div>
+<button class="mt-auto w-full py-3 border border-primary text-primary rounded-lg font-semibold hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+                            Lihat Profil
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Profile Card 7 -->
+<div class="bg-white rounded-xl overflow-hidden card-shadow card-hover border border-slate-100 flex flex-col">
+<div class="h-64 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of an experienced female language arts teacher wearing an elegant dark navy silk blouse. She is standing in a minimalist school foyer with large glass windows showing green foliage outside. The aesthetic is clean, balanced, and prestigious, with soft ambient light highlighting her professional demeanor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuChKuSN8chO5RYQvI_lf4wdef8XaTAN1Nm95W5IsfdVCJE4-uOWJfJqiF8VIhL9ldx5tDe0cVTQn-Rpbk63iuQU3xPJcJKGuQQqBXcHYgPMLHJ6nPvrVBGmfn6s5_f92KwQnYy-MXT9eswgRStRpzciCRX7OGDX8L7D3ghnfwg9OEliKQkIhiEItXXTrZpgkHYo-bvktsnuwQpUvzWnwJYET5eD8vGMS2xOMyfJQpeVWRWoZEvJ60FRm_gjze_ONMPqjDREc9_KQ7M6"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="mb-4">
+<h3 class="font-h3 text-primary mb-1">Siti Aminah, M.Hum.</h3>
+<span class="text-label-sm px-2.5 py-1 rounded bg-secondary-fixed text-on-secondary-container inline-block">Guru Bhs. Indonesia</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant mb-6 font-label-sm">
+<span class="material-symbols-outlined text-base">mail</span>
+<span>siti.a@scholastica.ac.id</span>
+</div>
+<button class="mt-auto w-full py-3 border border-primary text-primary rounded-lg font-semibold hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+                            Lihat Profil
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Profile Card 8 -->
+<div class="bg-white rounded-xl overflow-hidden card-shadow card-hover border border-slate-100 flex flex-col">
+<div class="h-64 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a young male IT specialist for the school, wearing a smart polo shirt and standing in a state-of-the-art computer lab. Glowing server lights in the background create a high-tech, modern academic feel. The color palette is dominated by professional blues and clean grays, signaling innovation and reliability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeJbXHBidpqFSnVGr50gMrPdkzIqqgV2DRo63Sjy0VtkJloDak-Z-oRpOijVuHNelWyYoZhoOOLaBXwztV19mR0I14vQcKBnupWHLuVoiKRL1QF1AvY4ZyZMdPltbA8YvAPjTCXPfkhhqA9vFkMGUVdVt_SEHKyzNeWggtbsJDAOg9fgWTk3e5RmrYzuumFyapdvkNsOHjfTBtGoghT3DPIYjHyb-EE2hZO-zCm4LU-gnZx800rwVJhV3ZZZs4KCknPrkjOTffzS_Z"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="mb-4">
+<h3 class="font-h3 text-primary mb-1">Kevin Pratama, S.Kom.</h3>
+<span class="text-label-sm px-2.5 py-1 rounded bg-primary-fixed text-primary inline-block">IT Administrator</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant mb-6 font-label-sm">
+<span class="material-symbols-outlined text-base">mail</span>
+<span>kevin.p@scholastica.ac.id</span>
+</div>
+<button class="mt-auto w-full py-3 border border-primary text-primary rounded-lg font-semibold hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+                            Lihat Profil
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Pagination Section -->
+<section class="max-w-[1280px] mx-auto px-6 pb-20">
+<div class="flex items-center justify-center gap-2">
+<button class="p-2 rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-on-primary font-semibold">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-colors">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-colors">3</button>
+<span class="px-2 text-outline-variant">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-colors">12</button>
+<button class="p-2 rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Footer Section -->
+<footer class="bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800">
+<div class="max-w-[1280px] mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+<div>
+<div class="text-lg font-bold text-blue-900 dark:text-white mb-4">Scholastica Academy</div>
+<p class="text-slate-500 dark:text-slate-500 font-inter text-sm mb-4 max-w-sm">
+                    © 2024 Scholastica Academy. Excellence in Education since 1954. Komitmen kami adalah mendidik pemimpin masa depan dengan karakter dan kecerdasan.
+                </p>
+<div class="flex gap-4">
+<a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">mail</span></a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">call</span></a>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-3">
+<h4 class="font-semibold text-primary mb-1">Quick Links</h4>
+<a class="text-slate-500 dark:text-slate-500 font-inter text-sm hover:text-blue-700 dark:hover:text-blue-300 opacity-80 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="text-slate-500 dark:text-slate-500 font-inter text-sm hover:text-blue-700 dark:hover:text-blue-300 opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-semibold text-primary mb-1">Connect</h4>
+<a class="text-slate-500 dark:text-slate-500 font-inter text-sm hover:text-blue-700 dark:hover:text-blue-300 opacity-80 hover:opacity-100" href="#">Campus Security</a>
+<a class="text-slate-500 dark:text-slate-500 font-inter text-sm hover:text-blue-700 dark:hover:text-blue-300 opacity-80 hover:opacity-100" href="#">Contact Directory</a>
+</div>
+</div>
+</div>
+<div class="max-w-[1280px] mx-auto px-6 py-6 border-t border-slate-200 dark:border-slate-800 text-center">
+<p class="text-slate-400 text-xs">Developed with academic excellence in mind. © Scholastica Academy.</p>
+</div>
+</footer>
+</body></html>

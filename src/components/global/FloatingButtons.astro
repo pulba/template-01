@@ -1,0 +1,21 @@
+---
+import Icon from "@/components/ui/Icon.astro";
+---
+
+<div class="fixed bottom-8 right-8 z-[100] flex flex-col gap-4">
+  <!-- WhatsApp CTA -->
+  <a
+    href="https://wa.me/62123456789"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="bg-primary text-on-primary w-14 h-14 rounded-full flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-all duration-200 group relative"
+    aria-label="Chat WhatsApp"
+  >
+    <Icon name="chat" size="lg" />
+    <span
+      class="absolute right-full mr-4 bg-white text-on-surface px-4 py-2 rounded-full shadow-sm text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-outline-variant"
+    >
+      Hubungi via WhatsApp
+    </span>
+  </a>
+</div>

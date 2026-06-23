@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=Public+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#00164e",
+                        "inverse-on-surface": "#f1f0f7",
+                        "surface-container-low": "#f4f3fa",
+                        "surface": "#faf8ff",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#1e3a8a",
+                        "on-surface": "#1a1b21",
+                        "inverse-surface": "#2f3036",
+                        "tertiary-fixed": "#ffdbcb",
+                        "tertiary-container": "#6e2c00",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#90a8ff",
+                        "tertiary": "#4b1c00",
+                        "outline": "#757682",
+                        "on-surface-variant": "#444651",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#264191",
+                        "secondary-container": "#fea619",
+                        "on-secondary-fixed": "#2a1700",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "surface-tint": "#4059aa",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#b6c4ff",
+                        "primary": "#00236f",
+                        "on-tertiary-fixed": "#341100",
+                        "on-secondary-container": "#684000",
+                        "primary-fixed": "#dce1ff",
+                        "secondary": "#855300",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e3e1e9",
+                        "surface-container-high": "#e9e7ef",
+                        "surface-container-highest": "#e3e1e9",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed": "#ffddb8",
+                        "on-background": "#1a1b21",
+                        "surface-dim": "#dad9e1",
+                        "tertiary-fixed-dim": "#ffb951",
+                        "background": "#faf8ff",
+                        "surface-bright": "#faf8ff",
+                        "on-tertiary-fixed-variant": "#773205",
+                        "primary-fixed-dim": "#b6c4ff",
+                        "on-tertiary-container": "#f39461",
+                        "outline-variant": "#c5c5d3",
+                        "surface-container": "#eeedf4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "1.5rem",
+                        "md": "1.5rem",
+                        "max-width": "1280px",
+                        "xs": "0.5rem",
+                        "margin": "2rem",
+                        "xl": "3rem",
+                        "base": "4px",
+                        "sm": "1rem",
+                        "lg": "2rem"
+                    },
+                    "fontFamily": {
+                        "h3": ["Inter"],
+                        "label-sm": ["Public Sans"],
+                        "display-xl": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "h1": ["Inter"],
+                        "body-md": ["Public Sans"],
+                        "h2": ["Inter"],
+                        "body-lg": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "h3": ["1.5rem", {"lineHeight": "2rem", "fontWeight": "600"}],
+                        "label-sm": ["0.875rem", {"lineHeight": "1.25rem", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "display-xl": ["3.75rem", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "display-lg": ["3rem", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "h1": ["2.25rem", {"lineHeight": "2.5rem", "fontWeight": "600"}],
+                        "body-md": ["1rem", {"lineHeight": "1.5rem", "fontWeight": "400"}],
+                        "h2": ["1.875rem", {"lineHeight": "2.25rem", "fontWeight": "600"}],
+                        "body-lg": ["1.125rem", {"lineHeight": "1.75rem", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-shadow {
+            box-shadow: 0 4px 6px -1px rgba(30, 58, 138, 0.08), 0 2px 4px -1px rgba(30, 58, 138, 0.04);
+        }
+        .active-nav-border {
+            border-bottom: 3px solid #00236f;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background">
+<!-- TopAppBar -->
+<header class="bg-white dark:bg-slate-900 docked full-width top-0 z-50 border-b border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none">
+<div class="flex items-center justify-between px-8 py-4 max-w-7xl mx-auto w-full">
+<div class="text-2xl font-bold text-blue-900 dark:text-white uppercase font-inter tracking-tight">
+                Institutional School
+            </div>
+<nav class="hidden md:flex items-center space-x-8">
+<a class="text-blue-900 dark:text-blue-400 border-b-2 border-blue-900 dark:border-blue-400 pb-1 font-bold font-inter tracking-tight transition-all duration-200" href="#">Profil</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium font-inter tracking-tight hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Akademik</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium font-inter tracking-tight hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Guru &amp; Staff</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium font-inter tracking-tight hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Berita</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium font-inter tracking-tight hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Galeri</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium font-inter tracking-tight hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Kontak</a>
+</nav>
+<div class="flex items-center space-x-4">
+<div class="hidden lg:flex items-center space-x-2 text-primary">
+<span class="material-symbols-outlined" data-icon="call">call</span>
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-lg font-bold hover:opacity-80 transition-all duration-200">
+                    PPDB Online
+                </button>
+</div>
+</div>
+</header>
+<main class="min-h-screen">
+<!-- Hero Section -->
+<section class="relative h-[400px] flex items-center overflow-hidden bg-primary">
+<img class="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-overlay" data-alt="A wide-angle cinematic shot of a majestic neoclassical school building facade during the golden hour. The architecture features grand white columns and expansive glass windows reflecting a warm, sunset-lit sky. The atmosphere is prestigious and established, utilizing a deep blue and golden color palette to evoke reliability and academic excellence. The lighting is soft yet dramatic, highlighting the intricate masonry and lush green campus surroundings." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALMwJBPeBaaz8uGLD3NHMHE90HyLt-g1kFU4itKKHEy0QRfGSG11pLxvDTIjF5o1f-QiH87nCy7cwINtJ1-TwEXpG-2uFeKOkabuR2e99aLZED91IjI46C2ocIadxmEyvwC00cGwF8pFx3rdX9jzZoSIfsgk3DY5jLTDWhg2lrwoNFkz1J59aGVV893Fo1PgfPkJ3Fum6ZAV3E6-OUsx68ovX6tMBFuT4ni5i4Vy1UY_C1kCS9AD0bnW0Ow90oVV5YIvv2ppb0_oF-"/>
+<div class="relative z-10 max-w-7xl mx-auto px-8 w-full">
+<nav aria-label="Breadcrumb" class="flex mb-4 text-primary-fixed-dim font-label-sm uppercase tracking-widest">
+<ol class="flex items-center space-x-2">
+<li><a class="hover:text-white" href="#">Beranda</a></li>
+<li><span class="material-symbols-outlined text-sm">chevron_right</span></li>
+<li class="text-white">Profil</li>
+</ol>
+</nav>
+<h1 class="font-display-xl text-white max-w-2xl">Membangun Karakter, Mencetak Pemimpin Masa Depan</h1>
+<p class="font-body-lg text-primary-fixed-dim mt-4 max-w-xl">Dedikasi kami untuk keunggulan akademik dan integritas moral telah membentuk tradisi pendidikan selama lebih dari tiga dekade.</p>
+</div>
+</section>
+<!-- Sub-Navigation -->
+<div class="sticky top-[72px] z-40 bg-white border-b border-slate-200 shadow-sm">
+<div class="max-w-7xl mx-auto px-8">
+<div class="flex space-x-8 overflow-x-auto no-scrollbar py-4">
+<a class="font-label-sm whitespace-nowrap text-primary border-b-2 border-primary pb-4 transition-colors" href="#sejarah">Sejarah</a>
+<a class="font-label-sm whitespace-nowrap text-on-surface-variant hover:text-primary pb-4 transition-colors" href="#visi-misi">Visi &amp; Misi</a>
+<a class="font-label-sm whitespace-nowrap text-on-surface-variant hover:text-primary pb-4 transition-colors" href="#struktur">Struktur Organisasi</a>
+<a class="font-label-sm whitespace-nowrap text-on-surface-variant hover:text-primary pb-4 transition-colors" href="#fasilitas">Fasilitas</a>
+<a class="font-label-sm whitespace-nowrap text-on-surface-variant hover:text-primary pb-4 transition-colors" href="#prestasi">Prestasi</a>
+</div>
+</div>
+</div>
+<!-- Sejarah Section -->
+<section class="py-24 bg-surface" id="sejarah">
+<div class="max-w-7xl mx-auto px-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+<div>
+<span class="text-secondary font-bold font-label-sm tracking-tighter uppercase">Warisan Pendidikan</span>
+<h2 class="font-h1 text-on-surface mt-2 mb-6">Sejarah Singkat</h2>
+<div class="space-y-4 text-on-surface-variant font-body-md leading-relaxed">
+<p>Didirikan pada tahun 1994, Institutional School bermula dari visi sekelompok pendidik yang ingin menciptakan lingkungan belajar yang menggabungkan tradisi akademik yang kuat dengan inovasi modern.</p>
+<p>Selama bertahun-tahun, kami telah berkembang dari sebuah gedung kecil menjadi kompleks pendidikan terpadu yang melayani ribuan siswa dari berbagai latar belakang, tetap teguh pada komitmen awal kami untuk keunggulan.</p>
+</div>
+</div>
+<div class="relative">
+<div class="absolute -inset-4 bg-secondary-fixed rounded-xl -rotate-2"></div>
+<img class="relative rounded-xl tonal-shadow w-full aspect-video object-cover" data-alt="A nostalgic black and white photograph displayed in a modern frame, showing the original small brick school building from 1994 surrounded by young students in vintage uniforms. The image is set against a clean, white gallery wall with soft blue-tinted shadows, bridging the gap between historical heritage and modern minimalist design. The lighting is focused and warm, emphasizing a sense of growth and enduring institutional legacy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8QAT0EkZitdbxj1ZyAm3D8UL8iyjURSxyoKuEcXVluyBaZfmFIPWSX0UzOGfk0TxhrszGOxTbkobbDbKGMqa9XfNrYMteC_lRuvOPPMmz3vh7OPd0PJQ-1dDOgsvxXDkfat1TQipVC61KUuYy_uZJ_olUtEJkUhg2lZJpAmqnXOA2RxbR8oyxcKEdimDbKjBmmxryzuMzq-UHWOoxovsar7V6CC6wSQfWGeZHzk3JPVGyiLjg2ZIHHfmq9zQKi4ov4HwHK1ikXToU"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Visi Misi - Bento Grid -->
+<section class="py-24 bg-white" id="visi-misi">
+<div class="max-w-7xl mx-auto px-8">
+<div class="text-center mb-16">
+<h2 class="font-h1 text-primary">Visi &amp; Misi Kami</h2>
+<p class="text-on-surface-variant mt-4 max-w-2xl mx-auto">Menjadi mercu suar pendidikan yang mencerahkan bangsa melalui integrasi ilmu pengetahuan dan karakter.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="md:col-span-2 bg-primary-container p-12 rounded-xl text-white flex flex-col justify-center tonal-shadow">
+<span class="material-symbols-outlined text-4xl mb-4" data-icon="visibility">visibility</span>
+<h3 class="font-h2 mb-4">Visi</h3>
+<p class="font-body-lg text-primary-fixed opacity-90 leading-relaxed italic">"Terwujudnya insan yang unggul dalam prestasi, berwawasan global, dan berkepribadian luhur berdasarkan nilai-nilai integritas dan kearifan lokal."</p>
+</div>
+<div class="bg-surface-container p-8 rounded-xl flex flex-col items-center text-center border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary text-4xl mb-4" data-icon="school">school</span>
+<h3 class="font-h3 text-primary mb-2">Akademik</h3>
+<p class="text-on-surface-variant font-body-md">Menyelenggarakan kurikulum inovatif yang mendorong pemikiran kritis.</p>
+</div>
+<div class="bg-surface-container p-8 rounded-xl flex flex-col items-center text-center border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary text-4xl mb-4" data-icon="psychology">psychology</span>
+<h3 class="font-h3 text-primary mb-2">Karakter</h3>
+<p class="text-on-surface-variant font-body-md">Membentuk etika kerja dan tanggung jawab sosial siswa.</p>
+</div>
+<div class="bg-surface-container p-8 rounded-xl flex flex-col items-center text-center border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary text-4xl mb-4" data-icon="public">public</span>
+<h3 class="font-h3 text-primary mb-2">Global</h3>
+<p class="text-on-surface-variant font-body-md">Menyiapkan siswa untuk bersaing dan berkontribusi di kancah internasional.</p>
+</div>
+<div class="bg-surface-container p-8 rounded-xl flex flex-col items-center text-center border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary text-4xl mb-4" data-icon="diversity_3">diversity_3</span>
+<h3 class="font-h3 text-primary mb-2">Komunitas</h3>
+<p class="text-on-surface-variant font-body-md">Membangun kolaborasi yang harmonis antara guru, orang tua, dan siswa.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Fasilitas - Mosaic Layout -->
+<section class="py-24 bg-surface-container-low" id="fasilitas">
+<div class="max-w-7xl mx-auto px-8">
+<div class="flex justify-between items-end mb-12">
+<div>
+<h2 class="font-h1 text-on-surface">Fasilitas Kampus</h2>
+<p class="text-on-surface-variant mt-2">Ruang belajar modern untuk mendukung eksplorasi tanpa batas.</p>
+</div>
+<button class="text-primary font-bold flex items-center gap-2 hover:gap-3 transition-all">
+                        Lihat Semua <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-6 h-[600px]">
+<div class="md:col-span-2 md:row-span-2 relative group overflow-hidden rounded-xl">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A grand university library featuring towering bookshelves of dark wood, sleek white study tables, and large arched windows that flood the space with natural morning light. The interior design is a blend of classical academia and modern minimalism, with deep blue accents in the upholstery. The atmosphere is quiet and intellectually stimulating, capturing a sense of high-end educational resources and professional research environments." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQT_qrzHo8xKsqdAiCpko_yCTp378kUBdHWQLXk0-yiWknnJXE_kM6iRSKE61wwa-pFfuOozUTXA5sKZ3UokI1nqKz62C7THMDWUiNytASboRrmJILSTfQz2J-V2v7r4IxMWxSj5tcC52vvErfNLL3QXyEV0hNN4yI9LS_rc41Zg1En2HdXTeV5Mxm1WejSL_ZC9FfItsEGcHsdZxO1R55INJszVik7pd_RMQvkXW7gwkTrHyY1YK6Ug0YtEhoVPO8bFj2sTNTnTJB"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex flex-col justify-end p-8">
+<h3 class="text-white font-h2">Perpustakaan Digital</h3>
+<p class="text-primary-fixed opacity-90">Akses ke ribuan jurnal dan literatur dunia.</p>
+</div>
+</div>
+<div class="md:col-span-2 relative group overflow-hidden rounded-xl">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A state-of-the-art science laboratory with clean white countertops, professional microscopes, and neatly arranged glassware. The room is brightly lit with cool white LED panels, creating a clinical and precise atmosphere. Vibrant blue safety accents and organized equipment reflect a commitment to advanced STEM education. The mood is focused and technologically sophisticated, highlighting a safe and high-tech learning environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBK1RipIXO_ebX4G7n00GtDIMu30aHBAjL4b7MyZQ9U_Q-IqQrkRZ7mgSxOZhNC69AQz3TUGmoLDu11UTJrv9NwoKBZnhGqdGWVdB0JklFndxHu6hZV_xauMHUywlQ8JnhsnlEvKihhoCjVw7-Gz0vEh3TSgmoTZuBDDLgcI8nJ8dbhH8Hn8N25sa4JHkarPfZvM_YCK91RlJvgIt027HT23v_oTTqp2Np4BbLu0qJk3l0MGHOuK1PbyXBTgQSso6spcNl3ibx6SujA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex flex-col justify-end p-6">
+<h3 class="text-white font-h3">Laboratorium Sains</h3>
+</div>
+</div>
+<div class="md:col-span-1 relative group overflow-hidden rounded-xl">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="An indoor high-performance basketball court with polished hardwood floors reflecting the overhead stadium lights. The walls are painted in deep institutional blue with bold white school logos. The facility is pristine and professional, suggesting a high standard for athletic development and school spirit. The lighting is sharp and high-key, creating an energetic and vibrant atmosphere focused on sports excellence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOvkbSTiQkb6Ct7paiDLLA7ASef6sc8c-Sx0TWXM58QbfBl60quX46P7I_rw8vcqsuUKjEtRTeDFNTthckso-nd3jyoiA_XzasSUx0FiugplRpIP3p1Zh9-C1ioVAa1wg7_5p57nboSlj10G8OTBebSv7QU38feqnRPGJ2iz2MhPMTNiSqanBAOAFCNonOLpTzFsbymIqkvXZrpfPyQbvJ61kWQaI7iLPoetDdkEVg81dTBrbeNsUhcvcRfP3Rl_8jBWmh6Z3nnNsA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex flex-col justify-end p-4">
+<h3 class="text-white font-label-sm font-bold">Gedung Olahraga</h3>
+</div>
+</div>
+<div class="md:col-span-1 relative group overflow-hidden rounded-xl">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A modern, glass-walled computer lab filled with rows of high-end monitors showing creative design software. The room features ergonomic seating and acoustic wall panels in soft gray and blue tones. The lighting is ambient and low-glare, ideal for long hours of digital creativity. The space feels collaborative and technologically forward-thinking, emphasizing a high-standard digital literacy curriculum in a sleek corporate-modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB4EGlkKXpwXn-ojwg3VtUPiFh1g5uNsWmfhGSeeO5XAkA4EUL-yZTpZ_zGsd7Dr0SB4EID5iiye-ucvulU3uNuqnxTQRsT6c-85UYEPkzyGh6nuJppsMnaHHw6AdkZlYLieE91Gcwp2VwPIobF-CUSpW-F9ho-MVQ8XG26kOcebCVMPppRkNOa2M6kfHpCQKNTLA2_O8hW3xve_oWuaGDQ19nFOitGU8hxsWsvuXl6HPtXh09lyjQrKOw1VM6r-tb37xmznp1tKky"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex flex-col justify-end p-4">
+<h3 class="text-white font-label-sm font-bold">Studio Multimedia</h3>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Prestasi Section -->
+<section class="py-24 bg-white" id="prestasi">
+<div class="max-w-7xl mx-auto px-8">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+<div class="lg:col-span-1">
+<h2 class="font-h1 text-on-surface">Jejak Prestasi</h2>
+<p class="text-on-surface-variant mt-4 mb-8">Bukti nyata dari dedikasi kami dalam mengasah potensi setiap siswa di berbagai bidang kompetisi.</p>
+<div class="space-y-6">
+<div class="flex items-start gap-4">
+<div class="bg-secondary-fixed p-3 rounded-lg text-secondary">
+<span class="material-symbols-outlined">emoji_events</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">500+ Medali Emas</h4>
+<p class="text-sm text-on-surface-variant">Kompetisi Sains &amp; Matematika Nasional (2018-2023)</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="bg-secondary-fixed p-3 rounded-lg text-secondary">
+<span class="material-symbols-outlined">public</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Global Citizenship Award</h4>
+<p class="text-sm text-on-surface-variant">Pencapaian Internasional bidang Inovasi Lingkungan</p>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-2">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-surface p-6 rounded-xl border border-outline-variant/30 tonal-shadow">
+<div class="flex justify-between items-start mb-4">
+<span class="bg-primary-fixed text-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Terbaru</span>
+<span class="text-outline text-sm">2023</span>
+</div>
+<h3 class="font-h3 text-primary mb-2">Juara 1 Debat Bahasa Inggris</h3>
+<p class="text-on-surface-variant font-body-md">Tingkat Provinsi dalam ajang bergengsi National School Debating Championship.</p>
+</div>
+<div class="bg-surface p-6 rounded-xl border border-outline-variant/30 tonal-shadow">
+<div class="flex justify-between items-start mb-4">
+<span class="bg-primary-fixed text-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Sains</span>
+<span class="text-outline text-sm">2023</span>
+</div>
+<h3 class="font-h3 text-primary mb-2">Medali Perak Olimpiade Kimia</h3>
+<p class="text-on-surface-variant font-body-md">Pencapaian luar biasa siswa kami di tingkat nasional (OSN).</p>
+</div>
+<div class="bg-surface p-6 rounded-xl border border-outline-variant/30 tonal-shadow">
+<div class="flex justify-between items-start mb-4">
+<span class="bg-primary-fixed text-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Seni</span>
+<span class="text-outline text-sm">2022</span>
+</div>
+<h3 class="font-h3 text-primary mb-2">Pemenang Festival Paduan Suara</h3>
+<p class="text-on-surface-variant font-body-md">Meraih skor tertinggi untuk kategori teknik vokal dan harmonisasi terbaik.</p>
+</div>
+<div class="bg-surface p-6 rounded-xl border border-outline-variant/30 tonal-shadow">
+<div class="flex justify-between items-start mb-4">
+<span class="bg-primary-fixed text-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Olahraga</span>
+<span class="text-outline text-sm">2022</span>
+</div>
+<h3 class="font-h3 text-primary mb-2">Juara Umum Basket Putra</h3>
+<p class="text-on-surface-variant font-body-md">Mempertahankan gelar juara bertahan selama tiga tahun berturut-turut.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 w-full py-12 border-t mt-auto border-t border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+<div class="col-span-1 md:col-span-1">
+<div class="text-xl font-black text-blue-900 dark:text-white uppercase mb-4">Institutional School</div>
+<p class="text-slate-500 dark:text-slate-400 font-inter text-sm leading-relaxed">Pendidikan berkelas dunia dengan akar budaya lokal yang kuat. Membentuk pemimpin berintegritas untuk masa depan gemilang.</p>
+</div>
+<div>
+<h4 class="font-bold text-blue-900 dark:text-blue-400 mb-4">Pranala Cepat</h4>
+<ul class="space-y-2">
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-blue-900 dark:hover:text-white underline transition-opacity duration-200" href="#">Campus Map</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-blue-900 dark:hover:text-white underline transition-opacity duration-200" href="#">Alumni Portal</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-blue-900 dark:hover:text-white underline transition-opacity duration-200" href="#">Terms of Service</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-blue-900 dark:hover:text-white underline transition-opacity duration-200" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-blue-900 dark:text-blue-400 mb-4">Hubungi Kami</h4>
+<ul class="text-slate-500 dark:text-slate-400 text-sm space-y-2">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">location_on</span> Jl. Pendidikan No. 123, Jakarta</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">call</span> +62 21 1234 5678</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">mail</span> info@inst-school.ac.id</li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-blue-900 dark:text-blue-400 mb-4">Newsletter</h4>
+<div class="flex">
+<input class="w-full px-4 py-2 rounded-l-lg border border-slate-200 focus:outline-none focus:ring-1 focus:ring-primary" placeholder="Email Anda" type="email"/>
+<button class="bg-primary text-white px-4 py-2 rounded-r-lg font-bold">Gabung</button>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-8 mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 text-center">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-inter leading-relaxed">© 2024 Institutional School. All rights reserved. Academic Prestige &amp; Reliability.</p>
+</div>
+</footer>
+</body></html>

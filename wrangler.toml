@@ -1,0 +1,8 @@
+name = "institutional-school"
+compatibility_date = "2024-04-01"
+compatibility_flags = [ "nodejs_compat" ]
+pages_build_output_dir = "dist"
+
+# [vars]
+# Do not store secrets here.
+# Configure TURSO_DATABASE_URL and TURSO_AUTH_TOKEN in the Cloudflare dashboard.

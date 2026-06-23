@@ -1,0 +1,224 @@
+---
+// unduh/index.astro - Download Center Page
+import MainLayout from '@/layouts/MainLayout.astro';
+import Container from '@/components/ui/Container.astro';
+
+const profile = Astro.locals.schoolProfile;
+const schoolName = profile?.schoolName || 'SMA Negeri 1 Nusantara';
+
+const documents = [
+  {
+    id: "doc-1",
+    title: "Buku Panduan Pendaftaran PPDB 2026",
+    category: "PPDB",
+    size: "2.4 MB",
+    format: "PDF",
+    desc: "Panduan lengkap alur pendaftaran, persyaratan berkas, dan panduan teknis pengisian formulir online.",
+    url: "#"
+  },
+  {
+    id: "doc-2",
+    title: "Formulir Surat Pernyataan Siswa Baru",
+    category: "Administrasi",
+    size: "120 KB",
+    format: "PDF",
+    desc: "Dokumen pernyataan tata tertib dan kepatuhan norma sekolah yang wajib ditandatangani di atas materai.",
+    url: "#"
+  },
+  {
+    id: "doc-3",
+    title: "Kalender Akademik TA 2025/2026",
+    category: "Akademik",
+    size: "1.5 MB",
+    format: "PDF",
+    desc: "Kalender resmi berisi pembagian masa belajar, libur nasional, jadwal ujian, dan agenda penting sekolah.",
+    url: "#"
+  },
+  {
+    id: "doc-4",
+    title: "Brosur Digital Profil Sekolah SMAN 1",
+    category: "PPDB",
+    size: "4.2 MB",
+    format: "PDF",
+    desc: "Brosur promosi yang memuat profil guru, daftar fasilitas, prestasi unggulan, dan daftar ekstrakurikuler.",
+    url: "#"
+  },
+  {
+    id: "doc-5",
+    title: "Jadwal Pelajaran Mingguan Semester Ganjil",
+    category: "Akademik",
+    size: "850 KB",
+    format: "PDF",
+    desc: "Jadwal pembagian mata pelajaran, jam mengajar guru, dan alokasi waktu ruang kelas KBM reguler.",
+    url: "#"
+  }
+];
+
+const categories = ["Semua", "PPDB", "Akademik", "Administrasi"];
+---
+
+<MainLayout title={`Pusat Unduhan | ${schoolName}`} description="Pusat dokumen dan berkas penting resmi dari sekolah. Unduh brosur, kalender akademik, dan surat pernyataan di sini.">
+  <!-- 1. Hero Section -->
+  <section class="relative bg-surface-variant overflow-hidden py-20 md:py-32">
+    <div class="absolute inset-0 opacity-20 pointer-events-none">
+      <div class="absolute top-0 right-0 w-64 h-64 bg-primary rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+      <div class="absolute bottom-0 left-0 w-80 h-80 bg-secondary-container rounded-full blur-3xl translate-y-1/3 -translate-x-1/3"></div>
+    </div>
+    
+    <Container class="relative z-10 text-center max-w-4xl mx-auto">
+      <span class="inline-block px-4 py-1.5 bg-primary/10 text-primary text-xs font-semibold rounded-full tracking-wider uppercase mb-4">
+        Download Center
+      </span>
+      <h1 class="text-3xl md:text-5xl font-bold text-on-surface font-inter tracking-tight mb-6">
+        Pusat Dokumen & File Resmi
+      </h1>
+      <p class="text-base md:text-lg text-on-surface-variant leading-relaxed max-w-2xl mx-auto font-medium">
+        Temukan dan unduh berkas administrasi, panduan pendaftaran PPDB, kalender kegiatan, dan dokumen resmi sekolah lainnya secara praktis di satu tempat.
+      </p>
+    </Container>
+  </section>
+
+  <!-- 2. Main content section with filters & search -->
+  <section class="py-16 bg-white min-h-[50vh]">
+    <Container>
+      <div class="max-w-4xl mx-auto space-y-10">
+        <!-- Control Panel (Search & Filter) -->
+        <div class="bg-surface-container-low p-6 rounded-3xl border border-outline-variant/60 flex flex-col md:flex-row gap-6 justify-between items-center shadow-sm">
+          <!-- Filter Buttons -->
+          <div class="flex flex-wrap gap-2 w-full md:w-auto justify-center">
+            {categories.map((cat, idx) => (
+              <button
+                type="button"
+                data-category={cat}
+                class={`filter-btn px-5 py-2.5 rounded-full text-xs font-bold transition-all cursor-pointer ${idx === 0 ? 'bg-primary text-white shadow-sm' : 'bg-white hover:bg-primary/5 text-on-surface-variant border border-outline-variant'}`}
+              >
+                {cat === 'Semua' ? 'Semua Berkas' : cat}
+              </button>
+            ))}
+          </div>
+
+          <!-- Search Bar -->
+          <div class="relative w-full md:w-72">
+            <input
+              type="text"
+              id="search-docs"
+              placeholder="Cari nama berkas..."
+              class="w-full bg-white border border-outline-variant focus:border-primary/40 rounded-full py-2.5 pl-11 pr-5 transition-all text-sm font-semibold outline-none text-on-surface"
+            />
+            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary opacity-40 text-lg">search</span>
+          </div>
+        </div>
+
+        <!-- Documents List -->
+        <div id="docs-list" class="space-y-6">
+          {documents.map((doc) => (
+            <div
+              data-cat={doc.category}
+              class="doc-item bg-white p-6 rounded-3xl border border-outline-variant hover:border-primary/20 hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row gap-5 items-start sm:items-center justify-between"
+            >
+              <div class="flex items-start gap-4">
+                <!-- Icon representation -->
+                <div class="w-12 h-12 rounded-2xl bg-primary/5 text-primary flex items-center justify-center shrink-0 border border-primary/10">
+                  <span class="material-symbols-outlined text-2xl">description</span>
+                </div>
+                
+                <div class="space-y-1">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <h3 class="font-bold text-on-surface text-base leading-snug doc-title">{doc.title}</h3>
+                    <span class="px-2.5 py-0.5 bg-secondary-container/10 text-on-secondary-fixed text-[10px] font-bold rounded uppercase tracking-wider">
+                      {doc.category}
+                    </span>
+                  </div>
+                  <p class="text-on-surface-variant text-xs leading-relaxed max-w-xl">
+                    {doc.desc}
+                  </p>
+                  <div class="flex items-center gap-3 text-[11px] font-bold text-primary/70">
+                    <span class="uppercase">{doc.format}</span>
+                    <span class="w-1.5 h-1.5 bg-outline rounded-full"></span>
+                    <span>{doc.size}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action button -->
+              <a
+                href={doc.url}
+                class="w-full sm:w-auto bg-primary text-white font-semibold py-3 px-6 rounded-full active:scale-[0.95] transition-all flex items-center justify-center gap-2 text-xs shadow-sm hover:shadow-md cursor-pointer"
+                download
+              >
+                <span class="material-symbols-outlined text-base">download</span>
+                <span>Unduh File</span>
+              </a>
+            </div>
+          ))}
+        </div>
+
+        <!-- Empty State (Hidden by default) -->
+        <div id="empty-state" class="hidden text-center py-20 bg-background rounded-3xl border border-outline-variant/60">
+          <span class="text-5xl mb-4 block">🔍</span>
+          <h3 class="text-lg font-bold text-on-surface mb-1">Berkas Tidak Ditemukan</h3>
+          <p class="text-xs text-on-surface-variant max-w-[280px] mx-auto">
+            Tidak ada dokumen yang cocok dengan kata kunci atau kategori pencarian Anda.
+          </p>
+        </div>
+      </div>
+    </Container>
+  </section>
+</MainLayout>
+
+<script is:inline>
+  (function() {
+    const searchInput = document.getElementById('search-docs');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const docItems = document.querySelectorAll('.doc-item');
+    const emptyState = document.getElementById('empty-state');
+
+    let currentCategory = 'Semua';
+    let searchQuery = '';
+
+    function filterDocs() {
+      let visibleCount = 0;
+      docItems.forEach(item => {
+        const title = item.querySelector('.doc-title').textContent.toLowerCase();
+        const cat = item.getAttribute('data-cat');
+
+        const matchesCat = currentCategory === 'Semua' || cat === currentCategory;
+        const matchesSearch = title.includes(searchQuery.toLowerCase());
+
+        if (matchesCat && matchesSearch) {
+          item.classList.remove('hidden');
+          item.classList.add('flex');
+          visibleCount++;
+        } else {
+          item.classList.add('hidden');
+          item.classList.remove('flex');
+        }
+      });
+
+      if (visibleCount === 0) {
+        emptyState.classList.remove('hidden');
+      } else {
+        emptyState.classList.add('hidden');
+      }
+    }
+
+    searchInput?.addEventListener('input', function(e) {
+      searchQuery = e.target.value.trim();
+      filterDocs();
+    });
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        // Toggle active styles
+        filterButtons.forEach(b => {
+          b.className = 'filter-btn px-5 py-2.5 rounded-full text-xs font-bold transition-all cursor-pointer bg-white hover:bg-primary/5 text-on-surface-variant border border-outline-variant';
+        });
+        
+        btn.className = 'filter-btn px-5 py-2.5 rounded-full text-xs font-bold transition-all cursor-pointer bg-primary text-white shadow-sm';
+        
+        currentCategory = btn.getAttribute('data-category');
+        filterDocs();
+      });
+    });
+  })();
+</script>

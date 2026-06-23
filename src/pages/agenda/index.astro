@@ -1,0 +1,41 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro';
+import Container from '@/components/ui/Container.astro';
+import AgendaCalendarHero from '@/components/agenda/AgendaCalendarHero.astro';
+import AgendaTimeline from '@/components/agenda/AgendaTimeline.astro';
+import { AgendaService } from '@/lib/services/agenda.service';
+import { SchoolService } from '@/lib/services/school.service';
+
+const agendas = await AgendaService.getAllAgendas();
+const profile = await SchoolService.getProfile();
+const schoolName = profile?.schoolName || 'Institutional School';
+---
+
+<MainLayout title={`Agenda & Kegiatan | ${schoolName}`}>
+  <!-- 1. Hero Section -->
+  <AgendaCalendarHero 
+    title="Agenda & Kegiatan Sekolah" 
+    subtitle="Pantau terus jadwal kegiatan akademik dan non-akademik kami agar Anda tidak melewatkan momen penting di Institutional School."
+  />
+
+  <!-- 2. Agenda Timeline Section -->
+  <section class="py-24 bg-surface-container-low min-h-[60vh]">
+    <Container>
+      <div class="max-w-4xl mx-auto">
+        {agendas.length > 0 ? (
+          <div class="space-y-12">
+            <div class="flex items-center gap-6">
+              <span class="font-bold text-primary uppercase tracking-widest text-sm">Agenda Hari Ini & Mendatang</span>
+              <div class="flex-grow h-px bg-outline-variant"></div>
+            </div>
+            <AgendaTimeline agendas={agendas} />
+          </div>
+        ) : (
+          <div class="text-center py-20 bg-white rounded-lg border border-dashed border-outline">
+            <p class="text-on-surface-variant font-medium">Belum ada agenda mendatang yang terdaftar.</p>
+          </div>
+        )}
+      </div>
+    </Container>
+  </section>
+</MainLayout>

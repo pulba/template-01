@@ -1,0 +1,53 @@
+---
+import Container from '@/components/ui/Container.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Button from '@/components/ui/Button.astro';
+import AgendaItem from '@/components/home/AgendaItem.astro';
+
+interface Agenda {
+  day: string;
+  month: string;
+  title: string;
+  time: string;
+  location: string;
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  agendaItems: Agenda[];
+}
+
+const { 
+  title = "Agenda Mendatang", 
+  description = "Jangan lewatkan momen penting di sekolah. Catat tanggalnya!",
+  agendaItems 
+} = Astro.props;
+---
+
+<section class="py-20">
+  <Container>
+    <div class="bg-primary text-white rounded-[1.125rem] p-6 md:p-10 overflow-hidden relative">
+      <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Content Column -->
+        <div class="lg:col-span-4">
+          <h2 class="font-h1 mb-4 text-primary-fixed">{title}</h2>
+          <p class="text-primary-fixed opacity-80 font-body-lg mb-6 leading-relaxed">
+            {description}
+          </p>
+          <Button href="/agenda" variant="outline-glass" class="bg-white text-primary px-8 py-3 rounded-full font-semibold flex items-center gap-2 hover:bg-primary-fixed transition-colors">
+            <Icon name="event" /> 
+            Seluruh Agenda
+          </Button>
+        </div>
+
+        <!-- Agenda List Column -->
+        <div class="lg:col-span-8 space-y-4">
+          {agendaItems.map(item => (
+            <AgendaItem {...item} />
+          ))}
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>

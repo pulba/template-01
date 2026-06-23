@@ -1,0 +1,212 @@
+---
+interface Props {
+  schoolName?: string;
+  phone?: string;
+  email?: string;
+  logo?: string;
+}
+
+const {
+  schoolName = "Institutional School",
+  phone = "0211234567",
+  email = "info@institutionalschool.sch.id",
+  logo = "",
+} = Astro.props;
+
+import Button from "@/components/ui/Button.astro";
+import Icon from "@/components/ui/Icon.astro";
+import { MenuService } from "@/lib/services/menu.service";
+
+const term = Astro.locals.terminology?.dictionary;
+
+const dynamicMenus = await MenuService.getMenuTree();
+const _unusedPhone = phone;
+const _unusedEmail = email;
+
+interface HeaderNavLink {
+  name: string;
+  href: string;
+  children?: { label: string; href: string }[];
+}
+
+// Fallback to defaults if no menus configured in CMS
+const navLinks: HeaderNavLink[] = dynamicMenus.length > 0 
+  ? dynamicMenus.map(m => ({ name: m.label, href: m.href, children: m.children?.map(c => ({ label: c.label, href: c.href })) }))
+  : [
+      { name: "Profil", href: "/profil" },
+      { name: term?.major?.plural || "Jurusan", href: "/jurusan" },
+      { name: term?.teacher?.plural || "Guru & Staff", href: "/guru-staff" },
+      { name: "OSIS", href: "/osis" },
+      { name: "Berita", href: "/berita" },
+      { name: "Galeri", href: "/galeri" },
+      { name: "Agenda", href: "/agenda" },
+      { name: "Unduhan", href: "/unduh" },
+      { name: "Kontak", href: "/kontak" },
+    ];
+---
+
+<scroll-header style="display: contents;">
+  <header
+    id="main-header"
+    class="relative bg-surface w-full z-50 border-b border-outline-variant shadow-sm sticky top-0 transition-transform duration-300 ease-in-out"
+  >
+    <div
+      class="flex items-center justify-between px-6 lg:px-10 py-3 w-full mx-auto"
+    >
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2">
+        {
+          logo ? (
+            <>
+              <img
+                src={logo}
+                alt={schoolName}
+                class="h-10 md:h-12 w-auto object-contain"
+              />
+              <span class="text-base md:text-xl font-bold text-primary font-inter block sm:block max-w-[150px] sm:max-w-none">
+                {schoolName}
+              </span>
+            </>
+          ) : (
+            <span class="text-xl md:text-2xl font-bold text-primary uppercase font-inter tracking-tight">
+              {schoolName}
+            </span>
+          )
+        }
+      </a>
+
+      <!-- Desktop Menu -->
+      <nav class="hidden md:flex items-center gap-5 lg:gap-8">
+        {
+          navLinks.map((link) => {
+            const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+            const linkHref = link.href.replace(/\/$/, '') || '/';
+            const isActive = linkHref === '/'
+              ? pathname === '/'
+              : pathname === linkHref || pathname.startsWith(linkHref + '/');
+            
+            const hasChildren = link.children && link.children.length > 0;
+
+            return (
+              <div class="relative group">
+                <a
+                  href={link.href}
+                  class:list={[
+                    "py-2 font-inter tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 transition-colors duration-200 relative flex items-center gap-1 text-sm lg:text-base",
+                    isActive
+                      ? "text-primary font-semibold"
+                      : "text-on-surface-variant hover:text-primary font-medium",
+                  ]}
+                >
+                  {link.name}
+                  {hasChildren && <Icon name="chevron-down" size="xs" class="opacity-50 group-hover:rotate-180 transition-transform" />}
+                  
+                  {isActive && (
+                    <span class="absolute left-0 w-full h-[2px] bg-primary rounded-t-sm" style="bottom: -1px;" />
+                  )}
+                  {!isActive && (
+                    <span class="absolute left-0 w-0 h-[2px] bg-primary/40 rounded-t-sm transition-all duration-300 group-hover:w-full" style="bottom: -1px;" />
+                  )}
+                </a>
+
+                {hasChildren && (
+                  <div class="absolute top-full left-0 pt-2 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-200 z-50">
+                    <div class="bg-surface border border-outline-variant rounded-xl shadow-xl min-w-[200px] overflow-hidden p-1">
+                      {link.children?.map((child) => (
+                        <a 
+                          href={child.href}
+                          class="block px-4 py-2.5 text-sm font-medium text-on-surface-variant hover:bg-primary/5 hover:text-primary rounded-lg transition-colors"
+                        >
+                          {child.label}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })
+        }
+      </nav>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-4">
+        <Button variant="primary" class="hidden md:block shadow-sm hover:shadow-md transition-shadow font-semibold px-6" href="/pendaftaran">
+          {term?.admissions?.short || "PPDB"}
+        </Button>
+
+        <!-- Mobile Toggle -->
+        <button
+          id="mobile-menu-toggle"
+          class="md:hidden text-primary p-2 hover:text-primary/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 transition-colors"
+          aria-label="Buka menu navigasi"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <Icon name="menu" size="lg" />
+        </button>
+      </div>
+    </div>
+  </header>
+</scroll-header>
+
+<script>
+  class ScrollHeader extends HTMLElement {
+    private lastScrollY: number;
+    private header: HTMLElement | null;
+    private tolerance: number;
+
+    constructor() {
+      super();
+      this.lastScrollY = window.scrollY;
+      this.header = this.querySelector("header");
+      this.tolerance = 15;
+
+      // Bind context to method
+      this.handleScroll = this.handleScroll.bind(this);
+    }
+
+    connectedCallback() {
+      if (this.header) {
+        window.addEventListener("scroll", this.handleScroll, { passive: true });
+      }
+    }
+
+    disconnectedCallback() {
+      window.removeEventListener("scroll", this.handleScroll);
+    }
+
+    handleScroll() {
+      if (!this.header) return;
+
+      const currentScrollY = window.scrollY;
+
+      // Kondisi saat di posisi paling atas halaman
+      if (currentScrollY <= 0) {
+        this.header.style.transform = "translateY(0)";
+        this.lastScrollY = currentScrollY;
+        return;
+      }
+
+      // Dapatkan selisih scroll
+      const diff = currentScrollY - this.lastScrollY;
+
+      // Gunakan tolerance untuk mencegah flickering pada scroll kecil
+      if (Math.abs(diff) < this.tolerance) {
+        return;
+      }
+
+      if (currentScrollY > this.lastScrollY) {
+        // Scroll ke bawah: sembunyikan header
+        this.header.style.transform = "translateY(-100%)";
+      } else {
+        // Scroll ke atas: tampilkan header
+        this.header.style.transform = "translateY(0)";
+      }
+
+      this.lastScrollY = currentScrollY;
+    }
+  }
+
+  customElements.define("scroll-header", ScrollHeader);
+</script>

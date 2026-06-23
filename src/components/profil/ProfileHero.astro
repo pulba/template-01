@@ -1,0 +1,34 @@
+---
+import Container from '@/components/ui/Container.astro';
+
+interface Props {
+  title: string;
+  subtitle: string;
+  backgroundImage: string;
+}
+
+const { title, subtitle, backgroundImage } = Astro.props;
+---
+
+<section class="relative h-[480px] flex items-center justify-center overflow-hidden">
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-b from-primary/90 to-primary/70 z-10"></div>
+  
+  <!-- Background Image -->
+  <img 
+    src={backgroundImage} 
+    alt={title}
+    class="absolute inset-0 w-full h-full object-cover scale-105"
+    loading="eager"
+    fetchpriority="high"
+    decoding="sync"
+  />
+  
+  <Container class="relative z-20 text-center text-white">
+    <h1 class="text-2xl md:text-3xl font-bold mb-6 text-white drop-shadow-lg">{title}</h1>
+    <p class="font-body-lg text-primary-fixed opacity-90 max-w-2xl mx-auto leading-relaxed">
+      {subtitle}
+    </p>
+    <div class="w-24 h-1 bg-secondary-container mx-auto mt-10 rounded-full"></div>
+  </Container>
+</section>

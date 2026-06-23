@@ -1,0 +1,161 @@
+---
+import Container from "@/components/ui/Container.astro";
+import SectionHeader from "@/components/ui/SectionHeader.astro";
+import { Image } from "astro:assets";
+import type { StaffMember } from "@/types/homepage";
+
+interface Props {
+  staffItems: StaffMember[];
+}
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+const { staffItems } = Astro.props;
+const term = Astro.locals.terminology?.dictionary;
+---
+
+<section class="section-padding bg-surface-variant">
+  <Container>
+    <SectionHeader
+      title={term?.teacher?.plural || "Guru & Tenaga Pendidik"}
+      subtitle="Mengenal lebih dekat para pendidik dan staf profesional kami."
+      viewAllLink="/guru-staff"
+      viewAllText={`Semua ${term?.teacher?.label || "Staff"}`}
+    />
+
+    <div class="relative px-2 md:px-12 mt-10">
+      <div class="swiper staff-swiper w-full">
+        <div class="swiper-wrapper py-4">
+          {
+            staffItems.map((staff) => (
+              <div class="swiper-slide !h-auto">
+                <div class="bg-surface rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 h-full flex flex-col border border-outline-variant">
+                  <div class="relative w-full aspect-[4/5] bg-surface-container-highest overflow-hidden">
+                    {staff.image ? (
+                      <img
+                        src={staff.image}
+                        alt={staff.name}
+                        class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div class="w-full h-full flex items-center justify-center text-on-surface-variant">
+                        <span class="text-4xl">🧑‍🏫</span>
+                      </div>
+                    )}
+                    <div class="absolute top-4 left-4">
+                      <span class="px-3 py-1 bg-primary text-on-primary text-xs font-semibold rounded-full shadow-sm">
+                        {staff.category}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="p-6 flex flex-col flex-grow text-center">
+                    <h3 class="text-lg font-bold text-on-surface font-inter mb-1 leading-tight">
+                      {staff.name}
+                    </h3>
+                    <p class="text-sm font-medium text-primary mb-3">
+                      {staff.title}
+                    </p>
+
+                    {staff.subject && (
+                      <div class="mt-auto inline-block mx-auto bg-surface-variant text-on-surface px-3 py-1 rounded-md text-xs font-medium">
+                        {staff.subject}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+
+        <!-- Pagination -->
+        <div class="swiper-pagination !-bottom-2 md:!-bottom-6"></div>
+      </div>
+
+      <!-- Custom Navigation -->
+      <button
+        class="staff-swiper-prev absolute top-1/2 -translate-y-1/2 left-0 z-10 w-10 h-10 flex items-center justify-center bg-surface shadow-md border border-outline-variant rounded-full text-on-surface hover:text-primary hover:border-primary disabled:opacity-50 disabled:cursor-not-allowed transition-all hidden md:flex"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg
+        >
+      </button>
+      <button
+        class="staff-swiper-next absolute top-1/2 -translate-y-1/2 right-0 z-10 w-10 h-10 flex items-center justify-center bg-surface shadow-md border border-outline-variant rounded-full text-on-surface hover:text-primary hover:border-primary disabled:opacity-50 disabled:cursor-not-allowed transition-all hidden md:flex"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg
+        >
+      </button>
+    </div>
+  </Container>
+</section>
+
+<script>
+  import Swiper from "swiper";
+  import { Navigation, Pagination, Autoplay } from "swiper/modules";
+
+  function initStaffSlider() {
+    new Swiper(".staff-swiper", {
+      modules: [Navigation, Pagination, Autoplay],
+      slidesPerView: 1,
+      spaceBetween: 24,
+      loop: true,
+      autoplay: {
+        delay: 4000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: ".staff-swiper .swiper-pagination",
+        clickable: true,
+        dynamicBullets: true,
+      },
+      navigation: {
+        nextEl: ".staff-swiper-next",
+        prevEl: ".staff-swiper-prev",
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 2,
+        },
+        1024: {
+          slidesPerView: 3,
+        },
+        1280: {
+          slidesPerView: 4,
+        },
+      },
+    });
+  }
+
+  // Run on first load
+  initStaffSlider();
+</script>
+
+<style is:global>
+  .staff-swiper {
+    padding-bottom: 3rem !important;
+  }
+  .staff-swiper .swiper-pagination-bullet {
+    background: var(--theme-primary, #00288e);
+  }
+</style>

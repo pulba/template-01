@@ -1,0 +1,173 @@
+---
+// PpdbInfo.astro - Documents and Schedule Information (Dynamic from CMS)
+import type { AdmissionProgram } from '@/lib/services/admission.service';
+
+interface Props {
+  activeProgram?: AdmissionProgram;
+}
+
+const { activeProgram } = Astro.props;
+
+const requirements = [
+  "Cetak Bukti Registrasi Online (1 lembar)",
+  "Fotokopi Ijazah / Surat Keterangan Lulus (SKL) dilegalisir (1 lembar)",
+  "Fotokopi Akta Kelahiran & Kartu Keluarga (masing-masing 1 lembar)",
+  "Pasfoto berwarna terbaru ukuran 3x4 (2 lembar)",
+  "Fotokopi Kartu KIP / KKS / PKH (khusus jalur afirmasi)"
+];
+
+/**
+ * Helper: Format ISO date string to Indonesian locale display.
+ * e.g. "2026-07-05" → "5 Juli 2026"
+ */
+function formatDate(isoDate?: string | null): string {
+  if (!isoDate) return 'Belum ditentukan';
+  try {
+    const d = new Date(isoDate);
+    return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+  } catch {
+    return isoDate; // fallback to raw string
+  }
+}
+
+/**
+ * Helper: Format a date range from two ISO strings.
+ * e.g. ("2026-05-01", "2026-06-30") → "1 Mei - 30 Juni 2026"
+ */
+function formatDateRange(start?: string | null, end?: string | null): string {
+  if (!start && !end) return 'Belum ditentukan';
+  if (start && !end) return `${formatDate(start)} - selesai`;
+  if (!start && end) return `s/d ${formatDate(end)}`;
+  
+  const s = new Date(start!);
+  const e = new Date(end!);
+  
+  // Same year — omit year on start date
+  if (s.getFullYear() === e.getFullYear()) {
+    const startStr = s.toLocaleDateString('id-ID', { day: 'numeric', month: 'long' });
+    const endStr = e.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+    return `${startStr} - ${endStr}`;
+  }
+  
+  return `${formatDate(start)} - ${formatDate(end)}`;
+}
+
+// Build timeline dynamically from the active program
+const timeline = [
+  { 
+    label: "Pendaftaran Online", 
+    date: activeProgram 
+      ? formatDateRange(activeProgram.startDate, activeProgram.endDate) 
+      : "Belum ditentukan",
+    icon: "edit_note"
+  },
+  { 
+    label: "Ujian Seleksi Potensi", 
+    date: activeProgram 
+      ? formatDate(activeProgram.examDate) 
+      : "Belum ditentukan",
+    icon: "school"
+  },
+  { 
+    label: "Pengumuman Hasil", 
+    date: activeProgram 
+      ? formatDate(activeProgram.announcementDate) 
+      : "Belum ditentukan",
+    icon: "campaign"
+  },
+  { 
+    label: "Daftar Ulang", 
+    date: activeProgram 
+      ? formatDate(activeProgram.reRegistrationDate) 
+      : "Belum ditentukan",
+    icon: "how_to_reg"
+  }
+];
+
+const faqs = [
+  { q: "Apakah pendaftaran PPDB dipungut biaya?", a: "Tidak. Pendaftaran online dan ujian seleksi masuk sekolah kami tidak dipungut biaya sama sekali (Gratis)." },
+  { q: "Bagaimana jika ada kesalahan data setelah dikirim?", a: "Silakan hubungi panitia PPDB melalui nomor WhatsApp di halaman kontak dengan melampirkan nomor pendaftaran Anda." }
+];
+---
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+  <!-- Column 1: Requirements -->
+  <div class="bg-white rounded-3xl border border-outline-variant p-6 md:p-8 shadow-sm">
+    <h3 class="text-xs font-bold text-primary uppercase tracking-widest ml-1 block mb-6 flex items-center gap-2">
+      <span class="material-symbols-outlined text-lg">assignment</span>
+      Persyaratan Dokumen Verifikasi
+    </h3>
+    
+    <p class="text-sm text-on-surface-variant mb-4 leading-relaxed font-medium">
+      Setelah melakukan pendaftaran online, calon siswa wajib membawa dokumen fisik berikut ke sekolah untuk verifikasi:
+    </p>
+
+    <ul class="space-y-3.5">
+      {requirements.map((req) => (
+        <li class="flex items-start gap-3">
+          <div class="mt-0.5 w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-sm font-bold">check</span>
+          </div>
+          <span class="text-sm font-semibold text-on-surface leading-snug">{req}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- Column 2: Timeline & FAQ -->
+  <div class="space-y-8">
+    <!-- Schedule -->
+    <div class="bg-white rounded-3xl border border-outline-variant p-6 md:p-8 shadow-sm">
+      <h3 class="text-xs font-bold text-primary uppercase tracking-widest ml-1 block mb-6 flex items-center gap-2">
+        <span class="material-symbols-outlined text-lg">calendar_month</span>
+        Jadwal & Linimasa Penting
+      </h3>
+      
+      {activeProgram && (
+        <p class="text-xs text-on-surface-variant mb-4 font-medium bg-primary/5 px-3 py-2 rounded-xl">
+          Program: <span class="font-bold text-primary">{activeProgram.title}</span> — TA {activeProgram.academicYear}
+        </p>
+      )}
+
+      <div class="space-y-4">
+        {timeline.map((time) => (
+          <div class="flex justify-between items-center py-2.5 border-b border-outline-variant/40 last:border-0">
+            <span class="text-sm font-semibold text-on-surface flex items-center gap-2">
+              <span class="material-symbols-outlined text-base text-primary/60">{time.icon}</span>
+              {time.label}
+            </span>
+            <span class={`text-xs font-bold px-3 py-1 rounded-full ${
+              time.date === 'Belum ditentukan' 
+                ? 'bg-on-surface-variant/10 text-on-surface-variant/60' 
+                : 'bg-primary/10 text-primary'
+            }`}>
+              {time.date}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="bg-white rounded-3xl border border-outline-variant p-6 md:p-8 shadow-sm">
+      <h3 class="text-xs font-bold text-primary uppercase tracking-widest ml-1 block mb-6 flex items-center gap-2">
+        <span class="material-symbols-outlined text-lg">quiz</span>
+        Tanya Jawab (FAQ) PPDB
+      </h3>
+      
+      <div class="space-y-4">
+        {faqs.map((faq) => (
+          <div class="space-y-1">
+            <h4 class="text-sm font-bold text-on-surface flex items-start gap-1">
+              <span class="text-primary font-bold">Q:</span>
+              <span>{faq.q}</span>
+            </h4>
+            <p class="text-xs text-on-surface-variant leading-relaxed pl-4">
+              {faq.a}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>

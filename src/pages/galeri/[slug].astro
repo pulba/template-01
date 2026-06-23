@@ -1,0 +1,65 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro';
+import Container from '@/components/ui/Container.astro';
+import GalleryHero from '@/components/gallery/GalleryHero.astro';
+import GalleryMasonry from '@/components/gallery/GalleryMasonry.astro';
+import Lightbox from '@/components/ui/Lightbox.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { GalleryService } from '@/lib/services/gallery.service';
+import { SchoolService } from '@/lib/services/school.service';
+
+const { slug } = Astro.params;
+
+if (!slug) {
+  return Astro.redirect('/galeri');
+}
+
+// Ambil data album langsung via SSR
+const album = await GalleryService.getAlbumBySlug(slug);
+
+if (!album) {
+  return Astro.redirect('/404');
+}
+
+const images = await GalleryService.getImagesByAlbumId(parseInt(album.id));
+const profile = await SchoolService.getProfile();
+const schoolName = profile?.schoolName || 'Institutional School';
+---
+
+<MainLayout title={`${album.name} | Galeri ${schoolName}`}>
+  <!-- 1. Hero Section -->
+  <GalleryHero
+    title={album.name}
+    subtitle={album.description || "Dokumentasi visual kegiatan sekolah."}
+  />
+
+  <!-- 2. Gallery Section -->
+  <section class="py-10 pb-32 md:py-16 md:pb-24 bg-surface-container-low">
+    <Container>
+      <div class="mb-10">
+        <a 
+          href="/galeri" 
+          class="inline-flex items-center gap-2 text-primary font-bold hover:gap-3 transition-all group"
+        >
+          <Icon name="arrow-left" size="sm" />
+          <span>Kembali ke Daftar Album</span>
+        </a>
+      </div>
+
+      {images.length === 0 ? (
+        <div class="bg-surface border border-outline-variant rounded-3xl p-12 text-center">
+          <div class="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Icon name="image" size="xl" class="text-primary/30" />
+          </div>
+          <h3 class="text-xl font-bold text-on-surface mb-2">Album Masih Kosong</h3>
+          <p class="text-on-surface-variant">Belum ada foto yang diunggah ke album ini.</p>
+        </div>
+      ) : (
+        <GalleryMasonry images={images} />
+      )}
+    </Container>
+  </section>
+
+  <!-- Lightbox Modal -->
+  <Lightbox />
+</MainLayout>

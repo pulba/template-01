@@ -1,0 +1,43 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+
+interface Props {
+  date: string;
+  time: string;
+  location: string;
+}
+
+const { date, time, location } = Astro.props;
+---
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-surface-container-high p-10 rounded-lg border border-outline-variant shadow-lg shadow-primary/5">
+  <div class="flex items-center gap-5">
+    <div class="w-14 h-14 bg-primary text-white rounded-lg flex items-center justify-center shadow-xl shadow-primary/20">
+      <Icon name="calendar_today" size="lg" />
+    </div>
+    <div>
+      <p class="text-xs font-bold text-primary uppercase tracking-widest opacity-60 mb-1">Tanggal</p>
+      <p class="font-bold text-xl text-on-surface">{date}</p>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-5">
+    <div class="w-14 h-14 bg-secondary-container text-on-secondary-fixed rounded-lg flex items-center justify-center shadow-xl shadow-secondary-container/20">
+      <Icon name="schedule" size="lg" />
+    </div>
+    <div>
+      <p class="text-xs font-bold text-primary uppercase tracking-widest opacity-60 mb-1">Waktu</p>
+      <p class="font-bold text-xl text-on-surface">{time}</p>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-5">
+    <div class="w-14 h-14 bg-surface-container-lowest text-primary rounded-lg flex items-center justify-center shadow-md border border-outline-variant">
+      <Icon name="location_on" size="lg" />
+    </div>
+    <div>
+      <p class="text-xs font-bold text-primary uppercase tracking-widest opacity-60 mb-1">Lokasi</p>
+      <p class="font-bold text-xl text-on-surface">{location}</p>
+    </div>
+  </div>
+</div>

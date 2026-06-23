@@ -1,0 +1,42 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+
+const categories = [
+  { name: 'Akademik', count: 12 },
+  { name: 'Kegiatan', count: 8 },
+  { name: 'Pengumuman', count: 5 },
+  { name: 'Prestasi', count: 7 },
+];
+---
+
+<aside class="space-y-6">
+  <!-- Search -->
+  <div class="bg-white p-5 rounded-[1.125rem] border border-outline-variant">
+    <h4 class="font-h3 text-primary mb-4">Cari Berita</h4>
+    <div class="relative">
+      <input 
+        type="text" 
+        placeholder="Ketik kata kunci..." 
+        class="w-full bg-white border border-outline-variant rounded-full py-3 px-4 focus:border-primary/30 focus:outline-none transition-all font-body-md"
+      />
+      <button class="absolute right-3 top-1/2 -translate-y-1/2 text-primary p-1 hover:scale-110 transition-transform" aria-label="Search">
+        <Icon name="search" />
+      </button>
+    </div>
+  </div>
+
+  <!-- Categories -->
+  <div class="bg-white p-5 rounded-[1.125rem] border border-outline-variant">
+    <h4 class="font-h3 text-primary mb-4">Kategori</h4>
+    <ul class="space-y-3">
+      {categories.map(cat => (
+        <li>
+          <a href={`/berita?category=${cat.name}`} class="flex justify-between items-center text-on-surface-variant hover:text-hover-link-safe transition-all group font-medium">
+            <span class="group-hover:translate-x-1 transition-transform">{cat.name}</span>
+            <span class="bg-background text-xs font-bold px-2 py-1 rounded-lg min-w-[32px] text-center">{cat.count}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</aside>

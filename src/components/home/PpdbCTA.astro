@@ -1,0 +1,47 @@
+---
+import Container from '@/components/ui/Container.astro';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  primaryButton: { text: string; href: string };
+  secondaryButton: { text: string; href: string };
+}
+
+const { title, description, primaryButton, secondaryButton } = Astro.props;
+---
+
+<section class="section-padding">
+  <Container>
+    <div class="bg-secondary-container rounded-2xl p-10 md:p-14 lg:p-16 text-center relative overflow-hidden shadow-sm">
+      <div class="relative z-10 max-w-3xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-on-secondary-fixed mb-4 drop-shadow-sm font-inter leading-tight">
+          {title}
+        </h2>
+        <p class="text-lg md:text-xl text-on-secondary-fixed/90 mb-8 md:mb-10 leading-relaxed font-medium">
+          {description}
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <!-- Primary Registration Button -->
+          <Button href={primaryButton.href} variant="primary" class="flex items-center justify-center w-full sm:w-auto shadow-md text-base px-8 py-3.5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+            <Icon name="rocket_launch" />
+            {primaryButton.text}
+          </Button>
+
+          <!-- Secondary Brochure Button -->
+          <Button 
+            href={secondaryButton.href} 
+            variant="outline-glass" 
+            class="border-on-secondary-fixed/30 text-on-secondary-fixed hover:bg-on-secondary-fixed/10 flex items-center justify-center w-full sm:w-auto text-base px-8 py-3.5 transition-colors"
+          >
+            <Icon name="download" />
+            {secondaryButton.text}
+          </Button>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>

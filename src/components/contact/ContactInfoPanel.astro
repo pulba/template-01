@@ -1,0 +1,47 @@
+---
+interface Props {
+  address?: string;
+  phone?: string;
+  email?: string;
+}
+
+const { 
+  address = 'Jl. Pendidikan No. 123, Jakarta Selatan, DKI Jakarta 12345',
+  phone = '(021) 1234 5678',
+  email = 'info@institutionalschool.sch.id'
+} = Astro.props;
+
+import Icon from '@/components/ui/Icon.astro';
+
+const contactInfo = [
+  {
+    icon: 'location_on',
+    title: 'Alamat Sekolah',
+    content: address,
+  },
+  {
+    icon: 'call',
+    title: 'Telepon & WhatsApp',
+    content: phone,
+  },
+  {
+    icon: 'mail',
+    title: 'Email Resmi',
+    content: email,
+  },
+];
+---
+
+<div class="space-y-6">
+  {contactInfo.map(info => (
+    <div class="flex gap-4 items-start group">
+      <div class="w-12 h-12 bg-primary text-white rounded-lg flex items-center justify-center shrink-0">
+        <Icon name={info.icon} size="lg" />
+      </div>
+      <div>
+        <h4 class="font-semibold text-primary uppercase tracking-widest text-xs mb-1 opacity-60">{info.title}</h4>
+        <p class="text-on-surface-variant font-medium leading-relaxed">{info.content}</p>
+      </div>
+    </div>
+  ))}
+</div>

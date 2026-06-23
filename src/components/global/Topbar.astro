@@ -1,0 +1,43 @@
+---
+interface Props {
+  phone?: string;
+  email?: string;
+  address?: string;
+  socials?: {
+    facebook?: string;
+    instagram?: string;
+    youtube?: string;
+  };
+}
+
+const { 
+  phone = '(021) 123-4567', 
+  email = 'info@institutionalschool.sch.id', 
+  address = 'Jl. Pendidikan No. 123, Jakarta Selatan',
+  socials = { facebook: '#', instagram: '#', youtube: '#' }
+} = Astro.props;
+---
+
+<div class="bg-primary text-white py-2 px-8 hidden lg:block">
+  <div class="max-w-7xl mx-auto flex justify-between items-center text-xs font-medium">
+    <div class="flex items-center gap-6">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm text-primary-fixed">call</span>
+        <span>{phone}</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm text-primary-fixed">mail</span>
+        <span>{email}</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm text-primary-fixed">location_on</span>
+        <span>{address}</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-4">
+      {socials.facebook && <a href={socials.facebook} class="hover:text-hover-link-safe-fixed transition-colors">Facebook</a>}
+      {socials.instagram && <a href={socials.instagram} class="hover:text-hover-link-safe-fixed transition-colors">Instagram</a>}
+      {socials.youtube && <a href={socials.youtube} class="hover:text-hover-link-safe-fixed transition-colors">Youtube</a>}
+    </div>
+  </div>
+</div>

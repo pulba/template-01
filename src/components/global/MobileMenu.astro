@@ -1,0 +1,272 @@
+---
+import Icon from "@/components/ui/Icon.astro";
+import Button from "@/components/ui/Button.astro";
+import { MenuService } from "@/lib/services/menu.service";
+
+interface Props {
+  phone?: string;
+  email?: string;
+}
+
+const { phone = "(021) 123-4567", email = "info@institutionalschool.sch.id" } = Astro.props;
+const _unusedPhone = phone;
+const _unusedEmail = email;
+
+const profile = Astro.locals.schoolProfile;
+const schoolName = profile?.schoolName || "Institutional School";
+const logo = profile?.schoolLogo || "";
+const term = Astro.locals.terminology?.dictionary;
+
+const dynamicMenus = await MenuService.getMenuTree();
+
+interface MobileNavLink {
+  name: string;
+  href: string;
+  children?: { label: string; href: string }[];
+}
+
+const navLinks: MobileNavLink[] = dynamicMenus.length > 0 
+  ? dynamicMenus.map(m => ({ name: m.label, href: m.href, children: m.children?.map(c => ({ label: c.label, href: c.href })) }))
+  : [
+      { name: "Profil", href: "/profil" },
+      { name: term?.major?.plural || "Jurusan", href: "/jurusan" },
+      { name: term?.teacher?.plural || "Guru & Staff", href: "/guru-staff" },
+      { name: "OSIS", href: "/osis" },
+      { name: "Berita", href: "/berita" },
+      { name: "Galeri", href: "/galeri" },
+      { name: "Agenda", href: "/agenda" },
+      { name: "Unduhan", href: "/unduh" },
+      { name: "Kontak", href: "/kontak" },
+    ];
+---
+
+<div id="mobile-menu" class="fixed inset-0 z-[110] hidden" role="dialog" aria-modal="true" aria-label="Menu Navigasi Mobile">
+  <!-- Overlay -->
+  <div
+    id="mobile-menu-overlay"
+    class="absolute inset-0 bg-inverse-surface/50 backdrop-blur-sm opacity-0 transition-opacity duration-300"
+  >
+  </div>
+
+  <!-- Content -->
+  <div
+    id="mobile-menu-content"
+    class="absolute right-0 top-0 bottom-0 w-[85vw] max-w-[320px] bg-surface shadow-2xl translate-x-full transition-transform duration-300 ease-out p-6 md:p-8 flex flex-col"
+  >
+    <!-- Branding Area -->
+    <div class="flex justify-between items-center mb-6 pb-4 border-b border-outline-variant/30">
+      <a href="/" class="flex items-center gap-3">
+        {
+          logo && (
+            <img
+              src={logo}
+              alt={schoolName}
+              class="h-8 w-auto object-contain flex-shrink-0"
+            />
+          )
+        }
+        <span class="text-sm font-bold text-primary font-inter leading-tight">
+          {schoolName}
+        </span>
+      </a>
+      <button
+        id="mobile-menu-close"
+        class="text-on-surface-variant hover:text-primary transition-colors p-2 -mr-2 focus:outline-none focus-visible:ring-1 focus-visible:ring-outline-variant/50 focus-visible:text-primary rounded-md flex-shrink-0 ml-2"
+        aria-label="Tutup menu navigasi"
+      >
+        <Icon name="close" size="md" />
+      </button>
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="flex flex-col space-y-1 mb-6 overflow-y-auto flex-grow no-scrollbar">
+      {
+        navLinks.map((link) => {
+          const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+          const linkHref = link.href.replace(/\/$/, '') || '/';
+          const isActive = linkHref === '/'
+            ? pathname === '/'
+            : pathname === linkHref || pathname.startsWith(linkHref + '/');
+          const hasChildren = link.children && link.children.length > 0;
+
+          return (
+            <div class="flex flex-col">
+              <div class="flex items-center justify-between group">
+                <a
+                  href={link.href}
+                  aria-current={isActive ? "page" : undefined}
+                  class:list={[
+                    "text-base md:text-lg transition-all py-2.5 flex items-center relative flex-grow",
+                    isActive
+                      ? "text-primary font-semibold"
+                      : "text-on-surface-variant hover:text-primary font-medium"
+                  ]}
+                >
+                  {isActive && (
+                    <span class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-[60%] bg-primary rounded-r-md"></span>
+                  )}
+                  <span class={isActive ? "pl-4" : "pl-1 transition-transform group-hover:translate-x-1"}>{link.name}</span>
+                </a>
+                
+                {hasChildren && (
+                  <button 
+                    class="p-2 text-on-surface-variant hover:text-primary transition-transform submenu-toggle"
+                    aria-label="Toggle sub-menu"
+                  >
+                    <Icon name="chevron-down" size="sm" />
+                  </button>
+                )}
+              </div>
+
+              {hasChildren && (
+                <div class="hidden flex-col pl-6 space-y-1 border-l border-outline-variant/30 ml-3 mt-1 mb-2 submenu-container">
+                  {link.children?.map((child) => (
+                    <a 
+                      href={child.href}
+                      class="text-sm py-2 text-on-surface-variant hover:text-primary transition-colors"
+                    >
+                      {child.label}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })
+      }
+    </nav>
+
+    <!-- Bottom Actions -->
+    <div class="mt-auto pt-4 border-t border-outline-variant/30 pb-2">
+      <Button
+        variant="primary"
+        href="/pendaftaran"
+        class="w-full justify-center py-3.5 shadow-sm font-semibold"
+      >
+        PPDB Online
+      </Button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const toggle = document.getElementById("mobile-menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+  const overlay = document.getElementById("mobile-menu-overlay");
+  const content = document.getElementById("mobile-menu-content");
+  const closeBtn = document.getElementById("mobile-menu-close");
+
+  // Submenu logic
+  const submenuToggles = document.querySelectorAll(".submenu-toggle");
+  submenuToggles.forEach(button => {
+    const btn = button as HTMLElement;
+    btn.addEventListener("click", () => {
+      const parent = btn.closest(".flex-col");
+      if (!parent) return;
+      const container = parent.querySelector(".submenu-container") as HTMLElement | null;
+      if (!container) return;
+      
+      if (container.classList.contains("hidden")) {
+        container.classList.remove("hidden");
+        container.classList.add("flex");
+        btn.style.transform = "rotate(180deg)";
+      } else {
+        container.classList.add("hidden");
+        container.classList.remove("flex");
+        btn.style.transform = "rotate(0deg)";
+      }
+    });
+  });
+
+  let focusableElements: HTMLElement[] = [];
+  let firstFocusableElement: HTMLElement;
+  let lastFocusableElement: HTMLElement;
+  let isMenuOpen = false;
+
+  function updateFocusableElements() {
+    if (!menu) return;
+    const focusableElementsString = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable]';
+    focusableElements = Array.from(menu.querySelectorAll(focusableElementsString)) as HTMLElement[];
+    if (focusableElements.length > 0) {
+      firstFocusableElement = focusableElements[0];
+      lastFocusableElement = focusableElements[focusableElements.length - 1];
+    }
+  }
+
+  function handleKeyDown(e: KeyboardEvent) {
+    if (!isMenuOpen) return;
+
+    if (e.key === "Escape") {
+      closeMenu();
+      return;
+    }
+
+    if (e.key === "Tab") {
+      if (focusableElements.length === 0) {
+        e.preventDefault();
+        return;
+      }
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstFocusableElement) {
+          lastFocusableElement.focus();
+          e.preventDefault();
+        }
+      } else {
+        if (document.activeElement === lastFocusableElement) {
+          firstFocusableElement.focus();
+          e.preventDefault();
+        }
+      }
+    }
+  }
+
+  function openMenu() {
+    if (isMenuOpen) return;
+    isMenuOpen = true;
+
+    menu?.classList.remove("hidden");
+
+    // Ensure display is applied before transitioning
+    requestAnimationFrame(() => {
+      overlay?.classList.add("opacity-100");
+      content?.classList.remove("translate-x-full");
+    });
+
+    document.body.style.overflow = "hidden";
+    toggle?.setAttribute("aria-expanded", "true");
+
+    updateFocusableElements();
+
+    // Focus close button after animation
+    setTimeout(() => {
+      closeBtn?.focus();
+    }, 300);
+
+    document.addEventListener("keydown", handleKeyDown);
+  }
+
+  function closeMenu() {
+    if (!isMenuOpen) return;
+    isMenuOpen = false;
+
+    overlay?.classList.remove("opacity-100");
+    content?.classList.add("translate-x-full");
+
+    setTimeout(() => {
+      menu?.classList.add("hidden");
+    }, 300);
+
+    document.body.style.overflow = "";
+    toggle?.setAttribute("aria-expanded", "false");
+
+    document.removeEventListener("keydown", handleKeyDown);
+
+    // Return focus to toggle button
+    toggle?.focus();
+  }
+
+  toggle?.addEventListener("click", openMenu);
+  closeBtn?.addEventListener("click", closeMenu);
+  overlay?.addEventListener("click", closeMenu);
+</script>

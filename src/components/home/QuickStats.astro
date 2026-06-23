@@ -1,0 +1,40 @@
+---
+import Container from "@/components/ui/Container.astro";
+import Icon from "@/components/ui/Icon.astro";
+
+interface StatItem {
+  value: string;
+  label: string;
+  icon: string;
+}
+
+interface Props {
+  statItems: StatItem[];
+}
+
+const { statItems } = Astro.props;
+---
+
+<section class="py-8 -mt-10 relative z-30">
+  <Container>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-6">
+      {
+        statItems.map((stat) => (
+          <div class="card-stat group">
+            <div class="w-14 h-14 bg-soft-primary-bg rounded-lg flex items-center justify-center text-primary group-hover:bg-hover-primary-safe group-hover:text-on-primary transition-colors">
+              <Icon name={stat.icon} size="lg" />
+            </div>
+            <div>
+              <div class="text-xl md:text-2xl font-black text-primary">
+                {stat.value}
+              </div>
+              <div class="text-on-surface-variant text-xs font-medium">
+                {stat.label}
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </Container>
+</section>

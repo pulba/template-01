@@ -1,0 +1,62 @@
+---
+import Icon from "@/components/ui/Icon.astro";
+import Container from "@/components/ui/Container.astro";
+import type { NewsPost } from "@/types/homepage";
+
+interface Props {
+  announcements: NewsPost[];
+}
+
+const { announcements } = Astro.props;
+---
+
+{
+  announcements.length > 0 && (
+    <div class="bg-primary-container border-b border-primary/10 overflow-hidden relative z-20 py-2.5">
+      <Container>
+        <div class="flex items-center">
+          <div class="bg-primary text-on-primary text-xs font-bold px-3 py-1 rounded flex items-center gap-1.5 shrink-0 z-10 mr-4 shadow-sm">
+            <Icon name="campaign" size="sm" />
+            PENGUMUMAN
+          </div>
+
+          <div class="overflow-hidden flex-grow relative w-full h-6">
+            <div class="animate-marquee whitespace-nowrap flex items-center absolute w-auto">
+              {announcements.map((item, index) => (
+                <a
+                  href={item.href}
+                  class="text-on-primary-container text-sm font-medium hover:text-primary transition-colors flex items-center group"
+                >
+                  <span class="opacity-70 text-xs mr-2">{item.date}</span>
+                  {item.title}
+                  {index < announcements.length - 1 && (
+                    <span class="mx-6 text-primary/30 font-bold">•</span>
+                  )}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Container>
+    </div>
+  )
+}
+
+<style>
+  .animate-marquee {
+    animation: marquee 100s linear infinite;
+  }
+
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(100vw);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+</style>

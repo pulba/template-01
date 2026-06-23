@@ -1,0 +1,92 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro';
+import Container from '@/components/ui/Container.astro';
+import AgendaDetailMeta from '@/components/agenda/AgendaDetailMeta.astro';
+import RelatedAgenda from '@/components/agenda/RelatedAgenda.astro';
+import { AgendaService } from '@/lib/services/agenda.service';
+import { SchoolService } from '@/lib/services/school.service';
+
+const { slug } = Astro.params;
+const agenda = await AgendaService.getAgendaBySlug(slug as string);
+
+if (!agenda) {
+  return Astro.redirect('/404');
+}
+
+const relatedAgendas = await AgendaService.getRelatedAgendas(slug as string);
+const profile = await SchoolService.getProfile();
+const schoolName = profile?.schoolName || 'SMA Negeri 1 Nusantara';
+
+const formattedDate = agenda.date.toLocaleDateString('id-ID', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric'
+});
+
+// Construct JSON-LD Event Schema
+const eventSchema = {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": agenda.title,
+  "description": agenda.description || agenda.title,
+  "startDate": agenda.date ? new Date(agenda.date).toISOString().split('T')[0] + 'T' + (agenda.time ? agenda.time.split(' - ')[0] : '08:00') + ':00' : undefined,
+  "location": {
+    "@type": "Place",
+    "name": agenda.location,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": agenda.location,
+      "addressCountry": "ID"
+    }
+  },
+  "organizer": {
+    "@type": "School",
+    "name": schoolName
+  }
+};
+---
+
+<MainLayout title={`${agenda.title} | ${schoolName}`} structuredData={eventSchema}>
+  <article class="py-24 bg-surface-container-lowest min-h-screen">
+    <Container>
+      <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="mb-12 text-center lg:text-left">
+          <span class="inline-flex bg-soft-accent-bg text-on-secondary-fixed px-5 py-2 rounded-full text-sm font-bold uppercase tracking-widest mb-6">
+            Detail Agenda
+          </span>
+          <h1 class="text-2xl md:text-3xl font-bold text-primary mb-12 leading-tight">
+            {agenda.title}
+          </h1>
+          
+          <AgendaDetailMeta 
+            date={formattedDate}
+            time={agenda.time}
+            location={agenda.location}
+          />
+        </div>
+
+        <!-- Content -->
+        <div class="text-on-surface-variant leading-relaxed mb-20 space-y-8">
+          {agenda.description ? (
+            <div class="bg-white p-10 rounded-lg shadow-sm border border-outline-variant">
+              <p class="font-body-lg">{agenda.description}</p>
+            </div>
+          ) : (
+            <div class="bg-white p-10 rounded-lg shadow-sm border border-outline-variant">
+              <p class="font-body-lg">
+                Informasi detail mengenai kegiatan ini akan segera diperbarui. Pastikan Anda mencatat waktu dan lokasi yang telah ditentukan. Untuk informasi lebih lanjut, silakan hubungi sekretariat sekolah.
+              </p>
+              <p class="font-body-lg mt-6">
+                Institutional School berkomitmen untuk menyelenggarakan kegiatan yang edukatif dan bermanfaat bagi seluruh civitas akademika. Partisipasi Anda sangat kami harapkan.
+              </p>
+            </div>
+          )}
+        </div>
+
+        <!-- Related -->
+        <RelatedAgenda agendas={relatedAgendas} />
+      </div>
+    </Container>
+  </article>
+</MainLayout>

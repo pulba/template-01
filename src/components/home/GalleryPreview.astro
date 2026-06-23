@@ -1,0 +1,47 @@
+---
+import Container from '@/components/ui/Container.astro';
+import Button from '@/components/ui/Button.astro';
+import GalleryItem from '@/components/home/GalleryItem.astro';
+
+interface GalleryImage {
+  image: string;
+  alt: string;
+  span?: 'large' | 'small';
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  galleryItems: GalleryImage[];
+}
+
+const { 
+  title = "Momen Sekolah", 
+  description = "Kumpulan foto aktivitas dan fasilitas sekolah kami.",
+  galleryItems 
+} = Astro.props;
+---
+
+<section class="section-padding">
+  <Container>
+    <!-- Section Header -->
+    <div class="text-center mb-10">
+      <h2 class="font-h1 text-primary">{title}</h2>
+      <p class="text-on-surface-variant font-body-lg mt-2">{description}</p>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+      {galleryItems.map(item => (
+        <GalleryItem {...item} />
+      ))}
+    </div>
+
+    <!-- Footer Action -->
+    <div class="mt-8 text-center">
+      <Button variant="outline-primary" href="/galeri">
+        Lihat Semua Galeri Foto
+      </Button>
+    </div>
+  </Container>
+</section>

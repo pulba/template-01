@@ -1,0 +1,48 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro';
+import Container from '@/components/ui/Container.astro';
+import StaffHero from '@/components/staff/StaffHero.astro';
+import OsisCard from '@/components/osis/OsisCard.astro';
+import { OsisService } from '@/lib/services/osis.service';
+import { SchoolService } from '@/lib/services/school.service';
+
+const osisMembers = await OsisService.getMembers();
+const profile = await SchoolService.getProfile();
+const schoolName = profile?.schoolName || 'Institutional School';
+
+// Determine if we have any members
+const hasMembers = osisMembers.length > 0;
+---
+
+<MainLayout title={`Pengurus OSIS | ${schoolName}`}>
+  <!-- 1. Hero Section -->
+  <StaffHero 
+    title="Pengurus OSIS" 
+    subtitle="Susunan pengurus Organisasi Siswa Intra Sekolah (OSIS) yang berdedikasi membangun lingkungan sekolah yang aktif, kreatif, dan inspiratif."
+  />
+
+  <!-- 2. OSIS Directory Section -->
+  <section class="py-24 bg-surface-container-lowest min-h-[60vh]">
+    <Container>
+      {hasMembers ? (
+        <div class="mb-24">
+          <div class="flex items-center gap-6 mb-12">
+            <h2 class="font-h2 text-primary shrink-0">Susunan Pengurus</h2>
+            <div class="flex-grow h-px bg-surface-container-highest"></div>
+          </div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+            {osisMembers.map(member => (
+              <OsisCard {...member} />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div class="text-center py-20">
+          <h3 class="text-2xl font-bold text-on-surface-variant mb-4">Belum ada data pengurus OSIS</h3>
+          <p class="text-on-surface-variant opacity-80">Data kepengurusan saat ini sedang diperbarui.</p>
+        </div>
+      )}
+    </Container>
+  </section>
+</MainLayout>

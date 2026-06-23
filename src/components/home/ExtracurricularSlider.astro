@@ -1,0 +1,198 @@
+---
+import Container from "@/components/ui/Container.astro";
+import SectionHeader from "@/components/ui/SectionHeader.astro";
+import type { Extracurricular } from "@/types/homepage";
+
+interface Props {
+  extracurriculars: Extracurricular[];
+}
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+const { extracurriculars } = Astro.props;
+const term = Astro.locals.terminology?.dictionary;
+---
+
+<section class="section-padding bg-surface-variant">
+  <Container>
+    <SectionHeader
+      title={term?.extracurricular?.plural || "Ekstrakurikuler"}
+      subtitle="Kembangkan bakat, minat, dan potensi melalui berbagai kegiatan ekstrakurikuler."
+      viewAllLink="/ekstrakurikuler"
+      viewAllText={`Semua ${term?.extracurricular?.label || "Ekstrakurikuler"}`}
+    />
+
+    <div class="relative px-2 md:px-12 mt-10">
+      <div class="swiper ekskul-swiper w-full">
+        <div class="swiper-wrapper py-4">
+          {
+            extracurriculars.map((ekskul) => (
+              <div class="swiper-slide !h-auto">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 h-full flex flex-col border border-outline-variant group">
+                  <div class="relative w-full aspect-video bg-surface-container-highest overflow-hidden">
+                    {ekskul.image ? (
+                      <img
+                        src={ekskul.image}
+                        alt={ekskul.name}
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div class="w-full h-full flex items-center justify-center text-on-surface-variant bg-primary/5">
+                        <span class="text-5xl">⚽</span>
+                      </div>
+                    )}
+                    <div class="absolute top-4 left-4">
+                      <span class="px-3 py-1 bg-primary text-on-primary text-xs font-semibold rounded-full shadow-sm backdrop-blur-sm">
+                        {ekskul.category}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-xl font-bold text-primary font-inter mb-2 leading-tight group-hover:text-primary-container transition-colors">
+                      {ekskul.name}
+                    </h3>
+                    {ekskul.description && (
+                      <p class="text-on-surface-variant text-sm mb-5 line-clamp-2">
+                        {ekskul.description}
+                      </p>
+                    )}
+
+                    <div class="mt-auto space-y-3 text-sm font-medium text-on-surface">
+                      {ekskul.schedule && (
+                        <div class="flex items-center gap-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="text-primary"
+                          >
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                          </svg>
+                          <span>{ekskul.schedule}</span>
+                        </div>
+                      )}
+                      {ekskul.supervisor && (
+                        <div class="flex items-center gap-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="text-primary"
+                          >
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                          </svg>
+                          <span>Pembina: {ekskul.supervisor}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+
+        <!-- Pagination -->
+        <div class="swiper-pagination !-bottom-2 md:!-bottom-6"></div>
+      </div>
+
+      <!-- Custom Navigation -->
+      <button
+        class="ekskul-swiper-prev absolute top-1/2 -translate-y-1/2 left-0 z-10 w-10 h-10 flex items-center justify-center bg-surface shadow-md border border-outline-variant rounded-full text-on-surface hover:text-primary hover:border-primary disabled:opacity-50 disabled:cursor-not-allowed transition-all hidden md:flex"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg
+        >
+      </button>
+      <button
+        class="ekskul-swiper-next absolute top-1/2 -translate-y-1/2 right-0 z-10 w-10 h-10 flex items-center justify-center bg-surface shadow-md border border-outline-variant rounded-full text-on-surface hover:text-primary hover:border-primary disabled:opacity-50 disabled:cursor-not-allowed transition-all hidden md:flex"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg
+        >
+      </button>
+    </div>
+  </Container>
+</section>
+
+<script>
+  import Swiper from "swiper";
+  import { Navigation, Pagination, Autoplay } from "swiper/modules";
+
+  function initEkskulSlider() {
+    new Swiper(".ekskul-swiper", {
+      modules: [Navigation, Pagination, Autoplay],
+      slidesPerView: 1,
+      spaceBetween: 24,
+      loop: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: ".ekskul-swiper .swiper-pagination",
+        clickable: true,
+        dynamicBullets: true,
+      },
+      navigation: {
+        nextEl: ".ekskul-swiper-next",
+        prevEl: ".ekskul-swiper-prev",
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 2,
+        },
+        1024: {
+          slidesPerView: 3,
+        },
+      },
+    });
+  }
+
+  // Run on first load
+  initEkskulSlider();
+</script>
+
+<style is:global>
+  .ekskul-swiper {
+    padding-bottom: 3rem !important;
+  }
+  .ekskul-swiper .swiper-pagination-bullet {
+    background: var(--theme-primary, #00288e);
+  }
+</style>

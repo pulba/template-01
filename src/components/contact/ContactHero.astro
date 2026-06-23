@@ -1,0 +1,27 @@
+---
+import Container from '@/components/ui/Container.astro';
+
+interface Props {
+  title: string;
+  subtitle: string;
+}
+
+const { title, subtitle } = Astro.props;
+---
+
+<section class="bg-primary py-24 relative overflow-hidden">
+  <!-- Dynamic pattern -->
+  <div class="absolute inset-0 opacity-10 pointer-events-none">
+    <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.4),transparent_1px)] bg-[length:40px_40px]"></div>
+  </div>
+  
+  <div class="absolute inset-0 bg-gradient-to-r from-primary to-transparent z-10"></div>
+  
+  <Container class="relative z-20 text-center">
+    <h1 class="text-2xl md:text-3xl font-bold text-white mb-6 drop-shadow-md">{title}</h1>
+    <p class="font-body-lg text-primary-fixed opacity-80 max-w-2xl mx-auto leading-relaxed">
+      {subtitle}
+    </p>
+    <div class="w-16 h-1 bg-secondary-container mx-auto mt-10 rounded-full"></div>
+  </Container>
+</section>

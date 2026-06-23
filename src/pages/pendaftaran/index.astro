@@ -1,0 +1,129 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro';
+import Container from '@/components/ui/Container.astro';
+import AdmissionHero from '@/components/admission/AdmissionHero.astro';
+import AdmissionForm from '@/components/admission/AdmissionForm.astro';
+import { AdmissionService } from '@/lib/services/admission.service';
+import PpdbFlow from '@/components/admission/PpdbFlow.astro';
+import PpdbInfo from '@/components/admission/PpdbInfo.astro';
+
+// ── SSR: Fetch active programs from CMS API (no client waterfall) ──
+const programs = await AdmissionService.getActivePrograms();
+
+// ── SSR: Pre-fetch majors for programs that enable major selection ──
+const majorsByProgram: Record<number, any[]> = {};
+for (const p of programs) {
+  if (p.enableMajorSelection) {
+    majorsByProgram[p.id] = await AdmissionService.getMajorsByProgram(p.id);
+  }
+}
+
+const cmsUrl = '';
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
+const profile = Astro.locals.schoolProfile;
+const schoolName = profile?.schoolName || 'Sekolah';
+
+const activeProgram = programs.find(p => p.isActive) ?? programs[0] ?? null;
+const activeStep = activeProgram?.activeStep ?? 1;
+---
+
+<MainLayout title={`Pendaftaran Peserta Didik Baru | ${schoolName}`} description="Formulir pendaftaran peserta didik baru secara online. Isi data diri, pilih program, dan kirimkan pendaftaran Anda.">
+  <AdmissionHero 
+    title="Pendaftaran Online" 
+    subtitle="Isi formulir pendaftaran peserta didik baru secara lengkap dan benar. Pastikan semua data yang diisi sesuai dengan dokumen resmi."
+  />
+
+  <section class="py-16 md:py-24 bg-background relative">
+    <div class="absolute top-0 left-0 w-1/3 h-full bg-soft-primary-bg skew-x-12 -translate-x-1/2 pointer-events-none"></div>
+
+    <Container class="relative z-10">
+      <!-- ═══ Tabs Navigation ═══ -->
+      <!-- ponytail: grid-cols-3 on mobile ensures all tabs visible without scroll; sm+ uses inline flex -->
+      <div class="max-w-3xl mx-auto mb-10 grid grid-cols-3 sm:flex sm:justify-center border-b border-outline-variant">
+        <button id="tab-form" class="tab-button active py-3 px-2 sm:px-6 text-[0.6875rem] sm:text-sm font-bold border-b-2 border-primary text-primary transition-all flex flex-col sm:flex-row items-center gap-1 sm:gap-2 cursor-pointer text-center">
+          <span class="material-symbols-outlined text-lg sm:text-lg">edit_note</span>
+          <span>Formulir</span>
+        </button>
+        <button id="tab-flow" class="tab-button py-3 px-2 sm:px-6 text-[0.6875rem] sm:text-sm font-bold border-b-2 border-transparent text-on-surface-variant hover:text-primary transition-all flex flex-col sm:flex-row items-center gap-1 sm:gap-2 cursor-pointer text-center">
+          <span class="material-symbols-outlined text-lg sm:text-lg">route</span>
+          <span>Alur</span>
+        </button>
+        <button id="tab-info" class="tab-button py-3 px-2 sm:px-6 text-[0.6875rem] sm:text-sm font-bold border-b-2 border-transparent text-on-surface-variant hover:text-primary transition-all flex flex-col sm:flex-row items-center gap-1 sm:gap-2 cursor-pointer text-center">
+          <span class="material-symbols-outlined text-lg sm:text-lg">info</span>
+          <span>Syarat & Jadwal</span>
+        </button>
+      </div>
+
+      <!-- 1. Tab Content: Form Pendaftaran (Visible by default) -->
+      <div id="content-form" class="tab-content max-w-3xl mx-auto">
+        {programs.length === 0 ? (
+          <div class="max-w-3xl mx-auto">
+            <div class="bg-red-50 border border-red-200 p-6 md:p-8 rounded-[1.125rem] flex items-start gap-4">
+              <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-2xl">cancel</span>
+              </div>
+              <div>
+                <h3 class="text-red-700 font-bold text-lg mb-1">Pendaftaran Ditutup</h3>
+                <p class="text-red-600/80 text-sm">Saat ini belum ada program pendaftaran yang aktif. Silakan hubungi sekolah untuk informasi lebih lanjut.</p>
+              </div>
+            </div>
+            
+            <div class="text-center mt-8">
+              <a href="/kontak" class="btn btn-outline-primary px-6 py-3 inline-flex items-center gap-2">
+                <span class="material-symbols-outlined text-lg">mail</span>
+                Hubungi Kami
+              </a>
+            </div>
+          </div>
+        ) : (
+          <div class="max-w-3xl mx-auto">
+            <AdmissionForm 
+              programs={programs} 
+              majorsByProgram={majorsByProgram}
+              cmsUrl={cmsUrl}
+              turnstileSiteKey={turnstileSiteKey}
+            />
+          </div>
+        )}
+      </div>
+
+      <!-- 2. Tab Content: Alur Stepper (Hidden by default) -->
+      <div id="content-flow" class="tab-content max-w-3xl mx-auto hidden">
+        <PpdbFlow activeStep={activeStep} />
+      </div>
+
+      <!-- 3. Tab Content: Syarat & Jadwal (Hidden by default) -->
+      <div id="content-info" class="tab-content max-w-3xl mx-auto hidden">
+        <PpdbInfo activeProgram={activeProgram} />
+      </div>
+    </Container>
+  </section>
+</MainLayout>
+
+<script is:inline>
+  (function() {
+    const tabs = document.querySelectorAll('.tab-button');
+    const contents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        // Remove active class from all tabs
+        tabs.forEach(t => {
+          t.classList.remove('active', 'border-primary', 'text-primary');
+          t.classList.add('border-transparent', 'text-on-surface-variant');
+        });
+
+        // Add active class to current tab
+        tab.classList.add('active', 'border-primary', 'text-primary');
+        tab.classList.remove('border-transparent', 'text-on-surface-variant');
+
+        // Hide all content areas
+        contents.forEach(c => c.classList.add('hidden'));
+
+        // Show matched content area
+        const contentId = 'content-' + tab.id.split('-')[1];
+        document.getElementById(contentId)?.classList.remove('hidden');
+      });
+    });
+  })();
+</script>

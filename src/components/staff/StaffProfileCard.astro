@@ -1,0 +1,71 @@
+---
+import Icon from "@/components/ui/Icon.astro";
+import { Image } from "astro:assets";
+
+import type { StaffMember } from "@/types/homepage";
+
+interface Props extends StaffMember {}
+
+const { name, title, subject, image, bio } = Astro.props;
+
+const term = Astro.locals.terminology?.dictionary;
+---
+
+<div
+  class="bg-white rounded-[1.125rem] p-5 shadow-sm border border-outline-variant group"
+>
+  <!-- Image Wrapper -->
+  <div
+    class="relative aspect-[3/4] rounded-[1.125rem] overflow-hidden mb-4 bg-gray-100"
+  >
+    <Image
+      src={image}
+      alt={name}
+      width={400}
+      height={533}
+      class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-[1.02]"
+      loading="lazy"
+      decoding="async"
+    />
+    <!-- Hover Overlay -->
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-5"
+    >
+      <div
+        class="text-white transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500"
+      >
+        <p
+          class="text-sm font-medium line-clamp-3 italic leading-relaxed opacity-90"
+        >
+          "{
+            bio ||
+              `Berdedikasi untuk memberikan pendidikan terbaik dan membimbing setiap ${term?.student?.label?.toLowerCase() || 'siswa'} mencapai potensi maksimalnya.`
+          }"
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info -->
+  <div class="text-center">
+    <h3
+      class="font-h3 text-primary group-hover:text-hover-heading-safe transition-colors mb-1 line-clamp-1"
+    >
+      {name}
+    </h3>
+    <p
+      class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4 opacity-80"
+    >
+      {title}
+    </p>
+
+    {
+      subject && (
+        <div class="inline-flex items-center gap-2 bg-soft-primary-bg text-primary px-4 py-2 rounded-lg text-xs font-bold border border-border-soft">
+          <Icon name="school" size="sm" />
+          {subject}
+        </div>
+      )
+    }
+  </div>
+</div>

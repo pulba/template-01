@@ -1,0 +1,21 @@
+---
+import NewsCard from '@/components/home/NewsCard.astro';
+import type { NewsPost } from '@/types/homepage';
+
+interface Props {
+  posts: NewsPost[];
+}
+
+const { posts } = Astro.props;
+---
+
+{posts.length > 0 && (
+  <section class="py-20 border-t border-outline-variant mt-20">
+    <h3 class="font-h2 text-primary mb-12">Berita Terkait</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {posts.map(post => (
+        <NewsCard {...post} />
+      ))}
+    </div>
+  </section>
+)}

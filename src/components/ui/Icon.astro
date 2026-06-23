@@ -1,0 +1,88 @@
+---
+interface Props {
+  name: string;
+  class?: string;
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
+}
+
+const { name, class: className, size = "md" } = Astro.props;
+
+const sizes = {
+  xs: "text-xs",
+  sm: "text-sm",
+  md: "text-base",
+  lg: "text-2xl",
+  xl: "text-4xl",
+};
+
+// Clean and map icon names
+const cleanName = (input: string) => {
+  if (!input) return "";
+  let normalized = input.toLowerCase().trim();
+
+  const iconMap: Record<string, string> = {
+    "user-plus": "person_add",
+    user_plus: "person_add",
+    users: "group",
+    user: "person",
+    wrench: "build",
+    setting: "settings",
+    settings: "settings",
+    cog: "settings",
+    rocket: "rocket_launch",
+    download: "download",
+    "arrow-right": "arrow_forward",
+    "arrow-left": "arrow_back",
+    "chevron-right": "chevron_right",
+    "chevron-left": "chevron_left",
+    calendar: "calendar_month",
+    clock: "schedule",
+    "map-pin": "location_on",
+    phone: "phone",
+    mail: "mail",
+    email: "mail",
+    search: "search",
+    menu: "menu",
+    x: "close",
+    close: "close",
+    check: "check",
+    plus: "add",
+    minus: "remove",
+    edit: "edit",
+    trash: "delete",
+    info: "info",
+    warning: "warning",
+    error: "error",
+    success: "check_circle",
+    star: "star",
+    heart: "favorite",
+    share: "share",
+    link: "link",
+    "external-link": "open_in_new",
+    camera: "photo_camera",
+    image: "image",
+    video: "videocam",
+    file: "insert_drive_file",
+    folder: "folder",
+    upload: "file_upload",
+    building: "domain",
+    office: "business",
+    school: "school",
+  };
+
+  if (iconMap[normalized]) {
+    return iconMap[normalized];
+  }
+
+  // Fallback: replace hyphens with underscores
+  return normalized.replace(/-/g, "_");
+};
+
+const iconName = cleanName(name);
+---
+
+<span
+  class:list={["material-symbols-outlined select-none", sizes[size], className]}
+>
+  {iconName}
+</span>

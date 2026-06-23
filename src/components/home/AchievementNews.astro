@@ -1,0 +1,49 @@
+---
+import Container from "@/components/ui/Container.astro";
+import SectionHeader from "@/components/ui/SectionHeader.astro";
+import NewsCard from "@/components/home/NewsCard.astro";
+import Button from "@/components/ui/Button.astro";
+
+interface Post {
+  image: string;
+  category: string;
+  date: string;
+  title: string;
+  excerpt: string;
+  href: string;
+}
+
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+---
+
+<section class="section-padding bg-surface-variant">
+  <Container>
+    <SectionHeader
+      title="Berita Prestasi"
+      subtitle="Menampilkan pencapaian dan kebanggaan siswa-siswi terbaik kami."
+      viewAllLink="/berita?kategori=prestasi"
+      viewAllText="Semua Prestasi"
+    />
+    {posts.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {posts.map((post) => <NewsCard {...post} />)}
+      </div>
+    ) : (
+      <div class="text-center py-12 bg-surface-variant rounded-2xl border border-outline-variant">
+        <p class="text-on-surface-variant">Belum ada berita prestasi saat ini.</p>
+      </div>
+    )}
+
+    {posts.length > 0 && (
+      <div class="mt-10 text-center flex justify-center">
+        <Button href="/berita?kategori=prestasi" variant="outline-primary" class="shadow-sm">
+          Lihat Semua Prestasi
+        </Button>
+      </div>
+    )}
+  </Container>
+</section>

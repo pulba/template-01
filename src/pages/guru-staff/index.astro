@@ -1,0 +1,67 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro';
+import Container from '@/components/ui/Container.astro';
+import StaffHero from '@/components/staff/StaffHero.astro';
+import StaffGrid from '@/components/staff/StaffGrid.astro';
+import { StaffService } from '@/lib/services/staff.service';
+import { SchoolService } from '@/lib/services/school.service';
+
+const staffMembers = await StaffService.getAllStaff();
+const profile = await SchoolService.getProfile();
+const schoolName = profile?.schoolName || 'Institutional School';
+
+const term = Astro.locals.terminology?.dictionary;
+
+const displayStaff = staffMembers;
+
+// Grouping by category
+const leaders = displayStaff.filter(s => s.category === 'Pimpinan');
+const teachers = displayStaff.filter(s => s.category === 'Guru');
+const administration = displayStaff.filter(s => s.category === 'Staff');
+---
+
+<MainLayout title={`Direktori ${term?.teacher?.label || 'Guru'} & ${term?.staff?.label || 'Staff'} | ${schoolName}`}>
+  <!-- 1. Hero Section -->
+  <StaffHero
+    title={`${term?.teacher?.label || 'Guru'} & ${term?.staff?.long || 'Tenaga Kependidikan'}`}
+    subtitle={`${schoolName} didukung oleh ${term?.teacher?.long?.toLowerCase() || 'tenaga pendidik'} profesional dan ${term?.staff?.label?.toLowerCase() || 'staf'} berdedikasi yang berkomitmen untuk membimbing setiap ${term?.student?.label?.toLowerCase() || 'siswa'} mencapai prestasi terbaiknya.`}
+  />
+
+  <!-- 2. Staff Directory Section -->
+  <section class="py-16 bg-white min-h-[60vh]">
+    <Container>
+      <!-- Leaders -->
+      {leaders.length > 0 && (
+        <div class="mb-16">
+          <div class="flex items-center gap-4 mb-8">
+            <h2 class="font-h2 text-primary shrink-0">{term?.principal?.plural || 'Pimpinan Sekolah'}</h2>
+            <div class="flex-grow h-px bg-surface-container-highest"></div>
+          </div>
+          <StaffGrid members={leaders} />
+        </div>
+      )}
+
+      <!-- Teachers -->
+      {teachers.length > 0 && (
+        <div class="mb-16">
+          <div class="flex items-center gap-4 mb-8">
+            <h2 class="font-h2 text-primary shrink-0">{term?.teacher?.long || 'Tenaga Pendidik'}</h2>
+            <div class="flex-grow h-px bg-surface-container-highest"></div>
+          </div>
+          <StaffGrid members={teachers} />
+        </div>
+      )}
+
+      <!-- Administration -->
+      {administration.length > 0 && (
+        <div class="mb-16">
+          <div class="flex items-center gap-6 mb-12">
+            <h2 class="font-h2 text-primary shrink-0">{term?.staff?.plural || 'Staf Administrasi'}</h2>
+            <div class="flex-grow h-px bg-surface-container-highest"></div>
+          </div>
+          <StaffGrid members={administration} />
+        </div>
+      )}
+    </Container>
+  </section>
+</MainLayout>

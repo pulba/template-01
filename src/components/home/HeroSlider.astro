@@ -1,0 +1,138 @@
+---
+import Container from '@/components/ui/Container.astro';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { Image } from 'astro:assets';
+
+interface BannerItem {
+  title: string;
+  subtitle: string;
+  description: string;
+  image: string;
+  primaryCTA: { text: string; href: string; icon?: string };
+  secondaryCTA: { text: string; href: string };
+}
+
+interface Props {
+  bannerItems: BannerItem[];
+}
+
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+const { bannerItems } = Astro.props;
+---
+
+<section class="relative">
+  <div class="relative h-[500px] md:h-[640px] w-full overflow-hidden">
+    <!-- Swiper Main Container -->
+    <div class="swiper hero-swiper w-full h-full">
+      <div class="swiper-wrapper">
+        {bannerItems.map((item, index) => (
+          <div class="swiper-slide relative w-full h-full">
+            <!-- Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-transparent z-10"></div>
+            
+            <!-- Background Image -->
+            <Image 
+              src={item.image} 
+              alt={item.title}
+              width={1920}
+              height={1080}
+              class="absolute inset-0 w-full h-full object-cover"
+              loading={index === 0 ? "eager" : "lazy"}
+              fetchpriority={index === 0 ? "high" : "low"}
+            />
+            
+            <!-- Content -->
+            <div class="absolute inset-0 z-20 flex items-center">
+              <Container>
+                <div class="md:pl-8 lg:pl-16">
+                  <p class="text-xs md:text-sm font-semibold text-on-primary opacity-90 uppercase tracking-[0.2em] mb-3 md:mb-4">
+                    {item.subtitle}
+                  </p>
+                  <h1 class="text-2xl md:text-3xl leading-tight font-bold text-on-primary mb-4 md:mb-6">
+                    {item.title}
+                  </h1>
+                  <p class="text-sm md:text-base lg:text-lg leading-relaxed text-on-primary opacity-90 max-w-2xl mb-8 md:mb-10">
+                    {item.description}
+                  </p>
+                  
+                  <div class="flex flex-col sm:flex-row flex-wrap gap-3 md:gap-4">
+                    <Button href={item.primaryCTA.href} class="bg-on-primary text-primary hover:bg-white flex items-center justify-center w-full sm:w-auto font-semibold shadow-md">
+                      {item.primaryCTA.icon && <Icon name={item.primaryCTA.icon} />}
+                      {item.primaryCTA.text}
+                    </Button>
+                    {item.secondaryCTA && (
+                      <Button href={item.secondaryCTA.href} variant="outline-glass" class="flex justify-center w-full sm:w-auto border-on-primary/30 text-on-primary hover:bg-on-primary/10">
+                        {item.secondaryCTA.text}
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </Container>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+        <!-- Swiper Controls -->
+        <div class="swiper-pagination"></div>
+        <div class="custom-swiper-prev hidden md:flex absolute top-1/2 -translate-y-1/2 z-30 left-8 w-12 h-12 bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full text-white transition-all cursor-pointer justify-center items-center">
+          <Icon name="chevron_left" size="xl" />
+        </div>
+        <div class="custom-swiper-next hidden md:flex absolute top-1/2 -translate-y-1/2 z-30 right-8 w-12 h-12 bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full text-white transition-all cursor-pointer justify-center items-center">
+          <Icon name="chevron_right" size="xl" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import Swiper from 'swiper';
+  import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+
+  function initHeroSlider() {
+    new Swiper('.hero-swiper', {
+      modules: [Navigation, Pagination, Autoplay],
+      loop: true,
+      grabCursor: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.custom-swiper-next',
+        prevEl: '.custom-swiper-prev',
+      },
+    });
+  }
+
+  // Run on first load
+  initHeroSlider();
+</script>
+
+<style is:global>
+  /* Customizing Swiper default styles to match our design */
+  .hero-swiper {
+    --swiper-theme-color: var(--theme-surface-container-lowest, #ffffff);
+  }
+  
+  .hero-swiper .swiper-pagination-bullet {
+    background: var(--theme-surface-container-lowest, #ffffff);
+    opacity: 0.5;
+    transition: all 0.3s ease;
+  }
+
+  .hero-swiper .swiper-pagination-bullet-active {
+    opacity: 1;
+    width: 24px;
+    border-radius: 8px;
+  }
+</style>

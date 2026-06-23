@@ -1,0 +1,413 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro';
+import Container from '@/components/ui/Container.astro';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import NewsGrid from '@/components/news/NewsGrid.astro';
+import { PostService } from '@/lib/services/post.service';
+import { SchoolService } from '@/lib/services/school.service';
+
+import Icon from '@/components/ui/Icon.astro';
+import 'swiper/css';
+
+const { categories, counts, thumbnails } = await PostService.getAllCategoriesWithDetails();
+
+const targetPrestasi = categories.find(c => c.toUpperCase() === 'PRESTASI') || 'Prestasi';
+const targetAkademik = categories.find(c => c.toUpperCase() === 'AKADEMIK') || 'Akademik';
+
+const prestasiPosts = await PostService.getPostsByCategoryPaginated(targetPrestasi, 1, 5);
+const akademikPosts = await PostService.getPostsByCategoryPaginated(targetAkademik, 1, 2);
+
+// Resolve thumbnails for all categories in memory
+const categoryCards = categories.map((cat) => ({
+  name: cat,
+  image: thumbnails[cat]
+}));
+
+// Handle Pagination
+const searchParams = Astro.url.searchParams;
+const currentPage = parseInt(searchParams.get('page') || '1') || 1;
+const limit = 6;
+
+// Fetch a general "Berita Terbaru" block (always from page 1 for the top section)
+const latestPosts = await PostService.getPostsPaginated(1, 5);
+
+// Fetch data for the new main feed and sidebar
+const popularPosts = await PostService.getPopularPosts(4);
+const allPosts = await PostService.getPostsPaginated(currentPage, limit);
+const totalPosts = await PostService.getTotalPosts();
+const totalPages = Math.ceil(totalPosts / limit);
+
+const categoriesWithCount = categories.map((cat) => ({
+  name: cat,
+  count: counts[cat] || 0
+}));
+
+const formatDate = (dateStr: string) => {
+  if (!dateStr) return "";
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return "";
+  return d.toLocaleDateString("en-US", { // Using en-US to match "Aug 24, 2020" style in screenshot, or id-ID. Let's use id-ID to keep localization.
+    month: "short", day: "numeric", year: "numeric",
+  });
+};
+
+const profile = await SchoolService.getProfile();
+const schoolName = profile?.schoolName || 'Institutional School';
+const preloadFeaturedImage = latestPosts.length > 0 ? (latestPosts[0].image || "https://via.placeholder.com/800x600") : undefined;
+---
+
+<MainLayout title={`Berita | ${schoolName}`} preloadImage={preloadFeaturedImage}>
+  <section class="py-16 bg-white min-h-[70vh]">
+    <Container>
+      <SectionHeader 
+        title="Berita Terbaru" 
+        subtitle="Dapatkan informasi terbaru mengenai kegiatan, prestasi, dan pengumuman resmi sekolah."
+      />
+      
+      <!-- Berita Terbaru Section (Hero Grid) -->
+      {latestPosts.length > 0 && (
+        <div class="mb-20">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-3">
+            <!-- Left Side: Featured Post (1 post) -->
+            {latestPosts[0] && (
+              <div class="relative group overflow-hidden rounded-sm aspect-video lg:aspect-auto lg:min-h-[500px]">
+                <a href={`/berita/${latestPosts[0].slug}`} class="absolute inset-0 block">
+                  <img src={latestPosts[0].image || "https://via.placeholder.com/800x600"} alt={latestPosts[0].title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="eager" fetchpriority="high" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+                  
+                  <div class="absolute inset-0 flex flex-col justify-end p-6 md:p-8 text-white">
+                    <div class="mb-4">
+                      <span class="bg-white text-on-surface text-xs font-bold px-2 py-1 rounded-sm capitalize tracking-wide">
+                        {latestPosts[0].category || "Berita"}
+                      </span>
+                    </div>
+                    <h3 class="leading-tight mb-3 line-clamp-3 group-hover:text-primary-fixed transition-colors text-white">
+                      {latestPosts[0].title}
+                    </h3>
+                  </div>
+                </a>
+              </div>
+            )}
+            
+            <!-- Right Side: 4 Smaller Posts -->
+            <div class="flex overflow-x-auto lg:grid lg:grid-cols-2 gap-2 lg:gap-3 pb-4 lg:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden" style="scrollbar-width: none; -ms-overflow-style: none;">
+              {latestPosts.slice(1, 5).map((post) => (
+                <div class="relative group overflow-hidden rounded-sm aspect-[16/9] lg:aspect-auto w-[85vw] sm:w-[45vw] lg:w-auto flex-shrink-0 snap-center">
+                  <a href={`/berita/${post.slug}`} class="absolute inset-0 block">
+                    <img src={post.image || "https://via.placeholder.com/400x300"} alt={post.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    
+                    <div class="absolute inset-0 flex flex-col justify-end p-4 md:p-5 text-white">
+                      <div class="mb-3">
+                        <span class="bg-white text-on-surface text-[10px] font-bold px-1.5 py-0.5 rounded-sm capitalize tracking-wide">
+                          {post.category || "Berita"}
+                        </span>
+                      </div>
+                      <h4 class="leading-snug mb-2 line-clamp-2 group-hover:text-primary-fixed transition-colors text-white font-bold">
+                        {post.title}
+                      </h4>
+                    </div>
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      <!-- Split Layout: Prestasi (Left) & Akademik (Right) -->
+      {(prestasiPosts.length > 0 || akademikPosts.length > 0) && currentPage === 1 && (
+        <>
+          <!-- SPLIT LAYOUT (PRESTASI & AKADEMIK) -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-20">
+            <!-- PRESTASI COLUMN (WIDER) -->
+            <div class="lg:col-span-7 flex flex-col gap-6">
+              <div class="flex items-center justify-between mb-2 border-b border-outline-variant pb-3">
+                <h2 class="text-sm font-bold text-outline uppercase tracking-widest">PRESTASI</h2>
+                <a href={`/berita/${targetPrestasi.toLowerCase()}`} class="text-primary text-xs font-bold hover:underline">LIHAT SEMUA</a>
+              </div>
+              
+              {prestasiPosts.length > 0 && (
+                <div class="flex flex-col gap-6">
+                  <!-- Big Highlight Post -->
+                  <a href={`/berita/${prestasiPosts[0].slug}`} class="group relative aspect-[16/9] md:aspect-[2/1] overflow-hidden rounded-md bg-surface-variant">
+                    <img src={prestasiPosts[0].image || "https://via.placeholder.com/800x400"} alt={prestasiPosts[0].title} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col">
+                      <span class="text-primary-container text-xs font-bold uppercase tracking-wider mb-2">{prestasiPosts[0].category || targetPrestasi}</span>
+                      <h3 class="text-white text-xl md:text-2xl font-bold font-inter leading-tight line-clamp-2 mb-2 group-hover:text-primary-container transition-colors">
+                        {prestasiPosts[0].title}
+                      </h3>
+                      <div class="flex items-center text-xs text-white/80 font-medium gap-3">
+                        <span class="flex items-center gap-1.5"><Icon name="schedule" class="text-[14px]" /> {formatDate(prestasiPosts[0].date)}</span>
+                      </div>
+                    </div>
+                  </a>
+
+                  <!-- Small Posts Grid -->
+                  {prestasiPosts.length > 1 && (
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      {prestasiPosts.slice(1, 5).map(post => (
+                        <a href={`/berita/${post.slug}`} class="group flex flex-row sm:flex-col gap-4">
+                          <div class="w-1/3 sm:w-full aspect-square sm:aspect-video shrink-0 overflow-hidden rounded-md bg-surface-variant">
+                            <img src={post.image || "https://via.placeholder.com/400x300"} alt={post.title} class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+                          </div>
+                          <div class="w-2/3 sm:w-full flex flex-col justify-center sm:justify-start">
+                            <h3 class="text-sm md:text-base font-bold font-inter text-on-surface line-clamp-2 mb-1.5 group-hover:text-primary transition-colors leading-snug">
+                              {post.title}
+                            </h3>
+                            <span class="text-[11px] text-on-surface-variant">{formatDate(post.date)}</span>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <!-- AKADEMIK COLUMN (NARROWER) -->
+            <div class="lg:col-span-5 flex flex-col gap-6">
+              <div class="flex items-center justify-between mb-2 border-b border-outline-variant pb-3 shrink-0">
+                <h2 class="text-sm font-bold text-outline uppercase tracking-widest">AKADEMIK</h2>
+                <a href={`/berita/${targetAkademik.toLowerCase()}`} class="text-primary text-xs font-bold hover:underline">LIHAT SEMUA</a>
+              </div>
+              
+              <div class="flex flex-col gap-6 h-full">
+                {akademikPosts.map(post => (
+                  <a href={`/berita/${post.slug}`} class="group flex flex-col bg-white rounded-md overflow-hidden shadow-sm border border-outline-variant hover:shadow-md transition-all flex-1 flex-grow">
+                    <div class="relative w-full shrink-0 flex-1 min-h-[160px]">
+                      <img src={post.image || "https://via.placeholder.com/400x300"} alt={post.title} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow bg-white relative z-10 shrink-0">
+                      <span class="text-primary text-[10px] font-bold uppercase tracking-wider mb-2">{post.category || targetAkademik}</span>
+                      <h3 class="text-lg font-bold font-inter text-on-surface mb-2 group-hover:text-primary transition-colors leading-tight line-clamp-2">
+                        {post.title}
+                      </h3>
+                      <p class="text-on-surface-variant text-sm line-clamp-2 mb-4 leading-relaxed hidden md:block">
+                        {post.excerpt}
+                      </p>
+                      <div class="flex items-center text-xs text-on-surface-variant font-medium gap-3 mt-auto pt-2">
+                        <span class="flex items-center gap-1.5"><Icon name="schedule" class="text-[14px]" /> {formatDate(post.date)}</span>
+                      </div>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          <!-- Visual Category List -->
+          {categoryCards.length > 0 && (
+            <div class="mb-20">
+              <div class="swiper category-swiper w-full">
+                <div class="swiper-wrapper py-2">
+                  {categoryCards.map(cat => (
+                    <div class="swiper-slide !h-auto">
+                      <a href={`/berita/${cat.name.toLowerCase()}`} class="relative group overflow-hidden rounded-md aspect-[4/3] flex items-center justify-center shadow-sm hover:shadow-md transition-shadow">
+                        <img src={cat.image} alt={cat.name} class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
+                        
+                        <div class="relative z-10 bg-white px-5 py-2 md:px-6 md:py-2.5 rounded shadow-sm transform group-hover:scale-105 transition-transform duration-300">
+                          <span class="text-on-surface font-bold text-xs md:text-sm capitalize">{cat.name.toLowerCase()}</span>
+                        </div>
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </>
+      )}
+      
+      <!-- MAIN FEED & SIDEBAR LAYOUT (TETORA STYLE) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mt-12 mb-20">
+        
+        <!-- MAIN CONTENT (LEFT COLUMN) -->
+        <div class="lg:col-span-8 flex flex-col gap-12">
+          
+          <!-- FEATURED POST -->
+          {currentPage === 1 && allPosts.length > 0 && (
+            <div>
+              <div class="flex items-center gap-4 mb-6">
+                <h2 class="text-[11px] font-bold text-on-surface-variant uppercase tracking-[0.15em] whitespace-nowrap">FEATURED POST</h2>
+                <div class="flex-grow h-px bg-outline-variant relative">
+                  <div class="absolute right-0 top-1/2 h-[3px] w-8 bg-primary -translate-y-1/2"></div>
+                </div>
+              </div>
+              
+              <a href={`/berita/${allPosts[0].slug}`} class="group flex flex-col md:flex-row bg-white rounded-md overflow-hidden border border-outline-variant transition-all hover:shadow-md">
+                <div class="md:w-[50%] shrink-0 relative aspect-video md:aspect-auto">
+                  <img src={allPosts[0].image || "https://via.placeholder.com/600x400"} alt={allPosts[0].title} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                </div>
+                <div class="md:w-[50%] p-6 md:p-8 flex flex-col">
+                  <span class="text-on-surface-variant text-[13px] mb-2.5 capitalize">{allPosts[0].category?.toLowerCase() || 'Berita'}</span>
+                  <h3 class="text-2xl md:text-[28px] font-bold font-inter text-on-surface mb-3.5 group-hover:text-primary transition-colors leading-[1.3] line-clamp-3">
+                    {allPosts[0].title}
+                  </h3>
+                  <p class="text-on-surface-variant text-[15px] line-clamp-3 mb-6 leading-[1.6]">
+                    {allPosts[0].excerpt || "Silakan baca selengkapnya mengenai berita ini dengan mengklik artikel. Berita ini memuat informasi terbaru dan teraktual."}
+                  </p>
+                  <div class="flex items-center text-[13px] text-on-surface-variant font-medium gap-4 mt-auto">
+                    <span class="flex items-center gap-1.5"><Icon name="schedule" class="text-[15px]" /> {formatDate(allPosts[0].date)}</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+          )}
+
+          <!-- LATEST POSTS -->
+          <div>
+            <div class="flex items-center gap-4 mb-2">
+              <h2 class="text-[11px] font-bold text-on-surface-variant uppercase tracking-[0.15em] whitespace-nowrap">LATEST POSTS</h2>
+              <div class="flex-grow h-px bg-outline-variant relative">
+                <div class="absolute right-0 top-1/2 h-[3px] w-8 bg-primary -translate-y-1/2"></div>
+              </div>
+            </div>
+            
+            <div class="flex flex-col">
+              {(currentPage === 1 ? allPosts.slice(1, 6) : allPosts).map((post, index, arr) => (
+                <a href={`/berita/${post.slug}`} class={`group flex flex-col md:flex-row gap-5 py-6 ${index !== arr.length - 1 ? 'border-b border-outline-variant' : ''}`}>
+                  <div class="w-full md:w-[260px] shrink-0 aspect-[16/10] overflow-hidden rounded-md">
+                    <img src={post.image || "https://via.placeholder.com/400x300"} alt={post.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  </div>
+                  <div class="flex flex-col justify-center flex-grow py-1">
+                    <span class="text-on-surface-variant text-[11px] mb-1.5 capitalize">{post.category?.toLowerCase() || 'Berita'}</span>
+                    <h3 class="text-[20px] font-bold font-inter text-on-surface mb-2.5 group-hover:text-primary transition-colors leading-snug line-clamp-2">
+                      {post.title}
+                    </h3>
+                    <p class="text-on-surface-variant text-[13px] line-clamp-2 mb-3.5 leading-relaxed">
+                      {post.excerpt || "Silakan baca selengkapnya mengenai berita ini dengan mengklik artikel. Berita ini memuat informasi terbaru dan teraktual seputar kegiatan."}
+                    </p>
+                    <div class="flex items-center text-[11px] text-on-surface-variant font-medium gap-3 mt-auto">
+                      <span class="flex items-center gap-1.5"><Icon name="schedule" class="text-[13px]" /> {formatDate(post.date)}</span>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+            
+            <!-- Pagination -->
+            {totalPages > 1 && (
+              <div class="flex items-center justify-center gap-2 mt-10">
+                {currentPage > 1 && (
+                  <a href={`/berita?page=${currentPage - 1}`} class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container hover:bg-surface-variant text-on-surface-variant transition-colors" aria-label="Previous Page">
+                    <Icon name="chevron_left" class="text-[18px]" />
+                  </a>
+                )}
+                
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNum => (
+                  pageNum === currentPage ? (
+                    <span class="w-8 h-8 flex items-center justify-center rounded-full bg-primary text-white font-bold text-sm shadow-sm cursor-default">{pageNum}</span>
+                  ) : (
+                    <a href={`/berita?page=${pageNum}`} class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container hover:bg-surface-variant text-on-surface-variant font-medium text-sm transition-colors">{pageNum}</a>
+                  )
+                ))}
+
+                {currentPage < totalPages && (
+                  <a href={`/berita?page=${currentPage + 1}`} class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container hover:bg-surface-variant text-on-surface-variant transition-colors" aria-label="Next Page">
+                    <Icon name="chevron_right" class="text-[18px]" />
+                  </a>
+                )}
+              </div>
+            )}
+          </div>
+          
+        </div>
+        
+        <!-- SIDEBAR (RIGHT COLUMN) -->
+        <div class="lg:col-span-4 flex flex-col gap-10">
+          
+          <!-- POPULAR POSTS -->
+          <div>
+            <div class="flex items-center gap-4 mb-6">
+              <h2 class="text-[11px] font-bold text-on-surface-variant uppercase tracking-[0.15em] whitespace-nowrap">POPULAR POSTS</h2>
+              <div class="flex-grow h-px bg-outline-variant relative"></div>
+            </div>
+            <div class="flex flex-col gap-5">
+              {popularPosts.map(post => (
+                <a href={`/berita/${post.slug}`} class="group flex items-start gap-4">
+                  <div class="w-[84px] h-[84px] shrink-0 rounded-md overflow-hidden bg-surface-variant shadow-sm">
+                    <img src={post.image || "https://via.placeholder.com/150"} alt={post.title} class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+                  </div>
+                  <div class="flex flex-col py-1">
+                    <span class="text-primary text-[9px] font-bold uppercase tracking-[0.15em] mb-1.5">{post.category || 'Berita'}</span>
+                    <h4 class="text-sm font-bold font-inter text-on-surface line-clamp-2 group-hover:text-primary transition-colors leading-snug mb-2">
+                      {post.title}
+                    </h4>
+                    <span class="text-[11px] text-on-surface-variant font-medium flex items-center gap-1"><Icon name="schedule" class="text-[12px]" /> {formatDate(post.date)}</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+          
+          <!-- CATEGORIES -->
+          <div>
+            <div class="flex items-center gap-4 mb-6">
+              <h2 class="text-[11px] font-bold text-on-surface-variant uppercase tracking-[0.15em] whitespace-nowrap">CATEGORIES</h2>
+              <div class="flex-grow h-px bg-outline-variant relative"></div>
+            </div>
+            <div class="flex flex-col gap-1">
+              {categoriesWithCount.map(cat => (
+                <a href={`/berita/${cat.name.toLowerCase()}`} class="flex items-center justify-between text-sm font-bold font-inter text-on-surface hover:text-primary transition-colors py-2.5 border-b border-outline-variant border-dashed last:border-0 group">
+                  <span class="capitalize">{cat.name.toLowerCase()}</span>
+                  <span class="text-[11px] text-on-surface-variant group-hover:text-primary transition-colors">[{cat.count}]</span>
+                </a>
+              ))}
+            </div>
+          </div>
+          
+          <!-- HASHTAG -->
+          <div>
+            <div class="flex items-center gap-4 mb-6">
+              <h2 class="text-[11px] font-bold text-on-surface-variant uppercase tracking-[0.15em] whitespace-nowrap">HASHTAG</h2>
+              <div class="flex-grow h-px bg-outline-variant relative"></div>
+            </div>
+            <div class="flex flex-wrap gap-2.5">
+              {categories.map(cat => (
+                <a href={`/berita/${cat.toLowerCase()}`} class="text-xs font-bold bg-surface-container-highest hover:bg-primary hover:text-white text-on-surface-variant px-3.5 py-1.5 rounded-sm transition-colors capitalize shadow-sm">
+                  #{cat.toLowerCase()}
+                </a>
+              ))}
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+      {latestPosts.length === 0 && (
+        <div class="text-center py-20 bg-background rounded-[1.125rem] border border-outline-variant">
+          <p class="text-on-surface-variant font-medium">Belum ada berita yang diterbitkan saat ini.</p>
+        </div>
+      )}
+    </Container>
+  </section>
+</MainLayout>
+
+<script>
+  import Swiper from "swiper";
+
+  function initCategorySlider() {
+    new Swiper(".category-swiper", {
+      slidesPerView: 2,
+      spaceBetween: 16,
+      loop: false,
+      grabCursor: true,
+      breakpoints: {
+        640: {
+          slidesPerView: 3,
+        },
+        1024: {
+          slidesPerView: 4,
+        },
+        1280: {
+          slidesPerView: 5,
+        },
+      },
+    });
+  }
+
+  initCategorySlider();
+</script>

@@ -1,0 +1,90 @@
+---
+// PpdbFlow.astro - Dynamic Visual Stepper for Admissions
+interface Props {
+  activeStep?: number; // 1, 2, 3, or 4
+}
+
+const { activeStep = 1 } = Astro.props;
+
+const steps = [
+  {
+    number: 1,
+    stepStr: "01",
+    title: "Pendaftaran Online",
+    desc: "Mengisi formulir data diri, asal sekolah, dan orang tua melalui portal resmi ini."
+  },
+  {
+    number: 2,
+    stepStr: "02",
+    title: "Verifikasi Berkas",
+    desc: "Menyerahkan dokumen fisik (KK, Akta, SKL) ke panitia PPDB di sekolah."
+  },
+  {
+    number: 3,
+    stepStr: "03",
+    title: "Seleksi Akademik",
+    desc: "Mengikuti ujian tertulis potensi akademik dan wawancara minat bakat."
+  },
+  {
+    number: 4,
+    stepStr: "04",
+    title: "Daftar Ulang",
+    desc: "Melakukan registrasi administrasi setelah dinyatakan lulus seleksi."
+  }
+];
+---
+
+<div class="bg-white rounded-3xl border border-outline-variant p-6 md:p-8 shadow-sm">
+  <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-2">
+    <h3 class="text-xs font-bold text-primary uppercase tracking-widest ml-1">
+      Alur Pendaftaran PPDB
+    </h3>
+    <span class="text-xs font-bold bg-primary/10 text-primary px-3 py-1 rounded-full">
+      Tahap Aktif: {steps[activeStep - 1]?.title || 'Pendaftaran'}
+    </span>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
+    {steps.map((step, index) => {
+      const isCompleted = step.number < activeStep;
+      const isActive = step.number === activeStep;
+      const isUpcoming = step.number > activeStep;
+
+      return (
+        <div class="flex flex-col items-center md:items-start text-center md:text-left relative group">
+          <!-- Connecting Line for Desktop -->
+          {index < steps.length - 1 && (
+            <div class={`hidden md:block absolute top-7 left-14 right-0 h-0.5 z-0 transition-colors duration-300 ${isCompleted ? 'bg-emerald-500' : 'bg-outline-variant'}`}></div>
+          )}
+          
+          <!-- Step Circle -->
+          <div class={`w-14 h-14 rounded-full flex items-center justify-center font-mono text-xl font-black mb-4 border relative z-10 transition-all duration-300 ${
+            isCompleted 
+              ? 'bg-emerald-500 text-white border-emerald-500 shadow-sm' 
+              : isActive 
+                ? 'bg-primary text-white border-primary ring-4 ring-primary/20 shadow-sm' 
+                : 'bg-surface-container text-on-surface-variant/40 border-outline-variant/60'
+          }`}>
+            {isCompleted ? (
+              <span class="material-symbols-outlined text-2xl font-bold">check</span>
+            ) : (
+              step.stepStr
+            )}
+          </div>
+          
+          <!-- Text -->
+          <h4 class={`font-bold font-inter text-base mb-1.5 leading-snug transition-colors duration-300 ${
+            isActive ? 'text-primary' : isUpcoming ? 'text-on-surface-variant/60' : 'text-on-surface'
+          }`}>
+            {step.title}
+          </h4>
+          <p class={`text-xs leading-relaxed max-w-[200px] md:max-w-none transition-colors duration-300 ${
+            isActive ? 'text-on-surface-variant font-medium' : isUpcoming ? 'text-on-surface-variant/40' : 'text-on-surface-variant/70'
+          }`}>
+            {step.desc}
+          </p>
+        </div>
+      );
+    })}
+  </div>
+</div>

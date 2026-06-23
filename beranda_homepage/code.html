@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Institutional School - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=Public+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#00164e",
+                        "inverse-on-surface": "#f1f0f7",
+                        "surface-container-low": "#f4f3fa",
+                        "surface": "#faf8ff",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#1e3a8a",
+                        "on-surface": "#1a1b21",
+                        "inverse-surface": "#2f3036",
+                        "tertiary-fixed": "#ffdbcb",
+                        "tertiary-container": "#6e2c00",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#90a8ff",
+                        "tertiary": "#4b1c00",
+                        "outline": "#757682",
+                        "on-surface-variant": "#444651",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#264191",
+                        "secondary-container": "#fea619",
+                        "on-secondary-fixed": "#2a1700",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "surface-tint": "#4059aa",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#b6c4ff",
+                        "primary": "#00236f",
+                        "on-tertiary-fixed": "#341100",
+                        "on-secondary-container": "#684000",
+                        "primary-fixed": "#dce1ff",
+                        "secondary": "#855300",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e3e1e9",
+                        "surface-container-high": "#e9e7ef",
+                        "surface-container-highest": "#e3e1e9",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed": "#ffddb8",
+                        "on-background": "#1a1b21",
+                        "surface-dim": "#dad9e1",
+                        "tertiary-fixed-dim": "#ffb691",
+                        "background": "#faf8ff",
+                        "surface-bright": "#faf8ff",
+                        "on-tertiary-fixed-variant": "#773205",
+                        "primary-fixed-dim": "#b6c4ff",
+                        "on-tertiary-container": "#f39461",
+                        "outline-variant": "#c5c5d3",
+                        "surface-container": "#eeedf4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "1.5rem",
+                        "md": "1.5rem",
+                        "max-width": "1280px",
+                        "xs": "0.5rem",
+                        "margin": "2rem",
+                        "xl": "3rem",
+                        "base": "4px",
+                        "sm": "1rem",
+                        "lg": "2rem"
+                    },
+                    "fontFamily": {
+                        "h3": ["Inter"],
+                        "label-sm": ["Public Sans"],
+                        "display-xl": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "h1": ["Inter"],
+                        "body-md": ["Public Sans"],
+                        "h2": ["Inter"],
+                        "body-lg": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "h3": ["1.5rem", {"lineHeight": "2rem", "fontWeight": "600"}],
+                        "label-sm": ["0.875rem", {"lineHeight": "1.25rem", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "display-xl": ["3.75rem", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "display-lg": ["3rem", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "h1": ["2.25rem", {"lineHeight": "2.5rem", "fontWeight": "600"}],
+                        "body-md": ["1rem", {"lineHeight": "1.5rem", "fontWeight": "400"}],
+                        "h2": ["1.875rem", {"lineHeight": "2.25rem", "fontWeight": "600"}],
+                        "body-lg": ["1.125rem", {"lineHeight": "1.75rem", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .text-shadow-sm { text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background">
+<!-- TopAppBar -->
+<nav class="bg-white dark:bg-slate-900 docked full-width top-0 z-50 border-b border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none sticky">
+<div class="flex items-center justify-between px-8 py-4 max-w-7xl mx-auto w-full">
+<div class="text-2xl font-bold text-blue-900 dark:text-white uppercase font-inter tracking-tight">
+                Institutional School
+            </div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-blue-900 dark:text-blue-400 border-b-2 border-blue-900 dark:border-blue-400 pb-1 font-bold font-inter tracking-tight transition-colors" href="#">Profil</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium font-inter tracking-tight hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Akademik</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium font-inter tracking-tight hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Guru &amp; Staff</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium font-inter tracking-tight hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Berita</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium font-inter tracking-tight hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Galeri</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium font-inter tracking-tight hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Kontak</a>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex gap-2">
+<span class="material-symbols-outlined text-primary cursor-pointer">call</span>
+<span class="material-symbols-outlined text-primary cursor-pointer">mail</span>
+</div>
+<button class="bg-secondary-container text-on-secondary-fixed px-6 py-2.5 rounded-lg font-bold transition-all duration-200 hover:opacity-90">
+                    PPDB Online
+                </button>
+</div>
+</div>
+</nav>
+<main class="max-w-[1280px] mx-auto overflow-x-hidden">
+<!-- Section 1: Hero Slider -->
+<section class="relative h-[640px] w-full mt-4 rounded-3xl overflow-hidden shadow-xl mx-auto">
+<div class="absolute inset-0 bg-gradient-to-r from-primary/90 to-transparent z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="A grand academic campus building with classical brick architecture under a bright morning sun. The lighting is crisp and optimistic, highlighting the school's heritage and prestige. The surrounding landscaping is pristine with lush green lawns and established trees, creating an atmosphere of reliability and academic excellence consistent with a high-end light-mode interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrwcQ_bzsEbq7HWVGJynWxNhU82q_KCQLIZ98AlasalPRiYIIX3urFG3FES6VMp4j-vkRN1oCsqptEJIMmljW0NRKNHXKOmuhy7rQL7qU-s3TPQduSF1K4jAtj4BLrAZ4Wed2rgAJYqFtoVOp61l42EIK-ycbuzNhgQiTP4rT8_JsKDON-naRGTGUuVqmjH_Y0DS9OWC8lln7Ao70j68ntSjKpmigU-6HbtSZY-fhlEzzSQ_3wjNryzrGv5dHEVGTv8DhNj2bT4MiP"/>
+<div class="relative z-20 h-full flex flex-col justify-center px-12 md:px-24 text-white max-w-4xl">
+<p class="font-h3 text-secondary-fixed-dim uppercase tracking-[0.2em] mb-4">Membangun Karakter &amp; Prestasi</p>
+<h1 class="font-display-xl mb-6">Masa Depan Cerah Dimulai Di Sini</h1>
+<p class="font-body-lg mb-10 text-primary-fixed leading-relaxed opacity-90 max-w-2xl">
+                    Institutional School menggabungkan tradisi akademik yang kuat dengan inovasi teknologi untuk melahirkan generasi pemimpin masa depan yang berintegritas.
+                </p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-secondary-container text-on-secondary-fixed px-8 py-4 rounded-xl font-bold flex items-center gap-2 hover:scale-105 transition-transform">
+<span class="material-symbols-outlined">assignment_turned_in</span>
+                        Daftar PPDB Sekarang
+                    </button>
+<button class="border-2 border-white/30 backdrop-blur-md bg-white/10 px-8 py-4 rounded-xl font-bold hover:bg-white/20 transition-all">
+                        Pelajari Profil Kami
+                    </button>
+</div>
+</div>
+</section>
+<!-- Section 2: Quick Stats -->
+<section class="py-12 -mt-16 relative z-30 px-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="bg-white p-6 rounded-2xl shadow-[0_4px_12px_rgba(30,58,138,0.08)] flex items-center gap-4 group hover:-translate-y-1 transition-all">
+<div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">school</span>
+</div>
+<div>
+<div class="text-3xl font-black text-primary">1,200+</div>
+<div class="text-on-surface-variant font-medium">Siswa Aktif</div>
+</div>
+</div>
+<div class="bg-white p-6 rounded-2xl shadow-[0_4px_12px_rgba(30,58,138,0.08)] flex items-center gap-4 group hover:-translate-y-1 transition-all">
+<div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">groups</span>
+</div>
+<div>
+<div class="text-3xl font-black text-primary">85+</div>
+<div class="text-on-surface-variant font-medium">Guru Kompeten</div>
+</div>
+</div>
+<div class="bg-white p-6 rounded-2xl shadow-[0_4px_12px_rgba(30,58,138,0.08)] flex items-center gap-4 group hover:-translate-y-1 transition-all">
+<div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">sports_soccer</span>
+</div>
+<div>
+<div class="text-3xl font-black text-primary">24+</div>
+<div class="text-on-surface-variant font-medium">Ekstrakurikuler</div>
+</div>
+</div>
+<div class="bg-white p-6 rounded-2xl shadow-[0_4px_12px_rgba(30,58,138,0.08)] flex items-center gap-4 group hover:-translate-y-1 transition-all">
+<div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">emoji_events</span>
+</div>
+<div>
+<div class="text-3xl font-black text-primary">150+</div>
+<div class="text-on-surface-variant font-medium">Penghargaan</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Sambutan Kepala Sekolah -->
+<section class="py-20 px-8 grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+<div class="md:col-span-5 relative">
+<div class="absolute -top-6 -left-6 w-32 h-32 bg-secondary-fixed opacity-20 rounded-full blur-3xl"></div>
+<div class="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/5]">
+<img class="w-full h-full object-cover" data-alt="A professional portrait of a school headmaster in formal attire, smiling warmly within a modern, well-lit library setting. The background shows blurred bookshelves and contemporary architectural details. The lighting is soft and flattering, emphasizing a mood of approachable leadership and academic prestige. The image adheres to a corporate and reliable aesthetic with deep blue tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcT3C9XU-ivJJZUJKj79Yelb4ic7X4uqIJTnbd0dy2MEVaj1SvL3dNKG_K0OP2ZuNg8mntmP6V5uYc-gP0X2F5Fvx0UNHlUvmNhEASKFiv6XTiRi1MrhaRw7_JsQ8hMvluhz81p6XPfp_0Qn1U-cjg1Pjq2FtIxwNAHyW-TYG6CU2Z2WnTj1yrMTk-ihwtWgQTFoSpSA0NWuJCPZBZIh3wu3Iu7lFnf2w5q_cOzvhXwU2eCbBbJArkkwuonigfuANSSuujlAext1Uo"/>
+</div>
+<div class="absolute -bottom-6 -right-6 bg-primary text-white p-6 rounded-2xl shadow-xl">
+<div class="font-h3">Dr. Ahmad Wijaya</div>
+<div class="text-primary-fixed text-sm">Kepala Sekolah Institutional School</div>
+</div>
+</div>
+<div class="md:col-span-7">
+<span class="bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-bold uppercase tracking-wider">Sambutan Kami</span>
+<h2 class="font-h1 text-primary mt-4 mb-8">Berdedikasi Memberikan Pendidikan Terbaik Bagi Buah Hati Anda</h2>
+<div class="space-y-6 text-on-surface-variant font-body-lg leading-relaxed">
+<p>Selamat datang di Institutional School. Kami percaya bahwa setiap anak memiliki potensi unik yang menunggu untuk dikembangkan. Visi kami bukan sekadar mencetak lulusan dengan nilai akademik tinggi, tetapi juga pribadi yang berkarakter, kreatif, dan siap menghadapi tantangan global.</p>
+<p>Dengan fasilitas modern, tenaga pendidik yang berdedikasi, dan kurikulum yang terus berkembang, kami memastikan lingkungan belajar yang aman, suportif, dan inspiratif bagi seluruh siswa kami.</p>
+</div>
+<div class="mt-8 flex items-center gap-4 p-4 border-l-4 border-primary bg-primary/5 rounded-r-xl">
+<span class="material-symbols-outlined text-primary text-4xl">format_quote</span>
+<p class="italic font-medium text-primary">"Pendidikan adalah senjata paling mematikan di dunia, karena dengan itu Anda dapat mengubah dunia."</p>
+</div>
+</div>
+</section>
+<!-- Section 4: Visi Misi -->
+<section class="py-20 px-8 bg-surface-container rounded-[3rem] mx-4 mb-20">
+<div class="text-center mb-16">
+<h2 class="font-h1 text-primary">Visi &amp; Misi Sekolah</h2>
+<div class="w-20 h-1.5 bg-secondary-container mx-auto mt-4 rounded-full"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+<div class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 flex flex-col items-center text-center">
+<div class="w-20 h-20 bg-primary rounded-3xl flex items-center justify-center text-white mb-8 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-4xl">visibility</span>
+</div>
+<h3 class="font-h2 text-primary mb-6">Visi</h3>
+<p class="font-body-lg text-on-surface-variant leading-relaxed">
+                        Menjadi lembaga pendidikan unggul yang menghasilkan lulusan bertaqwa, berprestasi, berkarakter kuat, dan kompetitif secara global pada tahun 2030.
+                    </p>
+</div>
+<div class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100">
+<div class="flex items-center gap-6 mb-10">
+<div class="w-16 h-16 bg-secondary-container rounded-2xl flex items-center justify-center text-on-secondary-fixed shadow-lg shadow-secondary-container/20 shrink-0">
+<span class="material-symbols-outlined text-3xl">rocket_launch</span>
+</div>
+<h3 class="font-h2 text-primary">Misi Kami</h3>
+</div>
+<ul class="space-y-6">
+<li class="flex gap-4">
+<span class="material-symbols-outlined text-primary font-bold shrink-0">check_circle</span>
+<p class="text-on-surface-variant">Menyelenggarakan pendidikan berkualitas berbasis kurikulum nasional dan internasional.</p>
+</li>
+<li class="flex gap-4">
+<span class="material-symbols-outlined text-primary font-bold shrink-0">check_circle</span>
+<p class="text-on-surface-variant">Membentuk ekosistem belajar yang mendorong inovasi, kreativitas, dan nalar kritis.</p>
+</li>
+<li class="flex gap-4">
+<span class="material-symbols-outlined text-primary font-bold shrink-0">check_circle</span>
+<p class="text-on-surface-variant">Menanamkan nilai-nilai religius dan etika moral dalam setiap interaksi sekolah.</p>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- Section 5: Berita Terbaru -->
+<section class="py-20 px-8">
+<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+<div>
+<h2 class="font-h1 text-primary">Kabar &amp; Berita Terbaru</h2>
+<p class="text-on-surface-variant mt-2 font-body-lg">Ikuti perkembangan dan kegiatan terbaru di sekolah kami.</p>
+</div>
+<button class="flex items-center gap-2 text-primary font-bold hover:underline">
+                    Lihat Semua Berita <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- News Card 1 -->
+<div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-slate-100 flex flex-col">
+<div class="h-56 relative overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A group of smiling primary school students in their blue uniforms, working together on a colorful science project in a bright, modern classroom. The lighting is natural and vibrant, highlighting the joy of collaborative learning. The environment is organized and lightweight, echoing a modern educational atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDw4PcJp_taAhEqkCEdpZrJPErGO--ABDM_Nsc27noHHFgITgS_L-7C5q4BfeSePz_iK8Zk7EvRe4wOseeXlhoVYn-P1kk4u6GBmjxYxmbynSTHZzACGQL9kzOAYl55Mqxahszz5e_Z5WXagbVBygwHCho21T54vWzVjH02GHLriXKYJZaI0piE-gk8WuOtS7aQSDaL-o-Q7j33xIinRGYcM3uW6OrUjXj3Jj8Mr1mvqx9f5NFdCu4NaYbeHbnzMee0adrojxybUx4A"/>
+<span class="absolute top-4 left-4 bg-secondary-container text-on-secondary-fixed px-3 py-1 rounded-full text-xs font-bold">AKADEMIK</span>
+</div>
+<div class="p-8 flex-grow">
+<div class="flex items-center gap-2 text-on-surface-variant text-sm mb-4">
+<span class="material-symbols-outlined text-sm">calendar_today</span> 24 Okt 2023
+                        </div>
+<h3 class="font-h3 text-primary mb-4 leading-tight">Institutional School Raih Juara 1 Olimpiade Sains Nasional</h3>
+<p class="text-on-surface-variant text-sm line-clamp-3">Selamat kepada tim sains kami yang berhasil mengharumkan nama sekolah di kancah nasional dengan inovasi teknologi terbarukan...</p>
+</div>
+<div class="px-8 pb-8">
+<button class="text-primary font-bold text-sm uppercase tracking-wider hover:opacity-70 transition-opacity">Baca Selengkapnya</button>
+</div>
+</div>
+<!-- News Card 2 -->
+<div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-slate-100 flex flex-col">
+<div class="h-56 relative overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A diverse group of high school students performing in a theater play on a professional school stage. The lighting is dramatic with theatrical spotlights creating high contrast and highlighting their expressive performances. The mood is creative and prestigious, showcasing the school's commitment to arts and extracurricular excellence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFyNNWWiEQuDbwLizhjb-rZ5cGeY15XshqbjQld7_h_cP1YODOdv97tLyYnHiesOaH1aNYeQmrd2qqdDmYBopuZE0ohPdsicWzGtPr9uwcEKqGdrCRA90x01HKz0pqWFRSFKY5gHbbT1XdWyRUN9dQrQFWgKKAUV9GTU52t8n4Cx2VsXzh-KXZRPcQg3lOJ3UaYLyRBNwEXXZFJr2-xDBghW_M37awiozl_ZkO75lqel3SiJn03JFrA87dwMvlWCgvtXlmDvMTBJyW"/>
+<span class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-xs font-bold">KEGIATAN</span>
+</div>
+<div class="p-8 flex-grow">
+<div class="flex items-center gap-2 text-on-surface-variant text-sm mb-4">
+<span class="material-symbols-outlined text-sm">calendar_today</span> 18 Okt 2023
+                        </div>
+<h3 class="font-h3 text-primary mb-4 leading-tight">Pentas Seni Tahunan: Merayakan Keberagaman Budaya</h3>
+<p class="text-on-surface-variant text-sm line-clamp-3">Kemeriahan pentas seni tahun ini menampilkan bakat-bakat luar biasa dari siswa siswi dalam bidang tari, musik, dan teater...</p>
+</div>
+<div class="px-8 pb-8">
+<button class="text-primary font-bold text-sm uppercase tracking-wider hover:opacity-70 transition-opacity">Baca Selengkapnya</button>
+</div>
+</div>
+<!-- News Card 3 -->
+<div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-slate-100 flex flex-col">
+<div class="h-56 relative overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Parents and teachers engaged in a focused discussion during a meeting in a bright, contemporary school conference room. Large windows show a sunny campus view. The atmosphere is professional, collaborative, and reliable, emphasizing the school's commitment to parental engagement and shared educational goals." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_hQxH27RsmGoRqzm_aTleOMF-ZKQGhEkXN-00k_j4aYHgROg2WfIhFAAIqCQpupVraRBXIIVIzfUgAqrTCIMYN-XA6HAflgc1klLc2CM0iEgThrFdbCdSFpVjp-c6NX6HYyCIoxqxtZnouvRQfxqSFFXLdoklQ8XHyaPutMaT-jLTpimlPG7tRA-rfp3LBG4KTyU3UufSrGM-37eoWw35o53zSWYjrOSZnhmzSxtN30AV5dUiGmD9Rp4PWePmuzb6zeKv7KWK0tmc"/>
+<span class="absolute top-4 left-4 bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold">INFO</span>
+</div>
+<div class="p-8 flex-grow">
+<div class="flex items-center gap-2 text-on-surface-variant text-sm mb-4">
+<span class="material-symbols-outlined text-sm">calendar_today</span> 12 Okt 2023
+                        </div>
+<h3 class="font-h3 text-primary mb-4 leading-tight">Sosialisasi Kurikulum Merdeka bagi Orang Tua Siswa</h3>
+<p class="text-on-surface-variant text-sm line-clamp-3">Menghadapi tahun ajaran baru, sekolah mengadakan diskusi panel mengenai implementasi kurikulum terbaru yang fokus pada minat bakat...</p>
+</div>
+<div class="px-8 pb-8">
+<button class="text-primary font-bold text-sm uppercase tracking-wider hover:opacity-70 transition-opacity">Baca Selengkapnya</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 6: Agenda Sekolah -->
+<section class="py-20 px-8">
+<div class="bg-primary text-white rounded-[3rem] p-12 overflow-hidden relative">
+<div class="absolute top-0 right-0 w-1/3 h-full bg-secondary-container opacity-10 blur-3xl rounded-full"></div>
+<div class="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-12">
+<div class="md:col-span-4">
+<h2 class="font-h1 mb-6 text-primary-fixed">Agenda Mendatang</h2>
+<p class="text-primary-fixed opacity-80 font-body-lg mb-8">Jangan lewatkan momen penting di sekolah. Catat tanggalnya!</p>
+<button class="bg-white text-primary px-8 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined">event</span> Seluruh Agenda
+                        </button>
+</div>
+<div class="md:col-span-8 space-y-4">
+<!-- Agenda Item 1 -->
+<div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl flex items-center gap-6 group hover:bg-white/20 transition-all cursor-pointer">
+<div class="bg-white text-primary w-20 h-20 rounded-xl flex flex-col items-center justify-center shrink-0">
+<span class="text-2xl font-black">28</span>
+<span class="text-xs font-bold uppercase">Okt</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-h3 text-white mb-1">Upacara Sumpah Pemuda</h4>
+<p class="text-primary-fixed/80 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">schedule</span> 07:30 - 09:00 WIB • Lapangan Utama
+                                </p>
+</div>
+<span class="material-symbols-outlined text-primary-fixed group-hover:translate-x-2 transition-transform">chevron_right</span>
+</div>
+<!-- Agenda Item 2 -->
+<div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl flex items-center gap-6 group hover:bg-white/20 transition-all cursor-pointer">
+<div class="bg-white text-primary w-20 h-20 rounded-xl flex flex-col items-center justify-center shrink-0">
+<span class="text-2xl font-black">05</span>
+<span class="text-xs font-bold uppercase">Nov</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-h3 text-white mb-1">Trial Class &amp; Open House</h4>
+<p class="text-primary-fixed/80 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">schedule</span> 09:00 - 12:00 WIB • Auditorium
+                                </p>
+</div>
+<span class="material-symbols-outlined text-primary-fixed group-hover:translate-x-2 transition-transform">chevron_right</span>
+</div>
+<!-- Agenda Item 3 -->
+<div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl flex items-center gap-6 group hover:bg-white/20 transition-all cursor-pointer">
+<div class="bg-white text-primary w-20 h-20 rounded-xl flex flex-col items-center justify-center shrink-0">
+<span class="text-2xl font-black">15</span>
+<span class="text-xs font-bold uppercase">Nov</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-h3 text-white mb-1">Ujian Tengah Semester Ganjil</h4>
+<p class="text-primary-fixed/80 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">schedule</span> Seminggu Penuh • Seluruh Kelas
+                                </p>
+</div>
+<span class="material-symbols-outlined text-primary-fixed group-hover:translate-x-2 transition-transform">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 7: Galeri Preview -->
+<section class="py-20 px-8">
+<div class="text-center mb-16">
+<h2 class="font-h1 text-primary">Momen Sekolah</h2>
+<p class="text-on-surface-variant font-body-lg mt-2">Kumpulan foto aktivitas dan fasilitas sekolah kami.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 grid-rows-2 gap-4 h-[600px]">
+<div class="col-span-2 row-span-2 relative group overflow-hidden rounded-3xl">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A wide-angle interior shot of a modern, high-tech school library with floor-to-ceiling bookshelves and comfortable reading nooks. Students are quietly studying with laptops in a bright, airy environment. The architecture is sleek and minimalist with large windows providing ample natural light. The scene represents academic reliability and technological advancement." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4WnJNdWYdq-a0eF3aLpledEYwGTda6Qs1iJB690BIWRDXVtgas40x5sUZjPglYAn4e8glanJHk9qqVNsJ7HKOUxNHTjnzli5GJPzYwQWq188O7VauigIGPMYMju9C1XX9Na2EVy27HXsxxSj4JLv4IXDF1TWTZLm_kCcynAcb21M91e4RmGrnbFicCrEpgIJ4ZVmeai0X1NOj5BXuc2l2F1aj4eHIHx176-pDWy3HsWiqQVFlVNF7gImwwOpRrgSjz5OuG2sbjjiX"/>
+<div class="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+<span class="text-white font-bold border-2 border-white px-6 py-2 rounded-full">Lihat Detail</span>
+</div>
+</div>
+<div class="relative group overflow-hidden rounded-3xl">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A sharp, detailed photograph of modern science laboratory equipment, including microscopes and glass beakers, neatly arranged on a clean white laboratory bench. The background shows a modern, well-lit school lab setting. The lighting is bright and clinical, emphasizing safety, precision, and high-quality educational facilities." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMAeVIH7-xMdNtFuOjV8Ema3ETrZ1xpvwdchfeRfIdBPegy2a6JHIpV1l7YIPU04hpj9fDzAav17EcjvpCYG0HyJMuUxaGi9Mvzu5XSLJYyMb1FkiNheCMwvh0TKxxD6267Zi2eL5Zlr1XyKO79UI3JqMpkqkOR2SDRDTfpb7qNi06_aPkreBpKo-OhpPG7S62PixYMIjBq2tC0rFLj7ihd1-8DAxio4NisWx_pn5rMJcVSEd1TL24OCJbNDpjEYjZ1EWCHpktCJAn"/>
+<div class="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+<span class="material-symbols-outlined text-white text-3xl">zoom_in</span>
+</div>
+</div>
+<div class="relative group overflow-hidden rounded-3xl">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="An energetic action shot of students playing basketball on a well-maintained outdoor school court. The lighting is golden-hour sunlight, creating dynamic shadows and a sense of vitality. The court is painted in deep blues and greens, reflecting a professional sports facility within a prestigious academic setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8b7o6Z7iffzdvGhef4s0ERoqZfPmmhYFLj4XUUBv6Jd3j638O-MprAOCmlex54yve3xfmkva3CwXY-AHSTas3C2L7NRLH8mIQ-oEqid99z64ji3ziqnkHiyHH39yLSCcKitfMoKCEnYgqP5t_8KsX1lDrsGqQ7VJ-TIPB6c0IlsU25n4p2s0R0fEJpUj3JgZracJU9e1bvd7aZ2cMi8PDuG3pqdyVG1jeTrcOFp663erWGqls7GkQM1XWnm__AJMBKQEEKQ_7ATRa"/>
+<div class="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+<span class="material-symbols-outlined text-white text-3xl">zoom_in</span>
+</div>
+</div>
+<div class="relative group overflow-hidden rounded-3xl">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A clean, minimalist classroom interior with ergonomic white desks and chairs, a large digital whiteboard, and minimalist educational posters. The room is flooded with bright, even light from large windows. The overall aesthetic is lightweight and modern, focusing on an optimal environment for concentration and learning." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAQHtVG_sa_HFPmxX6bLsg5_8dX-8y634YyBEWcNzkxprcxUQy_gd2mWwMHeczUNEENjR-T9HhQUVCc5Iujqavb_Yg_tzSlCPSNNr4stGmSXbXA8amECjcQFdwtRS5H_UtS6jbWGEMmCy9I7v0HrGhrvZK-26j2VU1nmmVUqwrQ4dB1j5bFaibdd_wLJ8f3Jli4QPPkyTZS0k1qnRvoeH-zHDL11rG2518zBMucR7TKfRr-SZVspm1f4K42OzHgSK8cv-UiMfHvLuc"/>
+<div class="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+<span class="material-symbols-outlined text-white text-3xl">zoom_in</span>
+</div>
+</div>
+<div class="relative group overflow-hidden rounded-3xl">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Close-up of a student's hands skillfully playing a violin in a school music room. The lighting is warm and artistic, focusing on the craftsmanship of the instrument and the student's technique. The background shows other orchestral instruments blurred in a professional music studio setting, representing a commitment to arts education." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5Wsr9VyWTkQplc2wqCASggUTAzjHyoCyqdZCVTdHPzd1r2qNfHLWYDKKaY1WgLd4iQOQjBvYSY1BILBUNg_8ret_stRxYuf4AWN_revjZykfwomiwuu38OEXPBC6MfMY8tG7kL7L94th8aCJbC2CGxPFrcfg1Rn4Afl0Yqnp7SGmxVHu8J1pPJG0Y3swkpptjam9w8QgYWX9xCRnd120nKdPuQlWkGa7Xto7i6ydwz4hqWfR04BrYepsUnLHWPhbSbWbc_eAnUvZX"/>
+<div class="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+<span class="material-symbols-outlined text-white text-3xl">zoom_in</span>
+</div>
+</div>
+</div>
+<div class="mt-8 text-center">
+<button class="bg-primary/5 text-primary border-2 border-primary/20 px-10 py-3 rounded-xl font-bold hover:bg-primary/10 transition-all">Lihat Semua Galeri Foto</button>
+</div>
+</section>
+<!-- Section 8: CTA PPDB Banner -->
+<section class="py-20 px-8">
+<div class="bg-secondary-container rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden">
+<div class="absolute -top-10 -left-10 w-40 h-40 bg-white/20 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-10 -right-10 w-60 h-60 bg-on-secondary-container/10 rounded-full blur-3xl"></div>
+<div class="relative z-10 max-w-3xl mx-auto">
+<h2 class="font-display-lg text-on-secondary-fixed mb-6">Penerimaan Peserta Didik Baru (PPDB) Telah Dibuka!</h2>
+<p class="font-body-lg text-on-secondary-fixed opacity-80 mb-10">Jadilah bagian dari komunitas pembelajar Institutional School. Kuota terbatas untuk tahun ajaran 2024/2025.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="bg-primary text-white px-10 py-4 rounded-2xl font-bold shadow-xl shadow-primary/20 hover:scale-105 transition-transform flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">rocket_launch</span> Daftar Sekarang
+                        </button>
+<button class="bg-white/20 backdrop-blur-md border-2 border-on-secondary-fixed/20 text-on-secondary-fixed px-10 py-4 rounded-2xl font-bold hover:bg-white/30 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">download</span> Unduh Brosur
+                        </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 w-full py-12 border-t mt-auto border-t border-slate-200 dark:border-slate-800 flat no shadows">
+<div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+<div class="flex flex-col gap-4">
+<div class="text-xl font-black text-blue-900 dark:text-white font-inter tracking-tight">Institutional School</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-inter">
+                    Mencetak generasi emas dengan integritas, kreativitas, dan nalar kritis. Berakreditasi A dengan fasilitas standar internasional.
+                </p>
+<div class="flex gap-4 mt-2">
+<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer transition-colors">social_leaderboard</span>
+<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer transition-colors">language</span>
+<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer transition-colors">account_circle</span>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-bold text-blue-900 dark:text-blue-400 uppercase text-xs tracking-widest">Akses Cepat</h4>
+<ul class="space-y-2">
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-blue-900 dark:hover:text-white underline font-inter transition-opacity duration-200" href="#">Campus Map</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-blue-900 dark:hover:text-white underline font-inter transition-opacity duration-200" href="#">Alumni Portal</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-blue-900 dark:hover:text-white underline font-inter transition-opacity duration-200" href="#">E-Learning</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-blue-900 dark:hover:text-white underline font-inter transition-opacity duration-200" href="#">Perpustakaan</a></li>
+</ul>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-bold text-blue-900 dark:text-blue-400 uppercase text-xs tracking-widest">Informasi</h4>
+<ul class="space-y-2">
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-blue-900 dark:hover:text-white underline font-inter transition-opacity duration-200" href="#">Privacy Policy</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-blue-900 dark:hover:text-white underline font-inter transition-opacity duration-200" href="#">Terms of Service</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-blue-900 dark:hover:text-white underline font-inter transition-opacity duration-200" href="#">Karir Guru</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-blue-900 dark:hover:text-white underline font-inter transition-opacity duration-200" href="#">Donasi</a></li>
+</ul>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-bold text-blue-900 dark:text-blue-400 uppercase text-xs tracking-widest">Kontak</h4>
+<p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-inter">
+                    Jl. Pendidikan No. 123, Jakarta Selatan<br/>
+                    info@institutionalschool.sch.id<br/>
+                    (021) 123-4567
+                </p>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-8 mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 text-center">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-inter">© 2024 Institutional School. All rights reserved. Academic Prestige &amp; Reliability.</p>
+</div>
+</footer>
+</body></html>

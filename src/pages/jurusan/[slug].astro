@@ -1,0 +1,167 @@
+---
+import MainLayout from "@/layouts/MainLayout.astro";
+import Button from "@/components/ui/Button.astro";
+import { MajorService } from "@/lib/services/major.service";
+import { SchoolService } from "@/lib/services/school.service";
+
+const { slug } = Astro.params;
+const major = await MajorService.getMajorBySlug(slug as string);
+
+if (!major) {
+  return Astro.redirect("/404");
+}
+
+const allMajors = await MajorService.getActiveMajors();
+const otherMajors = allMajors.filter((m) => m.id !== major.id).slice(0, 4);
+
+const profile = await SchoolService.getProfile();
+const schoolName = profile?.schoolName || "Institutional School";
+const term = Astro.locals.terminology?.dictionary;
+const majorPlural = term?.major?.plural || "Jurusan";
+const ppdbText = term?.admissions?.short || "PPDB";
+---
+
+<MainLayout 
+  title={`${major.name} | ${majorPlural} | ${schoolName}`}
+  description={major.excerpt || major.name}
+  image={major.thumbnail || undefined}
+  preloadImage={major.thumbnail || undefined}
+>
+  <main class="max-w-[1200px] mx-auto px-6 md:px-12 py-12">
+    <!-- Breadcrumb -->
+    <nav class="flex flex-wrap text-xs font-semibold text-on-surface-variant mb-6 items-center gap-2" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-primary transition-colors">Beranda</a>
+      <span>/</span>
+      <a href="/jurusan" class="hover:text-primary transition-colors">{majorPlural}</a>
+      <span>/</span>
+      <span class="text-on-surface font-bold">{major.name}</span>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+      <!-- Main Content (Column 1-8) -->
+      <div class="lg:col-span-8">
+        <header class="mb-8">
+          <span class="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full uppercase tracking-wider mb-3">
+            {term?.major?.long || "Program Keahlian"}
+          </span>
+          <h1 class="text-3xl md:text-4xl font-extrabold text-on-surface leading-tight mb-4">
+            {major.name}
+          </h1>
+          {major.excerpt && (
+            <p class="text-lg text-on-surface-variant leading-relaxed font-medium">
+              {major.excerpt}
+            </p>
+          )}
+        </header>
+
+        <!-- Thumbnail -->
+        {major.thumbnail && (
+          <div class="mb-10 overflow-hidden rounded-2xl bg-surface-container shadow-sm">
+            <img
+              alt={major.name}
+              class="w-full aspect-[16/9] object-cover"
+              src={major.thumbnail}
+              loading="eager"
+              fetchpriority="high"
+            />
+          </div>
+        )}
+
+        <!-- Main Body Description -->
+        <div
+          class="prose-content font-body-lg text-base md:text-lg text-on-surface leading-[30px] font-medium
+          [&>p]:mb-6
+          [&>blockquote]:border-l-4 [&>blockquote]:border-primary [&>blockquote]:pl-6 [&>blockquote]:italic [&>blockquote]:my-8 [&>blockquote]:text-primary [&>blockquote]:font-medium
+          [&>h2]:text-2xl md:[&>h2]:text-3xl [&>h2]:font-bold [&>h2]:text-on-surface [&>h2]:mb-4 [&>h2]:mt-10
+          [&>h3]:text-xl md:[&>h3]:text-2xl [&>h3]:font-bold [&>h3]:text-on-surface [&>h3]:mb-3 [&>h3]:mt-8
+          [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-6 [&>ul>li]:mb-1.5
+          [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-6 [&>ol>li]:mb-1.5
+          [&>a]:text-primary [&>a]:underline hover:[&>a]:text-primary-hover
+          [&>strong]:text-on-surface [&>strong]:font-bold"
+        >
+          {major.content ? (
+            <Fragment set:html={major.content} />
+          ) : (
+            <p class="italic text-on-surface-variant">Deskripsi program keahlian belum diisi.</p>
+          )}
+        </div>
+      </div>
+
+      <!-- Sidebar (Column 9-12) -->
+      <aside class="lg:col-span-4 space-y-10">
+        <!-- CTA PPDB -->
+        {profile?.ppdbIsActive && (
+          <div class="bg-gradient-to-br from-primary to-primary-hover text-on-primary p-8 rounded-2xl shadow-md border border-primary/20 space-y-6 relative overflow-hidden group">
+            <div class="absolute inset-0 opacity-10 pointer-events-none">
+              <div class="absolute top-0 right-0 w-32 h-32 bg-white rounded-full blur-2xl -translate-y-1/3 translate-x-1/3"></div>
+            </div>
+            
+            <div class="relative z-10">
+              <span class="inline-block px-3 py-1 bg-white/20 text-white text-xs font-bold rounded-full uppercase tracking-wider mb-4">
+                Penerimaan Siswa Baru
+              </span>
+              <h3 class="text-2xl font-bold font-inter leading-tight mb-2">
+                Daftar Sekarang di {major.name}
+              </h3>
+              <p class="text-sm text-white/80 leading-relaxed mb-6 font-medium">
+                Penerimaan Peserta Didik Baru ({ppdbText}) tahun ajaran ini sedang aktif. Segera daftarkan diri Anda sebelum kuota terpenuhi.
+              </p>
+              
+              <Button 
+                variant="secondary"
+                href="/pendaftaran"
+                class="w-full justify-center py-3 bg-white text-primary hover:bg-slate-50 transition-colors font-bold rounded-xl shadow-sm hover:shadow-md"
+              >
+                Daftar Online
+              </Button>
+            </div>
+          </div>
+        )}
+
+        <!-- Other Majors list -->
+        {otherMajors.length > 0 && (
+          <div class="space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-outline-variant/30">
+              <h4 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">
+                {majorPlural} Lainnya
+              </h4>
+            </div>
+            <div class="space-y-4 pt-2">
+              {otherMajors.map((item) => (
+                <a
+                  class="group flex gap-4 items-center p-3 rounded-xl hover:bg-surface-variant/30 border border-transparent hover:border-outline-variant/20 transition-all"
+                  href={`/jurusan/${item.slug}`}
+                >
+                  <div class="w-16 h-16 shrink-0 rounded-lg overflow-hidden bg-surface-container relative">
+                    {item.thumbnail ? (
+                      <img 
+                        src={item.thumbnail} 
+                        alt={item.name} 
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                        loading="lazy" 
+                      />
+                    ) : (
+                      <div class="w-full h-full flex items-center justify-center bg-primary/5 text-xl">
+                        📖
+                      </div>
+                    )}
+                  </div>
+                  <div class="flex-grow min-w-0">
+                    <h5 class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors leading-[1.3] truncate mb-1">
+                      {item.name}
+                    </h5>
+                    {item.excerpt && (
+                      <p class="text-xs text-on-surface-variant line-clamp-2 leading-relaxed">
+                        {item.excerpt}
+                      </p>
+                    )}
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </aside>
+    </div>
+  </main>
+</MainLayout>
