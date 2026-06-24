@@ -4,7 +4,7 @@
  * Supports both Astro (import.meta.env) and Node.js (process.env) environments.
  */
 
-const getEnv = (key: string) => {
+export const getEnv = (key: string) => {
   if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env[key]) {
     return import.meta.env[key];
   }

@@ -7,18 +7,39 @@
 
 import { createClient } from '@libsql/client/web';
 import { drizzle } from 'drizzle-orm/libsql';
-import { DB_URL, DB_TOKEN } from './env';
+import { getEnv } from './env';
 import * as schema from './schema';
 
-if (!DB_URL) {
-  throw new Error(
-    'TURSO_DATABASE_URL is required. Please set it in your environment variables or .env file.'
-  );
+let _db: any = null;
+
+function getDb() {
+  if (_db) return _db;
+
+  const url = getEnv('TURSO_DATABASE_URL');
+  const token = getEnv('TURSO_AUTH_TOKEN');
+
+  if (!url) {
+    throw new Error(
+      'TURSO_DATABASE_URL is required. Please set it in your environment variables or .env file.'
+    );
+  }
+
+  const client = createClient({
+    url: url,
+    authToken: token,
+  });
+
+  _db = drizzle(client, { schema });
+  return _db;
 }
 
-const client = createClient({
-  url: DB_URL,
-  authToken: DB_TOKEN,
-});
-
-export const db = drizzle(client, { schema });
+export const db = new Proxy({} as any, {
+  get(_target, prop, receiver) {
+    const instance = getDb();
+    const value = Reflect.get(instance, prop, receiver);
+    if (typeof value === 'function') {
+      return value.bind(instance);
+    }
+    return value;
+  }
+}) as unknown as ReturnType<typeof drizzle<typeof schema>>;
