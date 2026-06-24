@@ -9,4 +9,4 @@ pages_build_output_dir = "dist"
 
 [[kv_namespaces]]
 binding = "SESSION"
-namespace_id = "772227ffd43f42fb9633e55bd9a4eb64"
+id = "772227ffd43f42fb9633e55bd9a4eb64"
