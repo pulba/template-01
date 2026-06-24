@@ -4,4 +4,9 @@ compatibility_flags = [ "nodejs_compat" ]
 pages_build_output_dir = "dist"
 
 [vars]
-# TURSO_DATABASE_URL = "libsql://your-db.turso.io"
+# TURSO_DATABASE_URL = ""
+# TURSO_AUTH_TOKEN = ""
+
+[[kv_namespaces]]
+binding = "SESSION"
+namespace_id = "772227ffd43f42fb9633e55bd9a4eb64"
