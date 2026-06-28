@@ -8,12 +8,15 @@ interface Props {
 }
 
 const { category, date } = Astro.props;
+const categoryHref = `/berita?kategori=${category.toLowerCase()}`;
 ---
 
 <div class="flex flex-wrap items-center gap-6 mb-8 text-on-surface-variant font-medium">
-  <Badge variant={category === "AKADEMIK" ? "secondary" : "primary"}>
-    {category}
-  </Badge>
+  <a href={categoryHref} class="hover:opacity-80 transition-opacity">
+    <Badge variant={category === "AKADEMIK" ? "secondary" : "primary"}>
+      {category}
+    </Badge>
+  </a>
   <div class="flex items-center gap-2">
     <Icon name="calendar_today" size="sm" class="text-primary" />
     <span>{date}</span>

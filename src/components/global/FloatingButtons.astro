@@ -1,21 +1,20 @@
 ---
 import Icon from "@/components/ui/Icon.astro";
+
+const term = Astro.locals.terminology?.dictionary;
+const admissionsLabel = term?.admissions?.short || "PPDB";
 ---
 
 <div class="fixed bottom-8 right-8 z-[100] flex flex-col gap-4">
-  <!-- WhatsApp CTA -->
+  <!-- Admissions CTA -->
   <a
-    href="https://wa.me/62123456789"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="bg-primary text-on-primary w-14 h-14 rounded-full flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-all duration-200 group relative"
-    aria-label="Chat WhatsApp"
+    href="/pendaftaran"
+    class="bg-[#00a859] text-white px-6 py-3 rounded-full flex items-center gap-3 shadow-lg hover:scale-105 active:scale-95 transition-all duration-200 group"
+    aria-label={`Daftar ${admissionsLabel}`}
   >
-    <Icon name="chat" size="lg" />
-    <span
-      class="absolute right-full mr-4 bg-white text-on-surface px-4 py-2 rounded-full shadow-sm text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-outline-variant"
-    >
-      Hubungi via WhatsApp
+    <Icon name="school" size="sm" />
+    <span class="text-sm font-bold whitespace-nowrap">
+      Daftar {admissionsLabel}
     </span>
   </a>
 </div>

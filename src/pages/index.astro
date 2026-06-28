@@ -45,12 +45,9 @@ if (data.banners.length > 0) {
 
   <QuickStats statItems={data.stats} />
 
-  {data.welcome.principalName && <PrincipalWelcome {...data.welcome} />}
-
-  {data.majors.length > 0 && <MajorsGrid majors={data.majors.slice(0, 3)} />}
-
   {data.latestNews.length > 0 && <LatestNews posts={data.latestNews} />}
-  {data.visionMission.visionText && <VisionMission {...data.visionMission} />}
+
+  {data.welcome.principalName && <PrincipalWelcome {...data.welcome} />}
 
   {
     data.achievements && data.achievements.length > 0 && (

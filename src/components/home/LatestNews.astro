@@ -1,8 +1,9 @@
 ---
 import Container from "@/components/ui/Container.astro";
-import SectionHeader from "@/components/ui/SectionHeader.astro";
-import NewsCard from "@/components/home/NewsCard.astro";
-import Button from "@/components/ui/Button.astro";
+import Icon from "@/components/ui/Icon.astro";
+import { Image } from "astro:assets";
+
+import 'swiper/css';
 
 interface Post {
   image: string;
@@ -18,22 +19,147 @@ interface Props {
 }
 
 const { posts } = Astro.props;
+const featuredPosts = posts.slice(0, 5);
+const listPosts = posts.slice(1, 5);
 ---
 
-<section class="section-padding">
+<section class="py-12 bg-white">
   <Container>
-    <SectionHeader
-      title="Berita Terbaru"
-      subtitle="Ikuti perkembangan dan kegiatan terbaru di sekolah kami."
-    />
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {posts.map((post) => <NewsCard {...post} />)}
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-8 pb-4 border-b border-gray-100">
+      <h2 class="text-2xl font-bold text-primary">Berita Terbaru</h2>
+      <a
+        href="/berita"
+        class="inline-flex items-center gap-2 px-4 py-2 border border-primary text-primary rounded-lg font-bold text-sm hover:bg-primary hover:text-on-primary transition-all group"
+      >
+        Lihat Semua
+        <Icon name="open_in_new" size="xs" class="group-hover:scale-110 transition-transform" />
+      </a>
     </div>
 
-    <div class="mt-10 text-center flex justify-center">
-      <Button href="/berita" variant="outline-primary" class="shadow-sm">
-        Lihat Semua Berita
-      </Button>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <!-- Left: Featured News Slider -->
+      <div class="lg:col-span-8 relative group overflow-hidden">
+        <div class="swiper news-featured-swiper rounded-2xl shadow-xl">
+          <div class="swiper-wrapper">
+            {featuredPosts.map((post) => (
+              <div class="swiper-slide relative aspect-[16/9]">
+                <Image
+                  src={post.image}
+                  alt={post.title}
+                  width={1200}
+                  height={675}
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <!-- Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                
+                <!-- Content -->
+                <div class="absolute bottom-0 left-0 p-6 md:p-10 w-full">
+                  <span class="inline-block bg-white/20 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded mb-4 uppercase tracking-wider">
+                    {post.category}
+                  </span>
+                  <h3 class="text-2xl md:text-4xl font-bold text-white mb-6 leading-tight uppercase max-w-2xl">
+                    {post.title}
+                  </h3>
+                  
+                  <div class="flex flex-wrap items-center gap-6 text-white/80 text-sm mb-8">
+                    <div class="flex items-center gap-2">
+                      <Icon name="calendar_today" size="xs" />
+                      {post.date}
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <Icon name="person" size="xs" />
+                      Penulis : Admin
+                    </div>
+                  </div>
+
+                  <div class="flex items-center justify-between">
+                    <a
+                      href={post.href}
+                      class="inline-flex items-center px-6 py-2 border border-white/30 rounded-full text-white text-xs font-medium hover:bg-white hover:text-black transition-all"
+                    >
+                      Baca Selengkapnya
+                    </a>
+
+                    <!-- Pagination UI (Controlled by Swiper) -->
+                    <div class="hidden md:flex items-center gap-4 bg-black/40 backdrop-blur-md border border-white/10 rounded-full px-4 py-2 text-white text-xs">
+                      <button class="news-prev hover:text-primary transition-colors">
+                        <Icon name="chevron_left" size="sm" />
+                      </button>
+                      <span class="font-medium">
+                        <span class="current-slide">1</span> dari {featuredPosts.length}
+                      </span>
+                      <button class="news-next hover:text-primary transition-colors">
+                        <Icon name="chevron_right" size="sm" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: News List & Tabs -->
+      <div class="lg:col-span-4">
+        <!-- Tabs -->
+        <div class="flex gap-8 mb-8 border-b border-gray-100">
+          <button class="pb-4 text-sm font-bold text-primary border-b-2 border-primary uppercase tracking-widest">
+            Terbaru
+          </button>
+          <button class="pb-4 text-sm font-bold text-gray-400 hover:text-gray-600 uppercase tracking-widest transition-colors">
+            Terpopuler
+          </button>
+        </div>
+
+        <!-- List -->
+        <div class="space-y-8">
+          {listPosts.map((post) => (
+            <a href={post.href} class="group block">
+              <h4 class="font-bold text-on-surface leading-snug group-hover:text-primary transition-colors mb-2 line-clamp-2">
+                {post.title}
+              </h4>
+              <div class="flex items-center gap-3 text-xs text-on-surface-variant/60">
+                <span class="font-medium uppercase tracking-wider">{post.category}</span>
+                <span>|</span>
+                <span>{post.date}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
     </div>
   </Container>
 </section>
+
+<script>
+  import Swiper from 'swiper';
+  import { Navigation, Autoplay } from 'swiper/modules';
+
+  function initNewsSlider() {
+    const swiper = new Swiper('.news-featured-swiper', {
+      modules: [Navigation, Autoplay],
+      loop: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      navigation: {
+        nextEl: '.news-next',
+        prevEl: '.news-prev',
+      },
+      on: {
+        slideChange: function (s) {
+          const currentSlideElement = document.querySelector('.current-slide');
+          if (currentSlideElement) {
+            currentSlideElement.textContent = (s.realIndex + 1).toString();
+          }
+        }
+      }
+    });
+  }
+
+  initNewsSlider();
+</script>

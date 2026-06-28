@@ -4,6 +4,7 @@ import Container from "@/components/ui/Container.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import NewsGrid from "@/components/news/NewsGrid.astro";
 import Pagination from "@/components/ui/Pagination.astro";
+import Badge from "@/components/ui/Badge.astro";
 import { PostService } from "@/lib/services/post.service";
 import { SchoolService } from "@/lib/services/school.service";
 import type { NewsPost } from "@/types/homepage";
@@ -170,10 +171,10 @@ if (isCategory) {
             </h1>
             
             <div class="flex flex-wrap gap-3 mb-6 items-center">
-              <a href={`/berita/${(post!.category || 'berita').toLowerCase()}`}
-                class="bg-surface-container-highest text-primary text-xs font-bold px-3 py-1.5 rounded-lg uppercase tracking-wider hover:bg-primary hover:text-white transition-colors"
-              >
-                {post!.category || "Berita"}
+              <a href={`/berita?kategori=${(post!.category || 'berita').toLowerCase()}`} class="hover:opacity-80 transition-opacity">
+                <Badge variant="primary" rounded="md">
+                  {post!.category || "Berita"}
+                </Badge>
               </a>
               <span class="text-on-surface-variant text-sm py-1 font-medium">
                 {formatDate(post!.date)}
@@ -287,20 +288,22 @@ if (isCategory) {
                   Popular Posts
                 </h4>
                 {popularPosts.map((popPost, index) => (
-                  <a
-                    class="group flex gap-4 pb-4 border-b border-surface-container-highest/50 last:border-0 items-center"
-                    href={popPost.href}
-                  >
+                  <div class="group flex gap-4 pb-4 border-b border-surface-container-highest/50 last:border-0 items-center relative">
+                    <a href={popPost.href} class="absolute inset-0 z-0"></a>
                     <div class="w-20 h-20 shrink-0 rounded-md overflow-hidden bg-surface-container relative">
                       <div class="absolute top-0 left-0 bg-primary text-on-primary text-[10px] font-bold px-1.5 py-0.5 z-10 rounded-br-md">
                         #{index + 1}
                       </div>
                       <img src={popPost.image || "https://via.placeholder.com/150"} alt={popPost.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
                     </div>
-                    <div class="flex-grow flex flex-col justify-center">
-                      <span class="text-[10px] font-bold text-primary tracking-wider uppercase mb-1">
-                        {popPost.category || "Berita"}
-                      </span>
+                    <div class="flex-grow flex flex-col justify-center relative z-10 pointer-events-none">
+                      <div class="mb-1 pointer-events-auto">
+                        <a href={`/berita?kategori=${(popPost.category || 'Berita').toLowerCase()}`} class="hover:opacity-80 transition-opacity">
+                          <Badge variant="primary" rounded="md" class="!text-[9px] !px-2 !py-0.5">
+                            {popPost.category || "Berita"}
+                          </Badge>
+                        </a>
+                      </div>
                       <h5 class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors leading-[1.3] line-clamp-2 mb-1">
                         {popPost.title}
                       </h5>
@@ -308,7 +311,7 @@ if (isCategory) {
                         {formatDate(popPost.date)}
                       </p>
                     </div>
-                  </a>
+                  </div>
                 ))}
               </div>
             )
@@ -322,17 +325,19 @@ if (isCategory) {
                   Recent Posts
                 </h4>
                 {relatedPosts.map((relPost) => (
-                  <a
-                    class="group flex gap-4 pb-4 border-b border-surface-container-highest/50 last:border-0 items-center"
-                    href={relPost.href}
-                  >
+                  <div class="group flex gap-4 pb-4 border-b border-surface-container-highest/50 last:border-0 items-center relative">
+                    <a href={relPost.href} class="absolute inset-0 z-0"></a>
                     <div class="w-20 h-20 shrink-0 rounded-md overflow-hidden bg-surface-container">
                       <img src={relPost.image || "https://via.placeholder.com/150"} alt={relPost.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
                     </div>
-                    <div class="flex-grow flex flex-col justify-center">
-                      <span class="text-[10px] font-bold text-primary tracking-wider uppercase mb-1">
-                        {relPost.category || "Berita"}
-                      </span>
+                    <div class="flex-grow flex flex-col justify-center relative z-10 pointer-events-none">
+                      <div class="mb-1 pointer-events-auto">
+                        <a href={`/berita?kategori=${(relPost.category || 'Berita').toLowerCase()}`} class="hover:opacity-80 transition-opacity">
+                          <Badge variant="primary" rounded="md" class="!text-[9px] !px-2 !py-0.5">
+                            {relPost.category || "Berita"}
+                          </Badge>
+                        </a>
+                      </div>
                       <h5 class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors leading-[1.3] line-clamp-2 mb-1">
                         {relPost.title}
                       </h5>
@@ -340,7 +345,7 @@ if (isCategory) {
                         {formatDate(relPost.date)}
                       </p>
                     </div>
-                  </a>
+                  </div>
                 ))}
               </div>
             )

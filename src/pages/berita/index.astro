@@ -3,6 +3,7 @@ import MainLayout from '@/layouts/MainLayout.astro';
 import Container from '@/components/ui/Container.astro';
 import SectionHeader from '@/components/ui/SectionHeader.astro';
 import NewsGrid from '@/components/news/NewsGrid.astro';
+import Badge from '@/components/ui/Badge.astro';
 import { PostService } from '@/lib/services/post.service';
 import { SchoolService } from '@/lib/services/school.service';
 
@@ -23,19 +24,31 @@ const categoryCards = categories.map((cat) => ({
   image: thumbnails[cat]
 }));
 
-// Handle Pagination
+// Handle Pagination & Filtering
 const searchParams = Astro.url.searchParams;
 const currentPage = parseInt(searchParams.get('page') || '1') || 1;
+const currentKategori = searchParams.get('kategori');
 const limit = 6;
 
-// Fetch a general "Berita Terbaru" block (always from page 1 for the top section)
-const latestPosts = await PostService.getPostsPaginated(1, 5);
+// Fetch data based on filtering
+let allPosts: any[] = [];
+let totalPosts = 0;
+
+if (currentKategori) {
+  allPosts = await PostService.getPostsByCategoryPaginated(currentKategori.toUpperCase(), currentPage, limit);
+  totalPosts = await PostService.getTotalPostsByCategory(currentKategori.toUpperCase());
+} else {
+  allPosts = await PostService.getPostsPaginated(currentPage, limit);
+  totalPosts = await PostService.getTotalPosts();
+}
+
+const totalPages = Math.ceil(totalPosts / limit);
+
+// Fetch a general "Berita Terbaru" block (only for page 1 without category filter)
+const latestPosts = !currentKategori && currentPage === 1 ? await PostService.getPostsPaginated(1, 5) : [];
 
 // Fetch data for the new main feed and sidebar
 const popularPosts = await PostService.getPopularPosts(4);
-const allPosts = await PostService.getPostsPaginated(currentPage, limit);
-const totalPosts = await PostService.getTotalPosts();
-const totalPages = Math.ceil(totalPosts / limit);
 
 const categoriesWithCount = categories.map((cat) => ({
   name: cat,
@@ -60,12 +73,14 @@ const preloadFeaturedImage = latestPosts.length > 0 ? (latestPosts[0].image || "
   <section class="py-16 bg-white min-h-[70vh]">
     <Container>
       <SectionHeader 
-        title="Berita Terbaru" 
-        subtitle="Dapatkan informasi terbaru mengenai kegiatan, prestasi, dan pengumuman resmi sekolah."
+        title={currentKategori ? `Kategori: ${currentKategori.toUpperCase()}` : "Berita Terbaru"} 
+        subtitle={currentKategori 
+          ? `Menampilkan berita dalam kategori ${currentKategori.toLowerCase()}.`
+          : "Dapatkan informasi terbaru mengenai kegiatan, prestasi, dan pengumuman resmi sekolah."}
       />
       
-      <!-- Berita Terbaru Section (Hero Grid) -->
-      {latestPosts.length > 0 && (
+      <!-- Berita Terbaru Section (Hero Grid) - Only show on page 1 without filter -->
+      {!currentKategori && currentPage === 1 && latestPosts.length > 0 && (
         <div class="mb-20">
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-3">
             <!-- Left Side: Featured Post (1 post) -->
@@ -93,21 +108,22 @@ const preloadFeaturedImage = latestPosts.length > 0 ? (latestPosts[0].image || "
             <div class="flex overflow-x-auto lg:grid lg:grid-cols-2 gap-2 lg:gap-3 pb-4 lg:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden" style="scrollbar-width: none; -ms-overflow-style: none;">
               {latestPosts.slice(1, 5).map((post) => (
                 <div class="relative group overflow-hidden rounded-sm aspect-[16/9] lg:aspect-auto w-[85vw] sm:w-[45vw] lg:w-auto flex-shrink-0 snap-center">
-                  <a href={`/berita/${post.slug}`} class="absolute inset-0 block">
-                    <img src={post.image || "https://via.placeholder.com/400x300"} alt={post.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-                    
-                    <div class="absolute inset-0 flex flex-col justify-end p-4 md:p-5 text-white">
-                      <div class="mb-3">
-                        <span class="bg-white text-on-surface text-[10px] font-bold px-1.5 py-0.5 rounded-sm capitalize tracking-wide">
+                  <img src={post.image || "https://via.placeholder.com/400x300"} alt={post.title} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                  
+                  <div class="absolute inset-0 flex flex-col justify-end p-4 md:p-5 text-white">
+                    <div class="mb-3">
+                      <a href={`/berita?kategori=${(post.category || "Berita").toLowerCase()}`} class="hover:opacity-80 transition-opacity relative z-10">
+                        <Badge variant="neutral" rounded="md">
                           {post.category || "Berita"}
-                        </span>
-                      </div>
-                      <h4 class="leading-snug mb-2 line-clamp-2 group-hover:text-primary-fixed transition-colors text-white font-bold">
-                        {post.title}
-                      </h4>
+                        </Badge>
+                      </a>
                     </div>
-                  </a>
+                    <a href={`/berita/${post.slug}`} class="absolute inset-0 z-0"></a>
+                    <h4 class="leading-snug mb-2 line-clamp-2 group-hover:text-primary-fixed transition-colors text-white font-bold relative z-10 pointer-events-none">
+                      {post.title}
+                    </h4>
+                  </div>
                 </div>
               ))}
             </div>
@@ -115,8 +131,8 @@ const preloadFeaturedImage = latestPosts.length > 0 ? (latestPosts[0].image || "
         </div>
       )}
 
-      <!-- Split Layout: Prestasi (Left) & Akademik (Right) -->
-      {(prestasiPosts.length > 0 || akademikPosts.length > 0) && currentPage === 1 && (
+      <!-- Split Layout: Prestasi (Left) & Akademik (Right) - Only show on page 1 without filter -->
+      {!currentKategori && (prestasiPosts.length > 0 || akademikPosts.length > 0) && currentPage === 1 && (
         <>
           <!-- SPLIT LAYOUT (PRESTASI & AKADEMIK) -->
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-20">
@@ -130,11 +146,18 @@ const preloadFeaturedImage = latestPosts.length > 0 ? (latestPosts[0].image || "
               {prestasiPosts.length > 0 && (
                 <div class="flex flex-col gap-6">
                   <!-- Big Highlight Post -->
-                  <a href={`/berita/${prestasiPosts[0].slug}`} class="group relative aspect-[16/9] md:aspect-[2/1] overflow-hidden rounded-md bg-surface-variant">
+                  <div class="group relative aspect-[16/9] md:aspect-[2/1] overflow-hidden rounded-md bg-surface-variant">
                     <img src={prestasiPosts[0].image || "https://via.placeholder.com/800x400"} alt={prestasiPosts[0].title} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-                    <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col">
-                      <span class="text-primary-container text-xs font-bold uppercase tracking-wider mb-2">{prestasiPosts[0].category || targetPrestasi}</span>
+                    <a href={`/berita/${prestasiPosts[0].slug}`} class="absolute inset-0 z-0"></a>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col relative z-10 pointer-events-none">
+                      <div class="mb-2 pointer-events-auto">
+                        <a href={`/berita?kategori=${(prestasiPosts[0].category || targetPrestasi).toLowerCase()}`} class="hover:opacity-80 transition-opacity">
+                          <Badge variant="primary" rounded="md">
+                            {prestasiPosts[0].category || targetPrestasi}
+                          </Badge>
+                        </a>
+                      </div>
                       <h3 class="text-white text-xl md:text-2xl font-bold font-inter leading-tight line-clamp-2 mb-2 group-hover:text-primary-container transition-colors">
                         {prestasiPosts[0].title}
                       </h3>
@@ -142,7 +165,7 @@ const preloadFeaturedImage = latestPosts.length > 0 ? (latestPosts[0].image || "
                         <span class="flex items-center gap-1.5"><Icon name="schedule" class="text-[14px]" /> {formatDate(prestasiPosts[0].date)}</span>
                       </div>
                     </div>
-                  </a>
+                  </div>
 
                   <!-- Small Posts Grid -->
                   {prestasiPosts.length > 1 && (
@@ -175,12 +198,19 @@ const preloadFeaturedImage = latestPosts.length > 0 ? (latestPosts[0].image || "
               
               <div class="flex flex-col gap-6 h-full">
                 {akademikPosts.map(post => (
-                  <a href={`/berita/${post.slug}`} class="group flex flex-col bg-white rounded-md overflow-hidden shadow-sm border border-outline-variant hover:shadow-md transition-all flex-1 flex-grow">
+                  <div class="group flex flex-col bg-white rounded-md overflow-hidden shadow-sm border border-outline-variant hover:shadow-md transition-all flex-1 flex-grow relative">
+                    <a href={`/berita/${post.slug}`} class="absolute inset-0 z-0"></a>
                     <div class="relative w-full shrink-0 flex-1 min-h-[160px]">
                       <img src={post.image || "https://via.placeholder.com/400x300"} alt={post.title} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                     </div>
-                    <div class="p-5 flex flex-col flex-grow bg-white relative z-10 shrink-0">
-                      <span class="text-primary text-[10px] font-bold uppercase tracking-wider mb-2">{post.category || targetAkademik}</span>
+                    <div class="p-5 flex flex-col flex-grow bg-white relative z-10 shrink-0 pointer-events-none">
+                      <div class="mb-2 pointer-events-auto">
+                        <a href={`/berita?kategori=${(post.category || targetAkademik).toLowerCase()}`} class="hover:opacity-80 transition-opacity">
+                          <Badge variant="secondary" rounded="md">
+                            {post.category || targetAkademik}
+                          </Badge>
+                        </a>
+                      </div>
                       <h3 class="text-lg font-bold font-inter text-on-surface mb-2 group-hover:text-primary transition-colors leading-tight line-clamp-2">
                         {post.title}
                       </h3>
@@ -191,7 +221,7 @@ const preloadFeaturedImage = latestPosts.length > 0 ? (latestPosts[0].image || "
                         <span class="flex items-center gap-1.5"><Icon name="schedule" class="text-[14px]" /> {formatDate(post.date)}</span>
                       </div>
                     </div>
-                  </a>
+                  </div>
                 ))}
               </div>
             </div>
@@ -227,8 +257,8 @@ const preloadFeaturedImage = latestPosts.length > 0 ? (latestPosts[0].image || "
         <!-- MAIN CONTENT (LEFT COLUMN) -->
         <div class="lg:col-span-8 flex flex-col gap-12">
           
-          <!-- FEATURED POST -->
-          {currentPage === 1 && allPosts.length > 0 && (
+          <!-- FEATURED POST - Only show on page 1 without filter -->
+          {!currentKategori && currentPage === 1 && allPosts.length > 0 && (
             <div>
               <div class="flex items-center gap-4 mb-6">
                 <h2 class="text-[11px] font-bold text-on-surface-variant uppercase tracking-[0.15em] whitespace-nowrap">FEATURED POST</h2>
@@ -237,12 +267,19 @@ const preloadFeaturedImage = latestPosts.length > 0 ? (latestPosts[0].image || "
                 </div>
               </div>
               
-              <a href={`/berita/${allPosts[0].slug}`} class="group flex flex-col md:flex-row bg-white rounded-md overflow-hidden border border-outline-variant transition-all hover:shadow-md">
+              <div class="group flex flex-col md:flex-row bg-white rounded-md overflow-hidden border border-outline-variant transition-all hover:shadow-md relative">
+                <a href={`/berita/${allPosts[0].slug}`} class="absolute inset-0 z-0"></a>
                 <div class="md:w-[50%] shrink-0 relative aspect-video md:aspect-auto">
                   <img src={allPosts[0].image || "https://via.placeholder.com/600x400"} alt={allPosts[0].title} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                 </div>
-                <div class="md:w-[50%] p-6 md:p-8 flex flex-col">
-                  <span class="text-on-surface-variant text-[13px] mb-2.5 capitalize">{allPosts[0].category?.toLowerCase() || 'Berita'}</span>
+                <div class="md:w-[50%] p-6 md:p-8 flex flex-col relative z-10 pointer-events-none">
+                  <div class="mb-2.5 pointer-events-auto">
+                    <a href={`/berita?kategori=${(allPosts[0].category || 'Berita').toLowerCase()}`} class="hover:opacity-80 transition-opacity">
+                      <Badge variant="neutral" rounded="md">
+                        {allPosts[0].category || 'Berita'}
+                      </Badge>
+                    </a>
+                  </div>
                   <h3 class="text-2xl md:text-[28px] font-bold font-inter text-on-surface mb-3.5 group-hover:text-primary transition-colors leading-[1.3] line-clamp-3">
                     {allPosts[0].title}
                   </h3>
@@ -253,27 +290,36 @@ const preloadFeaturedImage = latestPosts.length > 0 ? (latestPosts[0].image || "
                     <span class="flex items-center gap-1.5"><Icon name="schedule" class="text-[15px]" /> {formatDate(allPosts[0].date)}</span>
                   </div>
                 </div>
-              </a>
+              </div>
             </div>
           )}
 
           <!-- LATEST POSTS -->
           <div>
             <div class="flex items-center gap-4 mb-2">
-              <h2 class="text-[11px] font-bold text-on-surface-variant uppercase tracking-[0.15em] whitespace-nowrap">LATEST POSTS</h2>
+              <h2 class="text-[11px] font-bold text-on-surface-variant uppercase tracking-[0.15em] whitespace-nowrap">
+                {currentKategori ? `${currentKategori.toUpperCase()} POSTS` : "LATEST POSTS"}
+              </h2>
               <div class="flex-grow h-px bg-outline-variant relative">
                 <div class="absolute right-0 top-1/2 h-[3px] w-8 bg-primary -translate-y-1/2"></div>
               </div>
             </div>
             
             <div class="flex flex-col">
-              {(currentPage === 1 ? allPosts.slice(1, 6) : allPosts).map((post, index, arr) => (
-                <a href={`/berita/${post.slug}`} class={`group flex flex-col md:flex-row gap-5 py-6 ${index !== arr.length - 1 ? 'border-b border-outline-variant' : ''}`}>
+              {(!currentKategori && currentPage === 1 ? allPosts.slice(1, 6) : allPosts).map((post, index, arr) => (
+                <div class={`group flex flex-col md:flex-row gap-5 py-6 relative ${index !== arr.length - 1 ? 'border-b border-outline-variant' : ''}`}>
+                  <a href={`/berita/${post.slug}`} class="absolute inset-0 z-0"></a>
                   <div class="w-full md:w-[260px] shrink-0 aspect-[16/10] overflow-hidden rounded-md">
                     <img src={post.image || "https://via.placeholder.com/400x300"} alt={post.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                   </div>
-                  <div class="flex flex-col justify-center flex-grow py-1">
-                    <span class="text-on-surface-variant text-[11px] mb-1.5 capitalize">{post.category?.toLowerCase() || 'Berita'}</span>
+                  <div class="flex flex-col justify-center flex-grow py-1 relative z-10 pointer-events-none">
+                    <div class="mb-1.5 pointer-events-auto">
+                      <a href={`/berita?kategori=${(post.category || 'Berita').toLowerCase()}`} class="hover:opacity-80 transition-opacity">
+                        <Badge variant="neutral" rounded="md">
+                          {post.category || 'Berita'}
+                        </Badge>
+                      </a>
+                    </div>
                     <h3 class="text-[20px] font-bold font-inter text-on-surface mb-2.5 group-hover:text-primary transition-colors leading-snug line-clamp-2">
                       {post.title}
                     </h3>
@@ -284,7 +330,7 @@ const preloadFeaturedImage = latestPosts.length > 0 ? (latestPosts[0].image || "
                       <span class="flex items-center gap-1.5"><Icon name="schedule" class="text-[13px]" /> {formatDate(post.date)}</span>
                     </div>
                   </div>
-                </a>
+                </div>
               ))}
             </div>
             
@@ -292,21 +338,21 @@ const preloadFeaturedImage = latestPosts.length > 0 ? (latestPosts[0].image || "
             {totalPages > 1 && (
               <div class="flex items-center justify-center gap-2 mt-10">
                 {currentPage > 1 && (
-                  <a href={`/berita?page=${currentPage - 1}`} class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container hover:bg-surface-variant text-on-surface-variant transition-colors" aria-label="Previous Page">
+                  <a href={`/berita?page=${currentPage - 1}${currentKategori ? `&kategori=${currentKategori}` : ''}`} class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container hover:bg-surface-variant text-on-surface-variant transition-colors" aria-label="Previous Page">
                     <Icon name="chevron_left" class="text-[18px]" />
                   </a>
                 )}
-                
+                    
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNum => (
                   pageNum === currentPage ? (
                     <span class="w-8 h-8 flex items-center justify-center rounded-full bg-primary text-white font-bold text-sm shadow-sm cursor-default">{pageNum}</span>
                   ) : (
-                    <a href={`/berita?page=${pageNum}`} class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container hover:bg-surface-variant text-on-surface-variant font-medium text-sm transition-colors">{pageNum}</a>
+                    <a href={`/berita?page=${pageNum}${currentKategori ? `&kategori=${currentKategori}` : ''}`} class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container hover:bg-surface-variant text-on-surface-variant font-medium text-sm transition-colors">{pageNum}</a>
                   )
                 ))}
 
                 {currentPage < totalPages && (
-                  <a href={`/berita?page=${currentPage + 1}`} class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container hover:bg-surface-variant text-on-surface-variant transition-colors" aria-label="Next Page">
+                  <a href={`/berita?page=${currentPage + 1}${currentKategori ? `&kategori=${currentKategori}` : ''}`} class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container hover:bg-surface-variant text-on-surface-variant transition-colors" aria-label="Next Page">
                     <Icon name="chevron_right" class="text-[18px]" />
                   </a>
                 )}
@@ -327,18 +373,25 @@ const preloadFeaturedImage = latestPosts.length > 0 ? (latestPosts[0].image || "
             </div>
             <div class="flex flex-col gap-5">
               {popularPosts.map(post => (
-                <a href={`/berita/${post.slug}`} class="group flex items-start gap-4">
+                <div class="group flex items-start gap-4 relative">
+                  <a href={`/berita/${post.slug}`} class="absolute inset-0 z-0"></a>
                   <div class="w-[84px] h-[84px] shrink-0 rounded-md overflow-hidden bg-surface-variant shadow-sm">
                     <img src={post.image || "https://via.placeholder.com/150"} alt={post.title} class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
                   </div>
-                  <div class="flex flex-col py-1">
-                    <span class="text-primary text-[9px] font-bold uppercase tracking-[0.15em] mb-1.5">{post.category || 'Berita'}</span>
+                  <div class="flex flex-col py-1 relative z-10 pointer-events-none">
+                    <div class="mb-1.5 pointer-events-auto">
+                      <a href={`/berita?kategori=${(post.category || 'Berita').toLowerCase()}`} class="hover:opacity-80 transition-opacity">
+                        <Badge variant="primary" rounded="md" class="!text-[9px] !px-2 !py-0.5">
+                          {post.category || 'Berita'}
+                        </Badge>
+                      </a>
+                    </div>
                     <h4 class="text-sm font-bold font-inter text-on-surface line-clamp-2 group-hover:text-primary transition-colors leading-snug mb-2">
                       {post.title}
                     </h4>
                     <span class="text-[11px] text-on-surface-variant font-medium flex items-center gap-1"><Icon name="schedule" class="text-[12px]" /> {formatDate(post.date)}</span>
                   </div>
-                </a>
+                </div>
               ))}
             </div>
           </div>

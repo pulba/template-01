@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://institutional-school.pages.dev',
+  site: 'https://template-01-bhh.pages.dev',
   output: 'server',
   adapter: cloudflare({
     imageService: 'passthrough',

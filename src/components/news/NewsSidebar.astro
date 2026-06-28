@@ -31,7 +31,7 @@ const categories = [
     <ul class="space-y-3">
       {categories.map(cat => (
         <li>
-          <a href={`/berita?category=${cat.name}`} class="flex justify-between items-center text-on-surface-variant hover:text-hover-link-safe transition-all group font-medium">
+          <a href={`/berita?kategori=${cat.name.toLowerCase()}`} class="flex justify-between items-center text-on-surface-variant hover:text-hover-link-safe transition-all group font-medium">
             <span class="group-hover:translate-x-1 transition-transform">{cat.name}</span>
             <span class="bg-background text-xs font-bold px-2 py-1 rounded-lg min-w-[32px] text-center">{cat.count}</span>
           </a>

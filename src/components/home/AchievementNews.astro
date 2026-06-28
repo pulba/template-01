@@ -29,20 +29,12 @@ const { posts } = Astro.props;
       viewAllText="Semua Prestasi"
     />
     {posts.length > 0 ? (
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {posts.map((post) => <NewsCard {...post} />)}
       </div>
     ) : (
       <div class="text-center py-12 bg-surface-variant rounded-2xl border border-outline-variant">
         <p class="text-on-surface-variant">Belum ada berita prestasi saat ini.</p>
-      </div>
-    )}
-
-    {posts.length > 0 && (
-      <div class="mt-10 text-center flex justify-center">
-        <Button href="/berita?kategori=prestasi" variant="outline-primary" class="shadow-sm">
-          Lihat Semua Prestasi
-        </Button>
       </div>
     )}
   </Container>

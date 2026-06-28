@@ -44,6 +44,17 @@ const cssVars = Object.entries(themeTokens)
   <head>
     {preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" crossorigin="anonymous" />}
     <SEOHead title={title} description={description} image={image} type={type} favicon={siteData.schoolFavicon || undefined} structuredData={structuredData} />
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YM60QBRWQD"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-YM60QBRWQD');
+    </script>
+
     <style is:global set:html={`
       :root {
         ${cssVars}

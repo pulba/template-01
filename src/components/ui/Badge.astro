@@ -1,18 +1,25 @@
 ---
 interface Props {
-  variant?: 'primary' | 'secondary' | 'tertiary';
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'neutral';
+  rounded?: 'md' | 'full';
   class?: string;
 }
 
-const { variant = 'primary', class: className } = Astro.props;
+const { variant = 'primary', rounded = 'full', class: className } = Astro.props;
 
 const variants = {
-  primary: 'bg-primary text-white',
-  secondary: 'bg-secondary-container text-on-secondary-fixed',
-  tertiary: 'bg-tertiary-container text-on-tertiary-container',
+  primary: 'bg-primary-fixed text-on-primary-fixed',
+  secondary: 'bg-secondary-fixed text-on-secondary-fixed',
+  tertiary: 'bg-tertiary-fixed text-on-tertiary-fixed',
+  neutral: 'bg-surface-container-highest text-on-surface-variant',
+};
+
+const rounding = {
+  md: 'rounded-md',
+  full: 'rounded-full',
 };
 ---
 
-<span class:list={['px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider', variants[variant], className]}>
+<span class:list={['px-3 py-1 text-xs font-bold uppercase tracking-wider', variants[variant], rounding[rounded], className]}>
   <slot />
 </span>
